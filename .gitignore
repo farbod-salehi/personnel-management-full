@@ -1,6 +1,8 @@
 .DS_Store
 /personnel-management-app/node_modules/
 /personnel-management-app/dist/
+/personnel-management-app/.vscode/
+/personnel-management-app/.editorconfig/
 
 /PersonnelManagement/.vs/
 /PersonnelManagement/*/bin/
