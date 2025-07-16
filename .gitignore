@@ -1,0 +1,9 @@
+.DS_Store
+/personnel-management-app/node_modules/
+/personnel-management-app/dist/
+
+/PersonnelManagement/.vs/
+/PersonnelManagement/*/bin/
+/PersonnelManagement/*/obj/
+/PersonnelManagement/API/Uploads/
+/PersonnelManagement/API/Migrations/
