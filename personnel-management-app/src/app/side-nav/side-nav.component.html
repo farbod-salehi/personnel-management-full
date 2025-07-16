@@ -1,0 +1,54 @@
+<mat-sidenav-container>
+  @if(userIsAuthenticated) {
+  <mat-sidenav mode="side" opened>
+    <mat-list class="menu">
+      <mat-list-item style="cursor: pointer">
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Group icon"
+          fontIcon="group"
+          class="menu-item-icon"
+        ></mat-icon>
+        &nbsp; پرسنل
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+      <mat-list-item style="cursor: pointer">
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Report icon"
+          fontIcon="bar_chart"
+          class="menu-item-icon"
+        ></mat-icon>
+        &nbsp; گزارشات
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item style="cursor: pointer">
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Data icon"
+          fontIcon="list_alt"
+          class="menu-item-icon"
+        ></mat-icon>
+        &nbsp; اطلاعات پایه
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item style="cursor: pointer">
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Password icon"
+          fontIcon="pin"
+          class="menu-item-icon"
+        ></mat-icon>
+        &nbsp; تغییر کلمه عبور
+      </mat-list-item>
+    </mat-list>
+  </mat-sidenav>
+  }
+
+  <mat-sidenav-content>
+    <div class="main-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
