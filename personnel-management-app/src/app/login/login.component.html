@@ -1,21 +1,21 @@
 <mat-card class="mat-card" appearance="outlined">
-  <mat-card-header>
-    <mat-card-title> ورود به حساب کاربری </mat-card-title>
+  <mat-card-header class="mat-card-header">
+    <mat-card-title class="mat-card-title"> ورود به حساب کاربری </mat-card-title>
   </mat-card-header>
-  <mat-card-content class="mat-mdc-card-content container-vertical">
+  <mat-card-content class="mat-card-content container-vertical">
 
-      <mat-form-field  appearance="outline" style="margin-inline:auto; margin-top:15px; width:70%;" floatLabel="always">
+      <mat-form-field class="mat-form-field"  appearance="outline" style="margin-inline:auto; margin-top:15px; width:70%;" floatLabel="always">
         <mat-label>نام کاربری</mat-label>
         <input matInput [(ngModel)]="username" required class="ltr"/>
-        <mat-error> نام کاربری را وارد نمایید. </mat-error>
+        <mat-error class="mat-error"> نام کاربری را وارد نمایید. </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" style="margin-inline:auto; margin-top:15px; width:70%;" floatLabel="always">
+      <mat-form-field class="mat-form-field" appearance="outline" style="margin-inline:auto; margin-top:15px; width:70%;" floatLabel="always">
         <mat-label> کلمه عبور </mat-label>
         <input matInput type="password" [(ngModel)] = "password" required class="ltr"/>
-        <mat-error> کلمه عبور را وارد نمایید.</mat-error>
+        <mat-error class="mat-error"> کلمه عبور را وارد نمایید.</mat-error>
       </mat-form-field>
-      <button mat-flat-button style="width: 70%; margin: 20px auto;"> ورود </button>
+      <button mat-flat-button class="less-radius" style="width: 70%; margin: 20px auto;"> ورود </button>
 
 
   </mat-card-content>

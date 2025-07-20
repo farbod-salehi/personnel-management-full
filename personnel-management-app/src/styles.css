@@ -11,15 +11,45 @@ body,
 mat-sidenav-container {
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family: "VazirFont", sans-serif;
 }
 
+.mat-card {
+  border-radius: 12px;
+  border: 1px solid #bdbdbd;
+  min-width: 40vw;
+}
+
+.mat-card-header {
+  background-color: #457779;
+  color: white;
+  font-weight: bold;
+  font-size: 1.15em;
+  align-items: center;
+  border-radius: 8px 8px 0px 0px;
+}
+
+.mat-card-title {
+  padding-bottom: 17px;
+}
+
+.mat-card-content {
+  padding-top: 20px !important;
+  margin: 0px auto;
+  width: 90%;
+}
+
 .container-vertical {
-  display: flex;
+  display: flex !important;
   flex-direction: column;
   align-items: flex-start;
+}
+
+.mat-error {
+  font-size: 0.85em;
 }
 
 .ltr {
@@ -28,5 +58,13 @@ body {
 
 .rtl {
   direction: rtl;
+}
+
+.less-radius {
+  border-radius: 5px !important;
+}
+
+.mat-form-field {
+  --mdc-outlined-text-field-container-shape: 8px;
 }
 
