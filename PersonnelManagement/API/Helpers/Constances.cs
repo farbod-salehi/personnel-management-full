@@ -54,7 +54,7 @@
         {
             get
             {
-                return "data source=.; initial catalog=PostParcel;user id=sa;password=asdf;MultipleActiveResultSets=True;TrustServerCertificate=True";
+                return "data source=.; initial catalog=PersonnelManagement;user id=sa;password=asdf;MultipleActiveResultSets=True;TrustServerCertificate=True";
             }
         }
 
@@ -62,7 +62,7 @@
         {
             get
             {
-                return "data source=.; initial catalog=PostParcel;user id=sa;password=asdf;MultipleActiveResultSets=True;TrustServerCertificate=True";
+                return "data source=.; initial catalog=PersonnelManagement;user id=sa;password=asdf;MultipleActiveResultSets=True;TrustServerCertificate=True";
             }
         }
 

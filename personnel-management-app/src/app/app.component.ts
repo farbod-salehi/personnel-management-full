@@ -11,5 +11,5 @@ import { SideNavComponent } from './side-nav/side-nav.component';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  title = 'personnel-management-app';
+  version = '1.0';
 }

@@ -7,13 +7,16 @@
 }
 
 html,
-body,
-mat-sidenav-container {
+body {
   height: 100%;
+  margin: 0px;
+  padding: 0px;
 }
 
 body {
-  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   font-family: "VazirFont", sans-serif;
 }
 
@@ -66,5 +69,29 @@ body {
 
 .mat-form-field {
   --mdc-outlined-text-field-container-shape: 8px;
+}
+
+.mat-toolbar {
+  background-color: #457779!important;
+  color: gold!important;
+  font-weight: bold!important;
+}
+
+.mat-sidenav-content {
+  background-color: #d5d5d5;
+  min-height: 90vh;
+}
+
+.footer {
+  width: 100%;
+    position: absolute;
+    bottom: 0px;
+    background-color: #457779;
+    z-index: 1;
+    padding: 10px 0px;
+    font-size: 0.8em;
+    font-weight: bold;
+    text-align: center;
+    color: gold;
 }
 

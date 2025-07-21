@@ -49,7 +49,7 @@ namespace Entities.Models
 
         public Guid? MojtameGhazaiyId { get; set; }
 
-        public required Guid ShahrMahalKhedmatId { get; set; }
+        public Guid? ShahrMahalKhedmatId { get; set; }
 
         [MaxLength(50)]
         public string? TarikhAghazKhedmat { get; set; }
