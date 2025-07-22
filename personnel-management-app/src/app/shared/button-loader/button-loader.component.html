@@ -1,0 +1,11 @@
+<button mat-flat-button class="less-radius" style="width:100%" [disabled]="displayLoading()" (click)="onClick()">
+  @if(displayLoading()) {
+   <span class="spinner-container">
+      <mat-spinner diameter="20"></mat-spinner>
+     <span> صبر کنید ... </span>
+   </span>
+  }@else {
+     {{ text() }}
+  }
+
+</button>

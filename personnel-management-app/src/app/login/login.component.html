@@ -15,7 +15,7 @@
         <input matInput type="password" [(ngModel)] = "password" required class="ltr"/>
         <mat-error class="mat-error"> کلمه عبور را وارد نمایید.</mat-error>
       </mat-form-field>
-      <button mat-flat-button class="less-radius" style="width: 70%; margin: 20px auto;"> ورود </button>
+      <app-button-loader (click)="onLogin()" text="ورود" [displayLoading]="isLoading()" style="width:70%; margin:20px auto;"> </app-button-loader>
 
 
   </mat-card-content>

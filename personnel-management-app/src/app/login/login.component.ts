@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 
 @Component({
@@ -13,7 +13,9 @@ export class LoginComponent {
   username = "";
   password = "";
 
-  login() {
+  isLoading = signal(false);
 
+  onLogin() {
+    this.isLoading.set(true);
   }
 }

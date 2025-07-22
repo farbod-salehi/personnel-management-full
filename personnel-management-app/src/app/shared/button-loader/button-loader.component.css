@@ -1,0 +1,14 @@
+.mat-mdc-progress-spinner {
+  --mdc-circular-progress-active-indicator-color: #ffffff;
+}
+
+.mat-mdc-button-disabled {
+  background-color: #7189a5 !important;
+  color: #ffffff !important;
+}
+
+.spinner-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
