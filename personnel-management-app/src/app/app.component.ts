@@ -3,6 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { SideNavComponent } from './side-nav/side-nav.component';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -11,5 +12,5 @@ import { SideNavComponent } from './side-nav/side-nav.component';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  version = '1.0';
+  version = environment.version;
 }

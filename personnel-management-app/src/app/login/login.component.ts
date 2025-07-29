@@ -1,5 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { finalize } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 import { SharedModule } from '../shared/shared.module';
+import { HttpService } from '../shared/http.service';
+import { BaseComponent } from '../shared/base.component';
 
 @Component({
   selector: 'app-login',
@@ -9,13 +14,19 @@ import { SharedModule } from '../shared/shared.module';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
-export class LoginComponent {
+export class LoginComponent extends BaseComponent {
+
   username = "";
   password = "";
 
-  isLoading = signal(false);
+  async onLogin() {
 
-  onLogin() {
-    this.isLoading.set(true);
+    const parameters = {
+      username: this.username,
+      password: this.password
+    };
+
+    this.sendRequest('/api/login', 'POST', parameters);
+
   }
 }

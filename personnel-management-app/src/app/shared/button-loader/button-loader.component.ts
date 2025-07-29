@@ -10,12 +10,12 @@ import {  MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 })
 export class ButtonLoaderComponent {
 
-  click = output<void>();
+  blClick = output<void>();
 
   text = input.required<string>();
   displayLoading = input<boolean>(false);
 
   onClick() {
-    this.click.emit();
+    this.blClick.emit();
   }
 }
