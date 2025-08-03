@@ -574,6 +574,152 @@ app.MapPatch("/api/personnel/{id}/update", async ([FromServices] IHttpContextAcc
 
 #endregion Personnel Endpoints
 
+#region User Endpoints
+
+app.MapPost("/api/users/add", async ([FromServices] UserManager<User> userManager, [FromServices] TokenManager tokenManager, [FromServices] IHttpContextAccessor httpContextAccessor, [FromServices] RepositoryManager repositoryManager, [FromBody] AddUserRequest request) =>
+{
+    MyUtility utility = new();
+
+    UserRequestAccessResult userRequestAccessResult = await utility.CheckUserAccess(httpContextAccessor.HttpContext!, repositoryManager, [(int)Constances.UserRole.admin]);
+
+    if (userRequestAccessResult.HasAccess == false)
+    {
+        return Results.Json(new { userRequestAccessResult.Error, userRequestAccessResult.Act }, statusCode: userRequestAccessResult.StatusCode);
+    }
+
+    if (string.IsNullOrWhiteSpace(request.Username) ||
+    string.IsNullOrWhiteSpace(request.Password) ||
+    string.IsNullOrWhiteSpace(request.Title))
+    {
+        return Results.BadRequest(new { Error = "همه اطلاعات مورد نیاز را وارد نمایید." });
+    }
+
+    if (request.Password.Length < Constances.UserPasswordMinLength)
+        return Results.BadRequest(new { Error = "طول کلمه عبور صحیح نمی‌باشد." });
+
+    if (request.Role != (int)Constances.UserRole.manager && request.Role != (int)Constances.UserRole.user)
+        return Results.BadRequest(new { Error = "نقش کاربر به درستی مشخص نشده است." });
+
+    string username = utility.CorrectArabicChars(request.Username.Trim())!;
+
+    var user = await userManager.FindByNameAsync(username);
+
+    if (user != null)
+        return Results.UnprocessableEntity(new { Error = "این نام کاربری قبلا ثبت شده است" });
+
+
+    var newUser = new User
+    {
+        Active = true,
+        Title = utility.CorrectArabicChars(request.Title)!,
+        CreatedAt = DateTime.UtcNow,
+        CreatedBy = tokenManager.GetUserIdFromTokenClaims(httpContextAccessor.HttpContext!),
+        PasswordHash = utility.ComputeSha256Hash(request.Password),
+        UserName = username,
+        Role = request.Role
+    };
+
+
+    await userManager.CreateAsync(newUser);
+
+    return Results.Created($"/api/users/{newUser.Id}", new { });
+
+});
+
+app.MapGet("/api/users", async ([FromServices] UserManager<User> userManager, [FromServices] IHttpContextAccessor httpContextAccessor, [FromServices] RepositoryManager repositoryManager, string? query = null, int? page = 1, int? count = 10) =>
+{
+    MyUtility utility = new();
+
+    UserRequestAccessResult userRequestAccessResult = await utility.CheckUserAccess(httpContextAccessor.HttpContext!, repositoryManager, [(int)Constances.UserRole.admin]);
+
+    if (userRequestAccessResult.HasAccess == false)
+    {
+        return Results.Json(new { userRequestAccessResult.Error, userRequestAccessResult.Act }, statusCode: userRequestAccessResult.StatusCode);
+    }
+
+    (List<User> list, int pagesCount) = await repositoryManager.User.GetList(false, (int)Constances.UserRole.admin, query, page ?? 1, count ?? 10);
+
+    return Results.Ok(new
+    {
+        list = list.Select(x => new
+        {
+            x.Id,
+            x.UserName,
+            x.Title,
+            x.Active,
+            Role = Enum.GetName(typeof(Constances.UserRole), x.Role)
+        }).ToList(),
+        pagesCount
+    });
+});
+
+app.MapGet("/api/users/{id}", async ([FromServices] UserManager<User> userManager, [FromServices] IHttpContextAccessor httpContextAccessor, [FromServices] RepositoryManager repositoryManager, [FromRoute] string id) =>
+{
+    MyUtility utility = new();
+
+    UserRequestAccessResult userRequestAccessResult = await utility.CheckUserAccess(httpContextAccessor.HttpContext!, repositoryManager, [(int)Constances.UserRole.admin]);
+
+    if (userRequestAccessResult.HasAccess == false)
+    {
+        return Results.Json(new { userRequestAccessResult.Error, userRequestAccessResult.Act }, statusCode: userRequestAccessResult.StatusCode);
+    }
+
+    User? user = await repositoryManager.User.GetById(false, id);
+
+    if (user == null)
+    {
+        return Results.NotFound(new { Error = "داده موردنظر یافت نشد." });
+    }
+
+    return Results.Ok(new { user.Role, user.Title, user.UserName });
+});
+
+app.MapPatch("/api/users/{id}/update", async ([FromServices] UserManager<User> userManager, [FromServices] TokenManager tokenManager, [FromServices] IHttpContextAccessor httpContextAccessor, [FromServices] RepositoryManager repositoryManager, [FromRoute] string id, [FromBody] UpdateUserRequest request) =>
+{
+    MyUtility utility = new();
+
+    UserRequestAccessResult userRequestAccessResult = await utility.CheckUserAccess(httpContextAccessor.HttpContext!, repositoryManager, [(int)Constances.UserRole.admin]);
+
+    if (userRequestAccessResult.HasAccess == false)
+    {
+        return Results.Json(new { userRequestAccessResult.Error, userRequestAccessResult.Act }, statusCode: userRequestAccessResult.StatusCode);
+    }
+
+    if (string.IsNullOrWhiteSpace(request.Title))
+    {
+        return Results.BadRequest(new { Error = "همه اطلاعات مورد نیاز را وارد نمایید." });
+    }
+
+    if (request.Password != null && request.Password.Length < Constances.UserPasswordMinLength)
+        return Results.BadRequest(new { Error = "طول کلمه عبور صحیح نمی‌باشد." });
+
+    if (request.Role != (int)Constances.UserRole.manager && request.Role != (int)Constances.UserRole.user)
+        return Results.BadRequest(new { Error = "نقش کاربر به درستی مشخص نشده است." });
+
+    User? user = await repositoryManager.User.GetById(true, id!, (int)Constances.UserRole.admin);
+
+    if (user == null)
+    {
+        return Results.NotFound(new { Error = "داده موردنظر یافت نشد." });
+    }
+
+    user.Title = utility.CorrectArabicChars(request.Title)!;
+    user.Role = request.Role;
+
+    if (request.Password != null)
+    {
+        user.PasswordChangedAt = DateTime.UtcNow;
+        user.PasswordHash = utility.ComputeSha256Hash(request.Password);
+    }
+
+    await repositoryManager.SaveAsync();
+
+    return Results.NoContent();
+
+});
+
+#endregion User Endpoints
+
 app.MapGet("/api/test", () => {return Results.Ok("Hello Farbod!");});
 
 app.Run();
@@ -604,3 +750,5 @@ file record PersonnelItemRequest(
             Guid? NoeEstekhdamId,
             int NoeMahalKhedmat
     );
+file record AddUserRequest(string Username, string Password, string Title, int Role);
+file record UpdateUserRequest(string? Password, string Title, int Role);

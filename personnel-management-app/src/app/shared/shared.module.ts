@@ -5,6 +5,7 @@ import { MatCardModule } from "@angular/material/card";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from '@angular/material/input';
 import { ButtonLoaderComponent } from "./button-loader/button-loader.component";
+import { ErrorMessageBoxComponent } from "./error-message-box/error-message-box.component";
 
 @NgModule({
   imports: [
@@ -12,14 +13,16 @@ import { ButtonLoaderComponent } from "./button-loader/button-loader.component";
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    ButtonLoaderComponent
+    ButtonLoaderComponent,
+    ErrorMessageBoxComponent
   ],
   exports: [
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    ButtonLoaderComponent
+    ButtonLoaderComponent,
+    ErrorMessageBoxComponent
   ]
 })
 export class SharedModule {}

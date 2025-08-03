@@ -4,3 +4,15 @@ GET {{API_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+POST {{API_HostAddress}}/api/users/add/
+Content-Type: application/json
+
+{
+    "username":"admin",
+    "password":"asdfasdf",
+    "title":"admin",
+    "role":"1"
+}
+
+###

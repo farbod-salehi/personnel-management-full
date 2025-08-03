@@ -1,9 +1,12 @@
 import { DestroyRef, inject, signal } from "@angular/core";
-import { HttpService } from "./http.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { finalize } from "rxjs";
+import { NgModel } from "@angular/forms";
+
+import { HttpService } from "./http.service";
 
 export abstract class BaseComponent {
+
 
   protected destroyRef = inject(DestroyRef);
   protected httpService = inject(HttpService);
@@ -15,6 +18,7 @@ export abstract class BaseComponent {
   protected sendRequest(url: string, method: 'GET' | 'PATCH' | 'DELETE' | 'POST', parameters: any | null = null, token: string | null = null) {
 
     this.errorMessage.set('');
+    this.resData = null;
     this.isLoading.set(true);
 
     this.httpService.request(url, method, parameters, token).pipe(
@@ -28,14 +32,22 @@ export abstract class BaseComponent {
             },
             error: (errorObj: any) => {
               if (errorObj.status === 401 && errorObj.error.act === 'login') {
-                console.log('redirect');
+                alert('redirect');
               } if (errorObj.status === 403 && errorObj.error.act === 'message') {
-                console.log('alert');
+                alert('alert');
               } else {
-                this.errorMessage.set(errorObj.error);
+                this.errorMessage.set(errorObj.error.error);
               }
 
             }
           });
+  }
+
+  markAllControlsTouched(controls: NgModel[]) {
+    controls.forEach(c => c.control?.markAsTouched());
+  }
+
+  isAllControlsValid(controls: NgModel[]) {
+    return controls.every(control => control.valid);
   }
 }

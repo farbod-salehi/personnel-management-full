@@ -4,6 +4,8 @@
   </mat-card-header>
   <mat-card-content class="mat-card-content container-vertical">
 
+      <app-error-message-box [text]="errorMessage()" style="width:70%; margin:20px auto;"></app-error-message-box>
+
       <mat-form-field class="mat-form-field"  appearance="outline" style="margin-inline:auto; margin-top:15px; width:70%;" floatLabel="always">
         <mat-label>نام کاربری</mat-label>
         <input matInput [(ngModel)]="username" required class="ltr"/>
