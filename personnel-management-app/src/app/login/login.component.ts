@@ -1,13 +1,17 @@
-import { Component, QueryList, ViewChildren } from '@angular/core';
+import { Component, inject, QueryList, ViewChildren } from '@angular/core';
 import { NgModel } from '@angular/forms';
 
 import { SharedModule } from '../shared/shared.module';
 import { BaseComponent } from '../shared/base.component';
+import { LocalStorageService } from '../shared/local-sorage.service';
 
 @Component({
   selector: 'app-login',
   imports: [
-    SharedModule
+    SharedModule,
+  ],
+  providers:[
+    LocalStorageService
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -15,6 +19,8 @@ import { BaseComponent } from '../shared/base.component';
 export class LoginComponent extends BaseComponent {
 
   @ViewChildren(NgModel) controls!: QueryList<NgModel>;
+
+  storageService = inject(LocalStorageService);
 
   username = "";
   password = "";
@@ -35,7 +41,13 @@ export class LoginComponent extends BaseComponent {
       this.sendRequest('/api/login', 'POST', parameters);
 
       if (this.resData) {
-        // save to local storage
+        const authInfo = {
+          title: String(this.resData.userTitle),
+          role: Number(this.resData.userRole),
+          token: String(this.resData.userToken)
+        };
+
+        this.storageService.setAuthInfo(authInfo);
         // redirect
       }
     }

@@ -1,4 +1,15 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
 
-export const routes: Routes = [{ path: 'login', component: LoginComponent }];
+import { LoginComponent } from './login/login.component';
+import { PersonnelListComponent } from './personnel/personnel-list/personnel-list.component';
+
+export const routeNamePath = {
+  personnelListForm: 'personnels',
+  lognForm: 'login',
+};
+
+export const routes: Routes = [
+  { path: '', redirectTo: routeNamePath.personnelListForm, pathMatch: 'full'},
+  { path: routeNamePath.lognForm, component: LoginComponent },
+  { path: routeNamePath.personnelListForm, component: PersonnelListComponent }
+];
