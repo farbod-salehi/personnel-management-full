@@ -13,13 +13,13 @@ export class HttpService {
 
   request(apiUrl: string, method: 'GET' | 'PATCH' | 'DELETE' | 'POST', parameters: any | null = null, token: string | null = null) {
 
-    return this.http.request(method, `${environment.serverUrl}${apiUrl}`, {
-              body: parameters,
-              headers:  new HttpHeaders({
-                'Content-Type':  'application/json',
-                Authorization: token ?? '',
-              }),
-            }).pipe(retry(2), catchError(this.handleError));
+    return this.http.request(method,`${environment.serverUrl}${apiUrl}`,{
+      body: parameters,
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: token ?? '',
+      }),
+    }).pipe(retry(2),catchError(this.handleError));
   }
 
   private handleError(error: HttpErrorResponse) {

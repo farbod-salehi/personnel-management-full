@@ -3,7 +3,10 @@
     سامانه مدیریت کارکنان
   </span>
   <span style="flex: 1 1 auto"></span>
-  <span> admin &nbsp; | &nbsp; خروج </span>
+  @if(authInfo) {
+    <span> {{authInfo.title}} &nbsp; | &nbsp; خروج </span>
+  }
+
 </mat-toolbar>
 <app-side-nav></app-side-nav>
 <div class="footer">

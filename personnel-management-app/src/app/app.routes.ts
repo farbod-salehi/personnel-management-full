@@ -5,11 +5,11 @@ import { PersonnelListComponent } from './personnel/personnel-list/personnel-lis
 
 export const routeNamePath = {
   personnelListForm: 'personnels',
-  lognForm: 'login',
+  loginForm: 'login',
 };
 
 export const routes: Routes = [
   { path: '', redirectTo: routeNamePath.personnelListForm, pathMatch: 'full'},
-  { path: routeNamePath.lognForm, component: LoginComponent },
+  { path: routeNamePath.loginForm, component: LoginComponent },
   { path: routeNamePath.personnelListForm, component: PersonnelListComponent }
 ];

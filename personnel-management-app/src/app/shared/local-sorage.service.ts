@@ -1,5 +1,7 @@
 import { Injectable } from "@angular/core";
 
+import { AuthInfo } from "../models/authInfo.model";
+
 
 
 Injectable({
@@ -7,27 +9,23 @@ Injectable({
 })
 export class LocalStorageService {
 
-  setAuthInfo(authInfo:{title: string, role: number, token: string}) {
-    localStorage.setItem("authInfo", JSON.stringify(authInfo));
+  setAuthInfo(authInfo:AuthInfo) {
+    localStorage.setItem("PA_authInfo", JSON.stringify(authInfo));
   }
 
-  getAuthInfo() : {title: string, role: number, token: string} | null {
+  getAuthInfo() : AuthInfo | null {
 
-    const authInfo = localStorage.getItem("authInfo");
+    const authInfo = localStorage.getItem("PA_authInfo");
 
     if(authInfo) {
       const authInfoObj = JSON.parse(authInfo);
-      return {
-        title: authInfoObj.title,
-        role: authInfoObj.role,
-        token: authInfoObj.token
-      };
+      return new AuthInfo(String(authInfoObj.title), String(authInfoObj.token), Number(authInfoObj.role));
     } else {
       return null;
     }
   }
 
   clearAuthInfo() {
-     localStorage.removeItem("authInfo");
+     localStorage.removeItem("PA_authInfo");
   }
 }

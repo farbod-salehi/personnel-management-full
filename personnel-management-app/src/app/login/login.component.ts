@@ -1,9 +1,14 @@
 import { Component, inject, QueryList, ViewChildren } from '@angular/core';
 import { NgModel } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { finalize } from 'rxjs';
 
 import { SharedModule } from '../shared/shared.module';
 import { BaseComponent } from '../shared/base.component';
 import { LocalStorageService } from '../shared/local-sorage.service';
+import { routeNamePath } from '../app.routes';
+import { AuthInfo } from '../models/authInfo.model';
+import { UIService } from '../shared/ui.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +16,7 @@ import { LocalStorageService } from '../shared/local-sorage.service';
     SharedModule,
   ],
   providers:[
-    LocalStorageService
+    UIService
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -20,12 +25,14 @@ export class LoginComponent extends BaseComponent {
 
   @ViewChildren(NgModel) controls!: QueryList<NgModel>;
 
-  storageService = inject(LocalStorageService);
+  uiService = inject(UIService);
 
   username = "";
   password = "";
 
-  async onLogin() {
+  authInfo?: AuthInfo;
+
+  onLogin() {
 
     this.markAllControlsTouched(this.controls.toArray());
 
@@ -38,18 +45,29 @@ export class LoginComponent extends BaseComponent {
         password: this.password
       };
 
-      this.sendRequest('/api/login', 'POST', parameters);
+      this.isLoading.set(true);
 
-      if (this.resData) {
-        const authInfo = {
-          title: String(this.resData.userTitle),
-          role: Number(this.resData.userRole),
-          token: String(this.resData.userToken)
-        };
+      this.httpService.request('/api/login','POST',parameters).pipe(
+        takeUntilDestroyed(this.destroyRef), // auto-unsubscribe on destroy
+        finalize(() => {
+          this.isLoading.set(false);
+        })
+        ).subscribe({
+            next: async (data: any) => {
+              if (data) {
 
-        this.storageService.setAuthInfo(authInfo);
-        // redirect
-      }
+                this.authInfo = new AuthInfo(String(data.userTitle),String(data.userToken), Number(data.userRole));
+
+                this.storageService.setAuthInfo(this.authInfo);
+
+                this.router.navigate([routeNamePath.personnelListForm]);
+              }
+            },
+            error: (errorObj: any) => {
+              this.handleError(errorObj);
+            }
+          });
+
     }
 
   }

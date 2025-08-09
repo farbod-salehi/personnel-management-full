@@ -1,13 +1,16 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { environment } from '../environments/environment';
 import { LocalStorageService } from './shared/local-sorage.service';
 import { routeNamePath } from './app.routes';
+import { AuthInfo } from './models/authInfo.model';
+import { UIService } from './shared/ui.service';
 
 @Component({
   selector: 'app-root',
@@ -26,14 +29,24 @@ import { routeNamePath } from './app.routes';
 export class AppComponent implements OnInit {
 
   version = environment.version;
+
+  destroyRef = inject(DestroyRef);
   storageService = inject(LocalStorageService);
   router = inject(Router);
+  uiService = inject(UIService);
+
+  authInfo: AuthInfo | null = null;
 
   ngOnInit(): void {
-     const authInfo = this.storageService.getAuthInfo();
 
-     if(!authInfo) {
-      this.router.navigate([routeNamePath.lognForm]);
+    this.uiService.userInfo$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(info => {
+      this.authInfo = info;
+    });
+
+    this.authInfo = this.storageService.getAuthInfo();
+
+     if(!this.authInfo) {
+      this.router.navigate([routeNamePath.loginForm]);
      }
   }
 }
