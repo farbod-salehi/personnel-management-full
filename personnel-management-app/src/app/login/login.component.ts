@@ -5,7 +5,6 @@ import { finalize } from 'rxjs';
 
 import { SharedModule } from '../shared/shared.module';
 import { BaseComponent } from '../shared/base.component';
-import { LocalStorageService } from '../shared/local-sorage.service';
 import { routeNamePath } from '../app.routes';
 import { AuthInfo } from '../models/authInfo.model';
 import { UIService } from '../shared/ui.service';
@@ -15,9 +14,6 @@ import { UIService } from '../shared/ui.service';
   imports: [
     SharedModule,
   ],
-  providers:[
-    UIService
-  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
@@ -26,17 +22,17 @@ export class LoginComponent extends BaseComponent {
   @ViewChildren(NgModel) controls!: QueryList<NgModel>;
 
   uiService = inject(UIService);
+  authInfo?: AuthInfo;
 
   username = "";
   password = "";
 
-  authInfo?: AuthInfo;
 
   onLogin() {
 
     this.markAllControlsTouched(this.controls.toArray());
 
-    const isFormValid = this.isAllControlsValid(this.controls.toArray());
+    const isFormValid = this.areAllControlsValid(this.controls.toArray());
 
     if (isFormValid) {
 
@@ -59,6 +55,8 @@ export class LoginComponent extends BaseComponent {
                 this.authInfo = new AuthInfo(String(data.userTitle),String(data.userToken), Number(data.userRole));
 
                 this.storageService.setAuthInfo(this.authInfo);
+
+                this.uiService.UpdateUserInfo(this.authInfo);
 
                 this.router.navigate([routeNamePath.personnelListForm]);
               }

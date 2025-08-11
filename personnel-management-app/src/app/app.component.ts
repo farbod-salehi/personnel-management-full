@@ -1,9 +1,8 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, effect, inject, OnInit, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router } from '@angular/router';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { environment } from '../environments/environment';
@@ -20,9 +19,6 @@ import { UIService } from './shared/ui.service';
     MatIconModule,
     MatButtonModule
   ],
-  providers: [
-    LocalStorageService
-  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -35,17 +31,25 @@ export class AppComponent implements OnInit {
   router = inject(Router);
   uiService = inject(UIService);
 
-  authInfo: AuthInfo | null = null;
+  authInfo = signal<AuthInfo| undefined>(undefined);
+
+  constructor() {
+
+    // effect() only works in an injectable context like constructor(). It doesn't work in ngOnInit() for example
+    effect(() => {
+      const info = this.uiService.userInfoSignal();
+      if (info) {
+        this.authInfo.set(info);
+      }
+    });
+  }
+
 
   ngOnInit(): void {
 
-    this.uiService.userInfo$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(info => {
-      this.authInfo = info;
-    });
+    this.authInfo.set(this.storageService.getAuthInfo() ?? undefined);
 
-    this.authInfo = this.storageService.getAuthInfo();
-
-     if(!this.authInfo) {
+     if(!this.authInfo()) {
       this.router.navigate([routeNamePath.loginForm]);
      }
   }

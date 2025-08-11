@@ -1,18 +1,16 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { Injectable, signal } from "@angular/core";
 
 import { AuthInfo } from "../models/authInfo.model";
 
-Injectable({
+@Injectable({
   providedIn: 'root'
 })
 export class UIService {
 
-  private UserInfoSubject = new BehaviorSubject<AuthInfo | null>(null);
+  // readonly modifier only prevents reassignment. It works at compile time, not runtime—so it’s a developer safeguard
+  readonly userInfoSignal = signal<AuthInfo | undefined>(undefined);
 
-  userInfo$ = this.UserInfoSubject.asObservable(); // $ is a naming convention, that means the variable is an observable
-
-  UpdateUserInfo(authInfo: AuthInfo | null) {
-    this.UserInfoSubject.next(authInfo);
+  UpdateUserInfo(authInfo: AuthInfo | undefined) {
+    this.userInfoSignal.set(authInfo);
   }
 }

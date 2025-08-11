@@ -2,9 +2,7 @@ import { Injectable } from "@angular/core";
 
 import { AuthInfo } from "../models/authInfo.model";
 
-
-
-Injectable({
+@Injectable({
     providedIn:'root'
 })
 export class LocalStorageService {

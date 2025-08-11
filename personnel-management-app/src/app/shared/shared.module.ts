@@ -14,7 +14,7 @@ import { ErrorMessageBoxComponent } from "./error-message-box/error-message-box.
     MatInputModule,
     FormsModule,
     ButtonLoaderComponent,
-    ErrorMessageBoxComponent
+    ErrorMessageBoxComponent,
   ],
   exports: [
     MatCardModule,

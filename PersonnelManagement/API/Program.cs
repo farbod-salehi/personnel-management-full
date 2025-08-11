@@ -138,18 +138,18 @@ app.MapPost("/api/login", async ([FromServices] UserManager<User> userManager, [
 
     TokenManager tokenManager = new();
 
-    string token = "test"; // tokenManager.GenerateJWTToken(user);
+    string token = tokenManager.GenerateJWTToken(user);
 
-    //string hashedToken = utility.ComputeSha256Hash(token);
+    string hashedToken = utility.ComputeSha256Hash(token);
 
-    //var userToken = new UserToken
-    //{
-    //    ExpiredAt = DateTime.UtcNow.AddDays(Constances.JWTSettings.ValidDays),
-    //    HashedToken = hashedToken,
-    //    UserId = user.Id,
-    //};
+    var userToken = new UserToken
+    {
+        ExpiredAt = DateTime.UtcNow.AddDays(Constances.JWTSettings.ValidDays),
+        HashedToken = hashedToken,
+        UserId = user.Id,
+    };
 
-    //repositoryManager.UserToken.Create(userToken);
+    repositoryManager.UserToken.Create(userToken);
 
     await repositoryManager.SaveAsync();
 

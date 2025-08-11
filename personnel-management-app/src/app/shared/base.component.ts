@@ -29,7 +29,7 @@ export abstract class BaseComponent {
     controls.forEach(c => c.control?.markAsTouched());
   }
 
-  isAllControlsValid(controls: NgModel[]) {
+  areAllControlsValid(controls: NgModel[]) {
     return controls.every(control => control.valid);
   }
 }
