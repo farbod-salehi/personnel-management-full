@@ -10,6 +10,10 @@ import { LocalStorageService } from './shared/local-sorage.service';
 import { routeNamePath } from './app.routes';
 import { AuthInfo } from './models/authInfo.model';
 import { UIService } from './shared/ui.service';
+import { BaseComponent } from './shared/base.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { finalize } from 'rxjs';
+
 
 @Component({
   selector: 'app-root',
@@ -22,18 +26,18 @@ import { UIService } from './shared/ui.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent implements OnInit {
+export class AppComponent extends BaseComponent implements OnInit {
 
   version = environment.version;
 
-  destroyRef = inject(DestroyRef);
-  storageService = inject(LocalStorageService);
-  router = inject(Router);
   uiService = inject(UIService);
 
   authInfo = signal<AuthInfo| undefined>(undefined);
+  initInfoTypes = signal<{id: number; title: string;}[]>([]);
 
   constructor() {
+
+    super();
 
     // effect() only works in an injectable context like constructor(). It doesn't work in ngOnInit() for example
     effect(() => {
@@ -51,6 +55,27 @@ export class AppComponent implements OnInit {
 
      if(!this.authInfo()) {
       this.router.navigate([routeNamePath.loginForm]);
+     } else {
+
+        this.isLoading.set(true);
+
+        this.httpService.request('/api/initinfo/types','GET', null, this.authInfo()?.token).pipe(
+          takeUntilDestroyed(this.destroyRef), // auto-unsubscribe on destroy
+          finalize(() => {
+            this.isLoading.set(false);
+          })
+          ).subscribe({
+              next: async (data: any) => {
+                if (data) {
+                  data.list.forEach((type: { id: number; title: string; }) => {
+                        this.initInfoTypes().push({id:type.id, title: type.title});
+                  });
+                }
+              },
+              error: (errorObj: any) => {
+                this.handleError(errorObj);
+              }
+          });
      }
   }
 }

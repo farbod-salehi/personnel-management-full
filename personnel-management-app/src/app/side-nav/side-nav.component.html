@@ -1,5 +1,5 @@
 <mat-sidenav-container>
-  @if(userIsAuthenticated) {
+  @if(authInfo()) {
   <mat-sidenav mode="side" opened>
     <mat-list class="menu">
       <mat-list-item style="cursor: pointer">
@@ -42,6 +42,13 @@
         ></mat-icon>
         &nbsp; تغییر کلمه عبور
       </mat-list-item>
+      @for(initType of initInfoTypes(); track initType.id) {
+        <mat-divider></mat-divider>
+        <mat-list-item [routerLink]="[route_NamePath.initInfoItemForm, initType.id]" style="cursor: pointer">
+          <mat-icon aria-hidden="false" aria-label="Password icon" fontIcon="pin" class="menu-item-icon"></mat-icon>
+          {{ initType.title }}
+        </mat-list-item>
+      }
     </mat-list>
   </mat-sidenav>
   }

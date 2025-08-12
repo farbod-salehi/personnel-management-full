@@ -48,6 +48,21 @@
             Post,
             ReshteShoghli
         }
+
+        public static List<(int Id, string Title)> GetInitInfoTypes()
+        {
+            return [
+                ((int)InitInfoType.EblaghDakheliAsli, "ابلاغ داخلی اصلی"),
+                ((int)InitInfoType.MadrakTahsili, "مدرک تحصیلی"),
+                ((int)InitInfoType.ReshteTahsili, "رشته تحصیلی"),
+                ((int)InitInfoType.ShahrMahalKhedmat, "شهر محل خدمت"),
+                ((int)InitInfoType.MojtameGhazaiy, "مجتمع قضائی"),
+                ((int)InitInfoType.NoeEstekhdam, "نوع استخدام"),
+                ((int)InitInfoType.Post, "پست"),
+                ((int)InitInfoType.ReshteShoghli, "رشته شغلی"),
+            ];
+        }
+
         public static int UserPasswordMinLength { get { return 6; } }
 
         public static string DevelopmentConnectionString

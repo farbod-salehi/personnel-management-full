@@ -1,11 +1,15 @@
 import { DestroyRef, inject, signal } from "@angular/core";
 import { NgModel } from "@angular/forms";
 import { Router } from "@angular/router";
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 import { HttpService } from "./http.service";
 import { LocalStorageService } from "./local-sorage.service";
+import { routeNamePath } from "../app.routes";
 
 export abstract class BaseComponent {
+
+  private _snackBar = inject(MatSnackBar);
 
   protected isLoading = signal(false);
   protected errorMessage = signal('');
@@ -15,11 +19,16 @@ export abstract class BaseComponent {
   protected router = inject(Router);
   protected storageService = inject(LocalStorageService);
 
+
   handleError(errorObj: any) {
     if (errorObj.status === 401 && errorObj.error.act === 'login') {
-      alert('redirect');
+      this.storageService.clearAuthInfo();
+      this.router.navigate([routeNamePath.loginForm]);
     } if (errorObj.status === 403 && errorObj.error.act === 'message') {
-      alert('alert');
+      this._snackBar.open('شما مجوز دسترسی به این بخش را ندارید', 'متوجه شدم', {
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom',
+      });
     } else {
       this.errorMessage.set(errorObj.error.error);
     }

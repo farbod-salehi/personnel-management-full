@@ -6,6 +6,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from '@angular/material/input';
 import { ButtonLoaderComponent } from "./button-loader/button-loader.component";
 import { ErrorMessageBoxComponent } from "./error-message-box/error-message-box.component";
+import { RouterModule } from "@angular/router";
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { ErrorMessageBoxComponent } from "./error-message-box/error-message-box.
     FormsModule,
     ButtonLoaderComponent,
     ErrorMessageBoxComponent,
+    RouterModule,
   ],
   exports: [
     MatCardModule,
@@ -22,7 +24,8 @@ import { ErrorMessageBoxComponent } from "./error-message-box/error-message-box.
     MatInputModule,
     FormsModule,
     ButtonLoaderComponent,
-    ErrorMessageBoxComponent
+    ErrorMessageBoxComponent,
+    RouterModule,
   ]
 })
 export class SharedModule {}
