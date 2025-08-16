@@ -1,1 +1,34 @@
-<a [routerLink]="['/initinfo',3]" > link   </a>
+<mat-card class="mat-card" appearance="outlined">
+  <mat-card-header class="mat-card-header">
+    <mat-card-title class="mat-card-title"> ثبت اطلاعات پایه</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="mat-card-content container-vertical">
+
+    <app-error-message-box [text]="errorMessage()" style="width:70%; margin:20px auto;"></app-error-message-box>
+
+    <mat-form-field class="mat-form-field" appearance="outline" style="margin-inline:auto; margin-top:15px; width:70%;"
+      floatLabel="always">
+      <mat-label> نوع اطلاعات پایه</mat-label>
+      <mat-select [(ngModel)]="selectedTypeId" name="type" disabled="true" required>
+        @for (type of typesList; track type.id) {
+        <mat-option [value]="type.id">{{type.title}}</mat-option>
+        }
+      </mat-select>
+      <mat-error class="mat-error"> نوع اطلاعات پایه را وارد نمایید.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="mat-form-field" appearance="outline" style="margin-inline:auto; margin-top:15px; width:70%;"
+      floatLabel="always">
+      <mat-label>عنوان</mat-label>
+      <input matInput [(ngModel)]="title" required class="rtl" />
+      <mat-error class="mat-error"> عنوان را وارد نمایید. </mat-error>
+    </mat-form-field>
+
+
+    <app-button-loader (click)="onSave()" text="ثبت" [displayLoading]="isLoading()"
+      style="width:70%; margin:20px auto;"> </app-button-loader>
+
+
+  </mat-card-content>
+</mat-card>
+

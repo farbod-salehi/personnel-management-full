@@ -2,17 +2,14 @@ import { Component, DestroyRef, effect, inject, OnInit, signal } from '@angular/
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Router } from '@angular/router';
 
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { environment } from '../environments/environment';
-import { LocalStorageService } from './shared/local-sorage.service';
 import { routeNamePath } from './app.routes';
 import { AuthInfo } from './models/authInfo.model';
 import { UIService } from './shared/ui.service';
 import { BaseComponent } from './shared/base.component';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { finalize } from 'rxjs';
+import { InitInfoType } from './models/initInfoType.model';
 
 
 @Component({
@@ -33,7 +30,7 @@ export class AppComponent extends BaseComponent implements OnInit {
   uiService = inject(UIService);
 
   authInfo = signal<AuthInfo| undefined>(undefined);
-  initInfoTypes = signal<{id: number; title: string;}[]>([]);
+  initInfoTypes = signal<{id: number; title: string;}[]>(InitInfoType.getList());
 
   constructor() {
 
@@ -55,27 +52,6 @@ export class AppComponent extends BaseComponent implements OnInit {
 
      if(!this.authInfo()) {
       this.router.navigate([routeNamePath.loginForm]);
-     } else {
-
-        this.isLoading.set(true);
-
-        this.httpService.request('/api/initinfo/types','GET', null, this.authInfo()?.token).pipe(
-          takeUntilDestroyed(this.destroyRef), // auto-unsubscribe on destroy
-          finalize(() => {
-            this.isLoading.set(false);
-          })
-          ).subscribe({
-              next: async (data: any) => {
-                if (data) {
-                  data.list.forEach((type: { id: number; title: string; }) => {
-                        this.initInfoTypes().push({id:type.id, title: type.title});
-                  });
-                }
-              },
-              error: (errorObj: any) => {
-                this.handleError(errorObj);
-              }
-          });
      }
   }
 }

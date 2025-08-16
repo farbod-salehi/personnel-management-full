@@ -6,7 +6,7 @@ import { InitInfoItemComponent } from './init-info/init-info-item/init-info-item
 
 export const routeNamePath = {
   personnelListForm: 'personnels',
-  initInfoItemForm: 'initinfo/:type',
+  initInfoItemForm: 'initinfo',
   loginForm: 'login',
 };
 
@@ -14,5 +14,5 @@ export const routes: Routes = [
   { path: '', redirectTo: routeNamePath.personnelListForm, pathMatch: 'full'},
   { path: routeNamePath.loginForm, component: LoginComponent },
   { path: routeNamePath.personnelListForm, component: PersonnelListComponent },
-  { path: routeNamePath.initInfoItemForm, component: InitInfoItemComponent }
+  { path: `${routeNamePath.initInfoItemForm}/:type`, component: InitInfoItemComponent }
 ];

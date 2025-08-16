@@ -1,33 +1,44 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatSelect } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
 
 import { BaseComponent } from '../../shared/base.component';
 import { SharedModule } from '../../shared/shared.module';
+import { InitInfoType } from '../../models/initInfoType.model';
+import { NgModel } from '@angular/forms';
 
 
 @Component({
   selector: 'app-init-info-item',
   imports: [
-    SharedModule
+    SharedModule,
+    MatSelect,
+    MatOption,
   ],
   templateUrl: './init-info-item.component.html',
   styleUrl: './init-info-item.component.css'
 })
 export class InitInfoItemComponent extends BaseComponent implements OnInit {
 
-  private route = inject(ActivatedRoute);
-
-  initInfoType?: number;
-  initInfoTypeName? : string;
+  @ViewChildren(NgModel) controls!: QueryList<NgModel>;
+  route = inject(ActivatedRoute);
 
   title = "";
-  active = true;
+  typesList = InitInfoType.getList();
+  selectedTypeId = this.typesList[0].id;
 
   ngOnInit(): void {
-    //Angular automatically unsubscribes from ActivatedRoute observables like params, queryParams, and data when the component is destroyed
-    this.route.params.subscribe(params => {
-      this.initInfoType = params['type'];
-    });
+    this.selectedTypeId = Number(this.route.snapshot.params["type"]);
+  }
+
+  onSave() {
+    this.markAllControlsTouched(this.controls.toArray());
+    const isFormValid = this.areAllControlsValid(this.controls.toArray());
+
+    if(isFormValid) {
+
+    }
   }
 
 }

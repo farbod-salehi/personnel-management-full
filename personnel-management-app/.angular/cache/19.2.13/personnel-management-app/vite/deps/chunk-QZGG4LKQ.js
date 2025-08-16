@@ -2379,6 +2379,19 @@ var ListKeyManager = class {
   }
 };
 
+// node_modules/@angular/cdk/fesm2022/activedescendant-key-manager-DC3-fwQI.mjs
+var ActiveDescendantKeyManager = class extends ListKeyManager {
+  setActiveItem(index) {
+    if (this.activeItem) {
+      this.activeItem.setInactiveStyles();
+    }
+    super.setActiveItem(index);
+    if (this.activeItem) {
+      this.activeItem.setActiveStyles();
+    }
+  }
+};
+
 // node_modules/@angular/cdk/fesm2022/focus-key-manager-C1rAQJ5z.mjs
 var FocusKeyManager = class extends ListKeyManager {
   _origin = "program";
@@ -3120,14 +3133,20 @@ var MatCommonModule = class _MatCommonModule {
 export {
   isFakeMousedownFromScreenReader,
   isFakeTouchstartFromScreenReader,
+  TAB,
   ENTER,
   ESCAPE,
   SPACE,
+  LEFT_ARROW,
+  UP_ARROW,
+  RIGHT_ARROW,
+  DOWN_ARROW,
   A,
   _getFocusedElementPierceShadowDom,
   _getEventTarget,
   normalizePassiveListenerOptions,
   FocusMonitor,
+  _VisuallyHiddenLoader,
   coerceArray,
   BreakpointObserver,
   CdkObserveContent,
@@ -3137,7 +3156,10 @@ export {
   LiveAnnouncer,
   _IdGenerator,
   hasModifierKey,
+  ActiveDescendantKeyManager,
   FocusKeyManager,
+  addAriaReferencedId,
+  removeAriaReferencedId,
   MatCommonModule
 };
-//# sourceMappingURL=chunk-3QVDCOUK.js.map
+//# sourceMappingURL=chunk-QZGG4LKQ.js.map

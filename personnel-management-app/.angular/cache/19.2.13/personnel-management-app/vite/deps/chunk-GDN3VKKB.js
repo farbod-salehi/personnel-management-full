@@ -6,7 +6,7 @@ import {
   DomAdapter,
   getDOM,
   setRootDomAdapter
-} from "./chunk-ZHOMJNOA.js";
+} from "./chunk-O7GMGS32.js";
 import {
   DOCUMENT,
   PLATFORM_BROWSER_ID,
@@ -2015,4 +2015,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-TRPV27FW.js.map
+//# sourceMappingURL=chunk-GDN3VKKB.js.map

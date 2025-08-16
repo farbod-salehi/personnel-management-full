@@ -23,7 +23,7 @@
         &nbsp; گزارشات
       </mat-list-item>
       <mat-divider></mat-divider>
-      <mat-list-item style="cursor: pointer">
+      <mat-list-item style="cursor: pointer" [routerLink]="[route_NamePath.initInfoItemForm, defaultInitInfoTypeId()]">
         <mat-icon
           aria-hidden="false"
           aria-label="Data icon"
@@ -42,16 +42,12 @@
         ></mat-icon>
         &nbsp; تغییر کلمه عبور
       </mat-list-item>
-      @for(initType of initInfoTypes(); track initType.id) {
-        <mat-divider></mat-divider>
-        <mat-list-item [routerLink]="[route_NamePath.initInfoItemForm, initType.id]" style="cursor: pointer">
-          <mat-icon aria-hidden="false" aria-label="Password icon" fontIcon="pin" class="menu-item-icon"></mat-icon>
-          {{ initType.title }}
-        </mat-list-item>
-      }
+
     </mat-list>
+
   </mat-sidenav>
   }
+
 
   <mat-sidenav-content class="mat-sidenav-content">
     <div class="main-content">

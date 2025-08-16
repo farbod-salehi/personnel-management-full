@@ -4928,6 +4928,7 @@ export {
   PathLocationStrategy,
   Location,
   HashLocationStrategy,
+  NgClass,
   NgTemplateOutlet,
   CommonModule,
   ViewportScroller
@@ -4944,4 +4945,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-ZHOMJNOA.js.map
+//# sourceMappingURL=chunk-O7GMGS32.js.map
