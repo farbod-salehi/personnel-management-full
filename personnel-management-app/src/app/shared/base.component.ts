@@ -9,7 +9,7 @@ import { routeNamePath } from "../app.routes";
 
 export abstract class BaseComponent {
 
-  private _snackBar = inject(MatSnackBar);
+  protected _snackBar = inject(MatSnackBar);
 
   protected isLoading = signal(false);
   protected errorMessage = signal('');
@@ -18,7 +18,6 @@ export abstract class BaseComponent {
   protected httpService = inject(HttpService);
   protected router = inject(Router);
   protected storageService = inject(LocalStorageService);
-
 
   handleError(errorObj: any) {
     if (errorObj.status === 401 && errorObj.error.act === 'login') {

@@ -9,12 +9,12 @@
     <mat-form-field class="mat-form-field" appearance="outline" style="margin-inline:auto; margin-top:15px; width:70%;"
       floatLabel="always">
       <mat-label> نوع اطلاعات پایه</mat-label>
-      <mat-select [(ngModel)]="selectedTypeId" name="type" disabled="true" required>
+      <mat-select [value]="selectedTypeId" name="type" disabled>
         @for (type of typesList; track type.id) {
         <mat-option [value]="type.id">{{type.title}}</mat-option>
         }
       </mat-select>
-      <mat-error class="mat-error"> نوع اطلاعات پایه را وارد نمایید.</mat-error>
+
     </mat-form-field>
 
     <mat-form-field class="mat-form-field" appearance="outline" style="margin-inline:auto; margin-top:15px; width:70%;"

@@ -233,23 +233,6 @@ app.MapPatch("/api/changepassword", async ([FromServices] UserManager<User> user
 
 #region InitInfo Endpoints
 
-app.MapGet("/api/initinfo/types", async ([FromServices] IHttpContextAccessor httpContextAccessor, [FromServices] RepositoryManager repositoryManager) =>
-{
-    MyUtility utility = new();
-
-    UserRequestAccessResult userRequestAccessResult = await utility.CheckUserAccess(httpContextAccessor.HttpContext!, repositoryManager, null);
-
-    if (userRequestAccessResult.HasAccess == false)
-    {
-        return Results.Json(new { userRequestAccessResult.Error, userRequestAccessResult.Act }, statusCode: userRequestAccessResult.StatusCode);
-    }
-
-    return Results.Ok(new
-    {
-        list = Constances.GetInitInfoTypes().Select(x=> new { x.Id, x.Title})
-    });
-});
-
 app.MapGet("/api/initinfo/{type}", async ([FromServices] IHttpContextAccessor httpContextAccessor, [FromServices] RepositoryManager repositoryManager, [FromRoute]int type, Guid? parentId = null, string? title = null, int page = 1, int count = 10) =>
 {
     MyUtility utility = new();
