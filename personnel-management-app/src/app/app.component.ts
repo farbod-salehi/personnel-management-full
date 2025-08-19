@@ -23,7 +23,7 @@ import { InitInfoType } from './models/initInfoType.model';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent extends BaseComponent implements OnInit {
+export class AppComponent extends BaseComponent {
 
   version = environment.version;
 
@@ -39,19 +39,8 @@ export class AppComponent extends BaseComponent implements OnInit {
     // effect() only works in an injectable context like constructor(). It doesn't work in ngOnInit() for example
     effect(() => {
       const info = this.uiService.userInfoSignal();
-      if (info) {
-        this.authInfo.set(info);
-      }
+      this.authInfo.set(info);
     });
   }
 
-
-  ngOnInit(): void {
-
-    this.authInfo.set(this.storageService.getAuthInfo() ?? undefined);
-
-     if(!this.authInfo()) {
-      this.router.navigate([routeNamePath.loginForm]);
-     }
-  }
 }
