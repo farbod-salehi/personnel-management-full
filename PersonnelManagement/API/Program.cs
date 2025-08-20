@@ -244,7 +244,7 @@ app.MapGet("/api/initinfo/{type}", async ([FromServices] IHttpContextAccessor ht
         return Results.Json(new { userRequestAccessResult.Error, userRequestAccessResult.Act }, statusCode: userRequestAccessResult.StatusCode);
     }
     
-    (List<InitInfo> list, int pagesCount) = await repositoryManager.InitInfo.GetList(false, page, count, utility.CorrectArabicChars(title), parentId!);
+    (List<InitInfo> list, int pagesCount) = await repositoryManager.InitInfo.GetList(false, type, page, count, utility.CorrectArabicChars(title), parentId!);
 
     return Results.Ok(new
     {

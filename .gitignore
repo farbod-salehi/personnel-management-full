@@ -3,6 +3,7 @@
 /personnel-management-app/dist/
 /personnel-management-app/.vscode/
 /personnel-management-app/.editorconfig/
+/personnel-management-app/.angular/
 
 /PersonnelManagement/.vs/
 /PersonnelManagement/*/bin/

@@ -20,6 +20,7 @@ export abstract class BaseComponent {
   protected storageService = inject(LocalStorageService);
 
   handleError(errorObj: any) {
+    console.log(errorObj.status);
     if (errorObj.status === 401 && errorObj.error.act === 'login') {
       this.storageService.clearAuthInfo();
       this.router.navigate([routeNamePath.loginForm]);
@@ -28,6 +29,8 @@ export abstract class BaseComponent {
         horizontalPosition: 'center',
         verticalPosition: 'bottom',
       });
+    } else if (errorObj.status === 0){
+      this.errorMessage.set('خطای نامشخصی اتفاق افتاده است. ارتباط شبکه را بررسی نمایید.');
     } else {
       this.errorMessage.set(errorObj.error.error);
     }

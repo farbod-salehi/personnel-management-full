@@ -12,10 +12,10 @@ namespace Repository
 {
     public class InitInfoRepository(RepositoryContext repositoryContext) : RepositoryBase<InitInfo>(repositoryContext)
     {
-        public async Task<(List<InitInfo> list, int count)> GetList(bool trackChanges, int page, int count, string? searchQuery = null, Guid? parentId = null)
+        public async Task<(List<InitInfo> list, int count)> GetList(bool trackChanges, int type, int page, int count, string? searchQuery = null, Guid? parentId = null)
         {
             var queryable = Find(trackChanges,
-                x => ((parentId == null && x.ParentId == null) || (parentId != null && x.ParentId == parentId)) &&
+                x => x.Type == type && ((parentId == null && x.ParentId == null) || (parentId != null && x.ParentId == parentId)) &&
                 (string.IsNullOrWhiteSpace(searchQuery) || x.Title.Contains(searchQuery)) &&
                 x.DeletedAt == null,
                 null,
