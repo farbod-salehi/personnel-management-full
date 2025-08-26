@@ -2,17 +2,12 @@
 using Entities;
 using Entities.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Repository;
-using System.Collections.Generic;
-using System;
-using Microsoft.AspNetCore.Identity.Data;
-using static API.Helpers.Constances;
-using static System.Net.Mime.MediaTypeNames;
+
 
 var builder = WebApplication.CreateBuilder(args);
 

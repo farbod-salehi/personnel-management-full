@@ -45,26 +45,18 @@ body {
   width: 90%;
 }
 
-.container-vertical {
-  display: flex !important;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
 .mat-error {
   font-size: 0.85em;
 }
 
-.ltr {
-  direction: ltr;
+.mat-table-header {
+  font-family: "VazirFont";
+  font-size: 1.2em;
+  font-weight: bold;
 }
 
-.rtl {
-  direction: rtl;
-}
-
-.less-radius {
-  border-radius: 5px !important;
+.mat-table-row {
+  font-family: "VazirFont";
 }
 
 .mat-form-field {
@@ -80,6 +72,25 @@ body {
 .mat-sidenav-content {
   background-color: #d5d5d5;
   min-height: 90vh;
+}
+
+.container-vertical {
+  display: flex !important;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+
+.ltr {
+  direction: ltr;
+}
+
+.rtl {
+  direction: rtl;
+}
+
+.less-radius {
+  border-radius: 5px !important;
 }
 
 .footer {
