@@ -5,19 +5,22 @@
   <mat-card-content class="mat-card-content container-vertical">
 
     <app-error-message-box [text]="errorMessage()" style="width:80%; margin:20px 0px;"></app-error-message-box>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="50px">
+      <mat-form-field class="mat-form-field" appearance="outline" style=" margin-top:15px; width:50%;" floatLabel="always">
+        <mat-label> نوع اطلاعات پایه</mat-label>
+        <mat-select [(ngModel)]="selectedTypeId" name="type" (selectionChange)="onTypeChange()" [disabled]="isLoading()">
+          @for (type of typesList; track type.id) {
+          <mat-option [value]="type.id">{{type.title}}</mat-option>
+          }
+        </mat-select>
 
-    <mat-form-field class="mat-form-field" appearance="outline" style=" margin-top:15px; width:50%;"
-      floatLabel="always">
-      <mat-label> نوع اطلاعات پایه</mat-label>
-      <mat-select [(ngModel)]="selectedTypeId" name="type" (valueChange)="onTypeChange()" [disabled]="isLoading()">
-        @for (type of typesList; track type.id) {
-        <mat-option [value]="type.id">{{type.title}}</mat-option>
-        }
-      </mat-select>
+      </mat-form-field>
+      <button> vy </button>
+    </div>
 
-    </mat-form-field>
-    @if(isLoading()) {<mat-spinner style="margin:30px auto;" diameter="50"></mat-spinner>}
-    @else {
+    @if(isLoading()) {
+      <mat-spinner style="margin:30px auto;" diameter="50"></mat-spinner>
+    } @else {
 
       <table mat-table [dataSource]="list()" class="mat-elevation-z8">
 

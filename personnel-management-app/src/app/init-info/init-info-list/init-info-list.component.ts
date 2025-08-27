@@ -31,6 +31,7 @@ export class InitInfoListComponent extends BaseComponent implements OnInit {
   }
 
   onTypeChange() {
+    console.log(this.selectedTypeId);
     this.getList();
   }
 
@@ -48,7 +49,8 @@ export class InitInfoListComponent extends BaseComponent implements OnInit {
             if (data) {
 
               let rowNumber = ((this.currentPage() - 1) * (this.pagesLength())) + 1;
-              //this.list() = [{}];
+
+              this.list.set([]);
 
               data.list.forEach((element: { title: string; id: string; }) => {
                 this.list().push({
