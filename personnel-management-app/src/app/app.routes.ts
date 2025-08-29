@@ -9,14 +9,31 @@ import { AuthGuard } from './shared/auth.guard';
 export const routeNamePath = {
   personnelListForm: 'personnels',
   initInfoItemForm: 'initinfo',
-  initInfoListForm: 'initinfo/list',
+  initInfoListForm: 'initinfo-list',
   loginForm: 'login',
 };
 
 export const routes: Routes = [
-  { path: '', redirectTo: routeNamePath.personnelListForm, pathMatch: 'full'},
+  { path: '', redirectTo: routeNamePath.personnelListForm, pathMatch: 'full' },
   { path: routeNamePath.loginForm, component: LoginComponent },
-  { path: routeNamePath.personnelListForm, component: PersonnelListComponent , canActivate : [AuthGuard]},
-  { path: routeNamePath.initInfoListForm, component: InitInfoListComponent , canActivate : [AuthGuard]},
-  { path: `${routeNamePath.initInfoItemForm}/:type`, component: InitInfoItemComponent , canActivate : [AuthGuard]}
+  {
+    path: routeNamePath.personnelListForm,
+    component: PersonnelListComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: `${routeNamePath.initInfoListForm}/:type`,
+    component: InitInfoListComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: `${routeNamePath.initInfoItemForm}/:type/:id`,
+    component: InitInfoItemComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: `${routeNamePath.initInfoItemForm}/:type`,
+    component: InitInfoItemComponent,
+    canActivate: [AuthGuard],
+  },
 ];

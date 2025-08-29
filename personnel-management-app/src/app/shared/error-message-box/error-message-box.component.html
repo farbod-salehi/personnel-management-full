@@ -1,6 +1,6 @@
 @if(text() && text().length > 0) {
-  <div class="container">
-    {{text()}}
-  </div>
+<div [class]="['container', color()]">
+  {{ text() }}
+</div>
 
 }

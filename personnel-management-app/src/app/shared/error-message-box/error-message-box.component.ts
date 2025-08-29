@@ -4,8 +4,9 @@ import { Component, input } from '@angular/core';
   selector: 'app-error-message-box',
   imports: [],
   templateUrl: './error-message-box.component.html',
-  styleUrl: './error-message-box.component.css'
+  styleUrl: './error-message-box.component.css',
 })
 export class ErrorMessageBoxComponent {
   text = input('');
+  color = input<'red' | 'yellow' | 'blue'>('red');
 }

@@ -1,7 +1,22 @@
 .container {
-  border: 1px solid red;
   padding: 10px;
   border-radius: 5px;
+}
+
+.red {
+  border: 1px solid red;
   background-color: #ffecec;
   color: red;
+}
+
+.yellow {
+  border: 1px solid rgb(180 149 10);
+  background-color: #fff9e4;
+  color: rgb(180 149 10);
+}
+
+.blue {
+  border: 1px solid rgb(10 95 180);
+  background-color: #e4f3ff;
+  color: rgb(10 120 180);
 }

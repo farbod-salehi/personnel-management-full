@@ -1,6 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 
-
 @font-face {
   font-family: "VazirFont";
   src: url("../src/assets/fonts/Vazirmatn[wght].ttf") format("truetype");
@@ -23,7 +22,7 @@ body {
 .mat-card {
   border-radius: 12px;
   border: 1px solid #bdbdbd;
-  min-width: 40vw;
+  min-width: 30vw;
 }
 
 .mat-card-header {
@@ -41,6 +40,7 @@ body {
 
 .mat-card-content {
   padding-top: 20px !important;
+  padding-bottom: 40px !important;
   margin: 0px auto;
   width: 90%;
 }
@@ -64,14 +64,26 @@ body {
 }
 
 .mat-toolbar {
-  background-color: #457779!important;
-  color: gold!important;
-  font-weight: bold!important;
+  background-color: #457779 !important;
+  color: gold !important;
+  font-weight: bold !important;
 }
 
 .mat-sidenav-content {
   background-color: #d5d5d5;
   min-height: 90vh;
+}
+
+.transparent .mat-mdc-dialog-container {
+  --mdc-dialog-container-color: rgba(0, 0, 0, 0);
+}
+
+.transparent .mat-mdc-dialog-surface {
+  box-shadow: none !important;
+}
+
+.custom-spinner circle {
+  stroke: gold !important;
 }
 
 .container-vertical {
@@ -80,6 +92,25 @@ body {
   align-items: flex-start;
 }
 
+.container-horizontal {
+  display: flex !important;
+  flex-direction: row;
+}
+
+.loader-button-yellow {
+  background-color: rgb(251, 206, 5) !important;
+  color: black !important;
+}
+
+.loader-button-red {
+  background-color: rgb(218, 11, 4) !important;
+  color: white !important;
+}
+
+.loader-button-blue {
+  background-color: #005cbb !important;
+  color: white !important;
+}
 
 .ltr {
   direction: ltr;
@@ -95,15 +126,13 @@ body {
 
 .footer {
   width: 100%;
-    position: absolute;
-    bottom: 0px;
-    background-color: #457779;
-    z-index: 1;
-    padding: 10px 0px;
-    font-size: 0.8em;
-    font-weight: bold;
-    text-align: center;
-    color: gold;
+  position: absolute;
+  bottom: 0px;
+  background-color: #457779;
+  z-index: 1;
+  padding: 10px 0px;
+  font-size: 0.8em;
+  font-weight: bold;
+  text-align: center;
+  color: gold;
 }
-
-

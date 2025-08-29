@@ -12,3 +12,8 @@
   align-items: center;
   gap: 8px;
 }
+
+mat-icon {
+  margin-bottom: -8px;
+  margin-right: -10px;
+}

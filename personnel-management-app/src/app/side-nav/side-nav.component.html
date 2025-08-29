@@ -1,5 +1,5 @@
 <mat-sidenav-container>
-  {{25}}
+  {{ 25 }}
   @if(authInfo()) {
   <mat-sidenav mode="side" opened>
     <mat-list class="menu">
@@ -24,7 +24,13 @@
         &nbsp; گزارشات
       </mat-list-item>
       <mat-divider></mat-divider>
-      <mat-list-item style="cursor: pointer" [routerLink]="[route_NamePath.initInfoItemForm, defaultInitInfoTypeId()]">
+      <mat-list-item
+        style="cursor: pointer"
+        [routerLink]="[
+          route_NamePath.initInfoListForm,
+          defaultInitInfoTypeId()
+        ]"
+      >
         <mat-icon
           aria-hidden="false"
           aria-label="Data icon"
@@ -43,12 +49,9 @@
         ></mat-icon>
         &nbsp; تغییر کلمه عبور
       </mat-list-item>
-
     </mat-list>
-
   </mat-sidenav>
   }
-
 
   <mat-sidenav-content class="mat-sidenav-content">
     <div class="main-content">

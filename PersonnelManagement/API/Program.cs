@@ -473,8 +473,8 @@ app.MapPost("/api/personnel/add", async ([FromServices] IHttpContextAccessor htt
     {
         CodeMeli = request.CodeMeli?.Trim(),
         EblaghDakheliAsliId = request.EblaghDakheliAsliId,
-        FirstName = request.FirstName,
-        LastName = request.LastName,
+        FirstName = utility.CorrectArabicChars(request.FirstName)!,
+        LastName = utility.CorrectArabicChars(request.LastName)!,
         IsMale = request.IsMale,
         IsSetad = request.IsSetad,
         MadrakTahsiliId =  request.MadrakTahsiliId,
@@ -484,10 +484,10 @@ app.MapPost("/api/personnel/add", async ([FromServices] IHttpContextAccessor htt
         PostId = request.PostId,
         ReshteShoghliId = request.ReshteShoghliId,
         ReshteTahsiliId = request.ReshteTahsiliId,
-        SayerSematha = request.SayerSematha,
+        SayerSematha = utility.CorrectArabicChars(request.SayerSematha),
         ShomarePersonneli = request.ShomarePersonneli,
         TarikhAghazKhedmat = request.TarikhAghazKhedmat,
-        VahedKhedmat = request.VahedKhedmat,
+        VahedKhedmat = utility.CorrectArabicChars(request.VahedKhedmat)!,
         NoeMahalKhedmat = request.NoeMahalKhedmat,
         CreatedAt = DateTime.UtcNow,
         CreatedBy = tokenManager.GetUserIdFromTokenClaims(httpContextAccessor.HttpContext!)!
@@ -543,8 +543,8 @@ app.MapPatch("/api/personnel/{id}/update", async ([FromServices] IHttpContextAcc
 
     personnel.CodeMeli = request.CodeMeli?.Trim();
     personnel.EblaghDakheliAsliId = request.EblaghDakheliAsliId;
-    personnel.FirstName = request.FirstName;
-    personnel.LastName = request.LastName;
+    personnel.FirstName = utility.CorrectArabicChars(request.FirstName)!;
+    personnel.LastName = utility.CorrectArabicChars(request.LastName)!;
     personnel.IsMale = request.IsMale;
     personnel.IsSetad = request.IsSetad;
     personnel.MadrakTahsiliId = request.MadrakTahsiliId;
@@ -554,10 +554,10 @@ app.MapPatch("/api/personnel/{id}/update", async ([FromServices] IHttpContextAcc
     personnel.PostId = request.PostId;
     personnel.ReshteShoghliId = request.ReshteShoghliId;
     personnel.ReshteTahsiliId = request.ReshteTahsiliId;
-    personnel.SayerSematha = request.SayerSematha;
+    personnel.SayerSematha = utility.CorrectArabicChars(request.SayerSematha)!;
     personnel.ShomarePersonneli = request.ShomarePersonneli;
     personnel.TarikhAghazKhedmat = request.TarikhAghazKhedmat;
-    personnel.VahedKhedmat = request.VahedKhedmat;
+    personnel.VahedKhedmat = utility.CorrectArabicChars(request.VahedKhedmat)!;
     personnel.NoeMahalKhedmat = request.NoeMahalKhedmat;
 
     await repositoryManager.SaveAsync();

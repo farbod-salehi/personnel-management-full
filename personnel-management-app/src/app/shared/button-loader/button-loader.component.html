@@ -1,11 +1,18 @@
-<button mat-flat-button class="less-radius" style="width:100%" [disabled]="displayLoading()" (blClick)="onClick()">
+<button
+  mat-flat-button
+  [class]="['less-radius', `loader-button-${color()}`]"
+  style="width: 100%"
+  [disabled]="displayLoading()"
+  (click)="onClick()"
+>
   @if(displayLoading()) {
-   <span class="spinner-container">
-      <mat-spinner diameter="20"></mat-spinner>
-     <span> صبر کنید ... </span>
-   </span>
-  }@else {
-     {{ text() }}
+  <span class="spinner-container">
+    <mat-spinner diameter="20"></mat-spinner>
+    <span> صبر کنید ... </span>
+  </span>
+  }@else { @if(iconName()) {
+  <mat-icon> {{ iconName() }} </mat-icon>
   }
-
+  {{ text() }}
+  }
 </button>

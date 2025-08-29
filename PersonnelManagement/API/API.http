@@ -12,7 +12,7 @@ Content-Type: application/json
     "username":"admin",
     "password":"asdfasdf",
     "title":"admin",
-    "role":"1"
+    "role":1
 }
 
 ###
