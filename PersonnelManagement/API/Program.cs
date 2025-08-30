@@ -228,7 +228,7 @@ app.MapPatch("/api/changepassword", async ([FromServices] UserManager<User> user
 
 #region InitInfo Endpoints
 
-app.MapGet("/api/initinfo/{type}", async ([FromServices] IHttpContextAccessor httpContextAccessor, [FromServices] RepositoryManager repositoryManager, [FromRoute]int type, Guid? parentId = null, string? title = null, int page = 1, int count = 10) =>
+app.MapGet("/api/initinfo/{type}", async ([FromServices] IHttpContextAccessor httpContextAccessor, [FromServices] RepositoryManager repositoryManager, [FromRoute]int type) =>
 {
     MyUtility utility = new();
 
@@ -239,7 +239,7 @@ app.MapGet("/api/initinfo/{type}", async ([FromServices] IHttpContextAccessor ht
         return Results.Json(new { userRequestAccessResult.Error, userRequestAccessResult.Act }, statusCode: userRequestAccessResult.StatusCode);
     }
     
-    (List<InitInfo> list, int pagesCount) = await repositoryManager.InitInfo.GetList(false, type, page, count, utility.CorrectArabicChars(title), parentId!);
+    List<InitInfo> list = await repositoryManager.InitInfo.GetAll(false, type);
 
     return Results.Ok(new
     {
@@ -251,7 +251,7 @@ app.MapGet("/api/initinfo/{type}", async ([FromServices] IHttpContextAccessor ht
             x.Active,
             CreatedAt = new PersianDateTime((DateTime)x.CreatedAt)
         }),
-        pagesCount
+       
     });
 });
 
@@ -341,6 +341,32 @@ app.MapPatch("/api/initinfo/{type}/{id}/update", async ([FromServices] IHttpCont
     initInfo.Title = utility.CorrectArabicChars(request.Title)!;
     initInfo.ParentId = request.ParentId;
     initInfo.Active = request.Active;
+
+    await repositoryManager.SaveAsync();
+
+    return Results.NoContent();
+});
+
+app.MapDelete("/api/initinfo/{id}/delete", async ([FromServices] IHttpContextAccessor httpContextAccessor, [FromServices] RepositoryManager repositoryManager, [FromServices] TokenManager tokenManager, [FromRoute] Guid id) => {
+
+    MyUtility utility = new();
+
+    UserRequestAccessResult userRequestAccessResult = await utility.CheckUserAccess(httpContextAccessor.HttpContext!, repositoryManager, [(int)Constances.UserRole.admin, (int)Constances.UserRole.manager]);
+
+    if (userRequestAccessResult.HasAccess == false)
+    {
+        return Results.Json(new { userRequestAccessResult.Error, userRequestAccessResult.Act }, statusCode: userRequestAccessResult.StatusCode);
+    }
+
+    InitInfo? initInfo = await repositoryManager.InitInfo.GetById(true, id);
+
+    if (initInfo == null)
+    {
+        return Results.NotFound(new { Error = "داده موردنظر یافت نشد." });
+    }
+
+    initInfo.DeletedAt = DateTime.UtcNow;
+    initInfo.DeletedBy = tokenManager.GetUserIdFromTokenClaims(httpContextAccessor.HttpContext!)!;
 
     await repositoryManager.SaveAsync();
 

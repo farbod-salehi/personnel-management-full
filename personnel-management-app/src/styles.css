@@ -74,6 +74,7 @@ body {
   min-height: 90vh;
 }
 
+/*---modal loader---*/
 .transparent .mat-mdc-dialog-container {
   --mdc-dialog-container-color: rgba(0, 0, 0, 0);
 }
@@ -85,6 +86,7 @@ body {
 .custom-spinner circle {
   stroke: gold !important;
 }
+/*----*/
 
 .container-vertical {
   display: flex !important;

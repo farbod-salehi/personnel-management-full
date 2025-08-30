@@ -1,0 +1,12 @@
+.header {
+  background-color: #457779;
+  color: gold;
+  font-weight: bold;
+  padding-top: 0px;
+  margin-top: -10px;
+  font-size: 1.2em;
+}
+
+.content {
+  padding: 20px 10px !important;
+}

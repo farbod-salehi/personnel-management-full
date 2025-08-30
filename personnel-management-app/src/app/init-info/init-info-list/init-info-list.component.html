@@ -31,9 +31,7 @@
       </mat-select>
     </mat-form-field>
 
-    @if(isLoading()) {
-    <mat-spinner style="margin: 30px auto" diameter="50"></mat-spinner>
-    } @else if (list() && list().length > 0) {
+    @if(list() && list().length > 0) {
 
     <table mat-table [dataSource]="list()" class="mat-elevation-z8">
       <!--- Note that these columns can be defined in any order.
@@ -74,7 +72,12 @@
               ]"
             >
             </app-button-loader>
-            <app-button-loader text="حذف" iconName="delete" color="red">
+            <app-button-loader
+              text="حذف"
+              iconName="delete"
+              color="red"
+              (blClick)="confirmDelete(element.id)"
+            >
             </app-button-loader>
           </div>
         </td>
@@ -88,7 +91,7 @@
     <app-error-message-box
       style="width: 100%"
       text="داده‌ای برای نمایش وجود ندارد."
-      color="blue"
+      color="yellow"
     ></app-error-message-box>
     }
   </mat-card-content>

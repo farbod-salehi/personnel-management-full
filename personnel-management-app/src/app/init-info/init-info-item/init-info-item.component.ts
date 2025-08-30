@@ -11,13 +11,11 @@ import { ActivatedRoute } from '@angular/router';
 import { NgModel } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
 
 import { BaseComponent } from '../../shared/base.component';
 import { SharedModule } from '../../shared/shared.module';
 import { InitInfoType } from '../../models/initInfoType.model';
 import { routeNamePath } from '../../app.routes';
-import { ModalLoadingComponent } from '../../shared/modal-loading/modal-loading.component';
 
 @Component({
   selector: 'app-init-info-item',
@@ -28,7 +26,6 @@ import { ModalLoadingComponent } from '../../shared/modal-loading/modal-loading.
 export class InitInfoItemComponent extends BaseComponent implements OnInit {
   @ViewChildren(NgModel) controls!: QueryList<NgModel>;
   route = inject(ActivatedRoute);
-  dialog = inject(MatDialog);
 
   title = '';
   id: string | undefined | null = undefined;
@@ -85,11 +82,7 @@ export class InitInfoItemComponent extends BaseComponent implements OnInit {
       )
       .subscribe({
         next: async (data: any) => {
-          this._snackBar.open('اطلاعات با موفقیت ثبت شد.', 'متوجه شدم', {
-            horizontalPosition: 'center',
-            verticalPosition: 'bottom',
-            duration: 4000,
-          });
+          this.openSnackBar('اطلاعات با موفقیت ثبت شد.', 'متوجه شدم');
 
           this.router.navigate([
             routeNamePath.initInfoListForm,
@@ -126,11 +119,7 @@ export class InitInfoItemComponent extends BaseComponent implements OnInit {
       )
       .subscribe({
         next: async (data: any) => {
-          this._snackBar.open('اطلاعات با موفقیت بروز شد.', 'متوجه شدم', {
-            horizontalPosition: 'center',
-            verticalPosition: 'bottom',
-            duration: 4000,
-          });
+          this.openSnackBar('اطلاعات با موفقیت بروز شد.', 'متوجه شدم');
 
           this.router.navigate([
             routeNamePath.initInfoListForm,
@@ -144,12 +133,7 @@ export class InitInfoItemComponent extends BaseComponent implements OnInit {
   }
 
   getItem() {
-    const dialogRef = this.dialog.open(ModalLoadingComponent, {
-      panelClass: 'transparent',
-      disableClose: true,
-    });
-
-    //this.isLoading.set(true);
+    const modalLoader = this.openModalLoader();
 
     this.httpService
       .request(
@@ -161,8 +145,7 @@ export class InitInfoItemComponent extends BaseComponent implements OnInit {
       .pipe(
         takeUntilDestroyed(this.destroyRef), // auto-unsubscribe on destroy
         finalize(() => {
-          //this.isLoading.set(false);
-          dialogRef.close();
+          modalLoader.close();
         })
       )
       .subscribe({

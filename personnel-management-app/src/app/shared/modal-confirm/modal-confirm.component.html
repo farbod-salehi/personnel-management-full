@@ -1,0 +1,17 @@
+<div mat-dialog-title class="header">
+  {{ title }}
+</div>
+<mat-dialog-content class="content">
+  {{ message }}
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close (click)="sendResult('no')">خیر</button>
+  <button
+    mat-button
+    mat-dialog-close
+    cdkFocusInitial
+    (click)="sendResult('yes')"
+  >
+    بله
+  </button>
+</mat-dialog-actions>

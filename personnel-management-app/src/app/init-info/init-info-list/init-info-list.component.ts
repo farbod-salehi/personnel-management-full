@@ -2,7 +2,6 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { ActivatedRoute } from '@angular/router';
@@ -19,7 +18,6 @@ import { routeNamePath } from '../../app.routes';
   imports: [
     SharedModule,
     MatSelectModule,
-    MatProgressSpinner,
     MatTableModule,
     MatGridListModule,
     NgxPersianModule,
@@ -35,8 +33,6 @@ export class InitInfoListComponent extends BaseComponent implements OnInit {
 
   route = inject(ActivatedRoute);
 
-  currentPage = signal(1);
-  pagesLength = signal(15);
   list = signal<{ rowNumber: number; id: string; title: string }[]>([]);
 
   ngOnInit(): void {
@@ -55,13 +51,11 @@ export class InitInfoListComponent extends BaseComponent implements OnInit {
   }
 
   getList() {
-    this.isLoading.set(true);
+    const modalLoader = this.openModalLoader();
 
     this.httpService
       .request(
-        `/api/initinfo/${
-          this.selectedTypeId
-        }?count=${this.pagesLength()}&page=${this.currentPage()}`,
+        `/api/initinfo/${this.selectedTypeId}`,
         'GET',
         null,
         this.storageService.getAuthInfo()?.token
@@ -69,24 +63,67 @@ export class InitInfoListComponent extends BaseComponent implements OnInit {
       .pipe(
         takeUntilDestroyed(this.destroyRef), // auto-unsubscribe on destroy
         finalize(() => {
-          this.isLoading.set(false);
+          modalLoader.close();
         })
       )
       .subscribe({
         next: async (data: any) => {
           if (data) {
-            let rowNumber = (this.currentPage() - 1) * this.pagesLength() + 1;
-
             this.list.set([]);
 
-            data.list.forEach((element: { title: string; id: string }) => {
-              this.list().push({
-                rowNumber: rowNumber++,
-                title: element.title,
-                id: element.id,
-              });
-            });
+            data.list.forEach(
+              (element: { title: string; id: string }, index: number) => {
+                this.list().push({
+                  rowNumber: ++index,
+                  title: element.title,
+                  id: element.id,
+                });
+              }
+            );
           }
+        },
+        error: (errorObj: any) => {
+          this.handleError(errorObj);
+        },
+      });
+  }
+
+  confirmDelete(id: string) {
+    const dialogRef = this.openDialog(
+      'تایید',
+      'آیا از حذف این داده اطمینان دارید؟'
+    );
+
+    dialogRef.afterClosed().subscribe((result: 'yes' | 'no') => {
+      if (result === 'yes') {
+        this.delete(id);
+      }
+    });
+  }
+
+  delete(id: string) {
+    const modalLoader = this.openModalLoader();
+
+    this.httpService
+      .request(
+        `/api/initinfo/${id}/delete`,
+        'DELETE',
+        null,
+        this.storageService.getAuthInfo()?.token
+      )
+      .pipe(
+        takeUntilDestroyed(this.destroyRef), // auto-unsubscribe on destroy
+        finalize(() => {
+          modalLoader.close();
+        })
+      )
+      .subscribe({
+        next: async (data: any) => {
+          this.openSnackBar('حذف با موفقیت انجام شد.', 'متوجه شدم');
+
+          // A signal property is immutable and changing it via splice() for example, won’t be detected by Angular
+          // so we should use set() again or update() by new list, because signals rely on reference change detection
+          this.list.update((items) => items.filter((item) => item.id !== id));
         },
         error: (errorObj: any) => {
           this.handleError(errorObj);

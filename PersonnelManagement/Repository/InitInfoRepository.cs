@@ -39,5 +39,10 @@ namespace Repository
         {
             return Find(trackchanges, x=>x.Type.Equals(type) && x.Id.Equals(id) && x.DeletedAt == null).FirstOrDefaultAsync();
         }
+
+        public Task<InitInfo?> GetById(bool trackchanges, Guid id)
+        {
+            return Find(trackchanges, x => x.Id.Equals(id) && x.DeletedAt == null).FirstOrDefaultAsync();
+        }
     }
 }
