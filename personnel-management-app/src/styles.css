@@ -128,8 +128,6 @@ body {
 
 .footer {
   width: 100%;
-  position: absolute;
-  bottom: 0px;
   background-color: #457779;
   z-index: 1;
   padding: 10px 0px;
