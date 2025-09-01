@@ -228,7 +228,7 @@ app.MapPatch("/api/changepassword", async ([FromServices] UserManager<User> user
 
 #region InitInfo Endpoints
 
-app.MapGet("/api/initinfo/{type}", async ([FromServices] IHttpContextAccessor httpContextAccessor, [FromServices] RepositoryManager repositoryManager, [FromRoute]int type) =>
+app.MapGet("/api/initinfo/{type:int?}", async ([FromServices] IHttpContextAccessor httpContextAccessor, [FromServices] RepositoryManager repositoryManager, [FromRoute]int? type = null) =>
 {
     MyUtility utility = new();
 
@@ -247,6 +247,7 @@ app.MapGet("/api/initinfo/{type}", async ([FromServices] IHttpContextAccessor ht
         {
             x.Id,           
             x.Title,
+            x.Type,
             x.ParentId,
             x.Active,
             CreatedAt = new PersianDateTime((DateTime)x.CreatedAt)
