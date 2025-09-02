@@ -67,10 +67,11 @@
         style="width: 100%"
       >
         <mat-label>ابلاغ داخلی اصلی</mat-label>
-        <mat-select [(value)]="model.eblaghDakheliAsliId" name="type" required>
-          @if (loadingCount() === 0) { @for (type of initInfoList |
-          filterInitInfoByType:1:model: "eblaghDakheliAsliId"; track type.id) {
-          <mat-option [value]="type.id">{{ type.title }}</mat-option>
+        <mat-select [(ngModel)]="model.eblaghDakheliAsliId" required>
+          @if (loadingCount() === 0) { @for (info of initInfoList |
+          filterInitInfoByType:initInfoTypesItems.EblaghDakheliAsli:model:
+          "eblaghDakheliAsliId"; track info.id) {
+          <mat-option [value]="info.id">{{ info.title }}</mat-option>
           } }
         </mat-select>
         <mat-error class="mat-error">
@@ -95,22 +96,152 @@
         </textarea>
       </mat-form-field>
     </div>
-    <mat-form-field
-      class="mat-form-field"
-      appearance="outline"
-      style="margin-inline: auto; margin-top: 15px; width: 70%"
-      floatLabel="always"
-    >
-      <mat-label>عنوان</mat-label>
-      <input matInput [(ngModel)]="title" required class="rtl" />
-      <mat-error class="mat-error"> عنوان را وارد نمایید. </mat-error>
-    </mat-form-field>
-
+    <div class="container-horizontal input-row">
+      <mat-form-field
+        class="mat-form-field form-field"
+        appearance="outline"
+        floatLabel="always"
+      >
+        <mat-label>نوع استخدام</mat-label>
+        <mat-select [(ngModel)]="model.noeEstekhdamId">
+          @if (loadingCount() === 0) { @for (info of initInfoList |
+          filterInitInfoByType:initInfoTypesItems.NoeEstekhdam:model:
+          "noeEstekhdamId"; track info.id) {
+          <mat-option [value]="info.id">{{ info.title }}</mat-option>
+          } }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field
+        class="mat-form-field form-field"
+        appearance="outline"
+        floatLabel="always"
+      >
+        <mat-label>تاریخ آغاز خدمت </mat-label>
+        <input matInput [(ngModel)]="model.tarikhAghazKhedmat" class="ltr" />
+      </mat-form-field>
+    </div>
+    <div class="input-row-simple">
+      <mat-form-field
+        class="mat-form-field form-field"
+        appearance="outline"
+        floatLabel="always"
+        style="width: 100%"
+      >
+        <mat-label>واحد خدمت</mat-label>
+        <input matInput [(ngModel)]="model.vahedKhedmat" class="rtl" />
+      </mat-form-field>
+    </div>
+    <div class="container-horizontal input-row">
+      <mat-form-field
+        class="mat-form-field form-field"
+        appearance="outline"
+        floatLabel="always"
+      >
+        <mat-label>شهر محل خدمت </mat-label>
+        <mat-select [(ngModel)]="model.shahrMahalKhedmatId" required>
+          @if (loadingCount() === 0) { @for (info of initInfoList |
+          filterInitInfoByType:initInfoTypesItems.ShahrMahalKhedmat:model:
+          "shahrMahalKhedmatId"; track info.id) {
+          <mat-option [value]="info.id">{{ info.title }}</mat-option>
+          } }
+        </mat-select>
+        <mat-error class="mat-error"> شهر محل خدمت را مشخص نمایید. </mat-error>
+      </mat-form-field>
+      <mat-form-field
+        class="mat-form-field form-field"
+        appearance="outline"
+        floatLabel="always"
+      >
+        <mat-label>مجتمع قضایی</mat-label>
+        <mat-select [(ngModel)]="model.mojtameGhazaiyId">
+          @if (loadingCount() === 0) { @for (info of initInfoList |
+          filterInitInfoByType:initInfoTypesItems.MojtameGhazaiy:model:
+          "mojtameGhazaiyId"; track info.id) {
+          <mat-option [value]="info.id">{{ info.title }}</mat-option>
+          } }
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="container-horizontal input-row">
+      <mat-form-field
+        class="mat-form-field form-field"
+        appearance="outline"
+        floatLabel="always"
+      >
+        <mat-label>مدرک تحصیلی</mat-label>
+        <mat-select [(ngModel)]="model.madrakTahsiliId">
+          @if (loadingCount() === 0) { @for (info of initInfoList |
+          filterInitInfoByType:initInfoTypesItems.MadrakTahsili:model:
+          "madrakTahsiliId"; track info.id) {
+          <mat-option [value]="info.id">{{ info.title }}</mat-option>
+          } }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field
+        class="mat-form-field form-field"
+        appearance="outline"
+        floatLabel="always"
+      >
+        <mat-label>رشته تحصیلی </mat-label>
+        <mat-select [(ngModel)]="model.reshteTahsiliId">
+          @if (loadingCount() === 0) { @for (info of initInfoList |
+          filterInitInfoByType:initInfoTypesItems.ReshteTahsili:model:
+          "reshteTahsiliId"; track info.id) {
+          <mat-option [value]="info.id">{{ info.title }}</mat-option>
+          } }
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="container-horizontal input-row">
+      <mat-form-field
+        class="mat-form-field form-field"
+        appearance="outline"
+        floatLabel="always"
+      >
+        <mat-label>پُست</mat-label>
+        <mat-select [(ngModel)]="model.postId">
+          @if (loadingCount() === 0) { @for (info of initInfoList |
+          filterInitInfoByType:initInfoTypesItems.Post:model: "postId"; track
+          info.id) {
+          <mat-option [value]="info.id">{{ info.title }}</mat-option>
+          } }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field
+        class="mat-form-field form-field"
+        appearance="outline"
+        floatLabel="always"
+      >
+        <mat-label>رشته شغلی </mat-label>
+        <mat-select [(ngModel)]="model.reshteShoghliId">
+          @if (loadingCount() === 0) { @for (info of initInfoList |
+          filterInitInfoByType:initInfoTypesItems.ReshteShoghli:model:
+          "reshteShoghliId"; track info.id) {
+          <mat-option [value]="info.id">{{ info.title }}</mat-option>
+          } }
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="container-horizontal input-row">
+      <mat-button-toggle-group [(ngModel)]="model.isMale">
+        <mat-button-toggle value="true">مرد</mat-button-toggle>
+        <mat-button-toggle value="false">زن</mat-button-toggle>
+      </mat-button-toggle-group>
+      <mat-button-toggle-group [(ngModel)]="model.isSetad">
+        <mat-button-toggle value="true">ستاد</mat-button-toggle>
+        <mat-button-toggle value="false">صف</mat-button-toggle>
+      </mat-button-toggle-group>
+      <mat-button-toggle-group [(ngModel)]="model.noeMahalKhedmat">
+        <mat-button-toggle value="1">دادگاه</mat-button-toggle>
+        <mat-button-toggle value="2">دادسرا</mat-button-toggle>
+        <mat-button-toggle value="0">سایر</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
     <app-button-loader
       (click)="onSave()"
       text="ثبت"
       [displayLoading]="isLoading()"
-      style="width: 70%; margin: 20px auto"
+      style="width: 100%; margin: 40px auto"
     >
     </app-button-loader>
   </mat-card-content>

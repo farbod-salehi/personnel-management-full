@@ -7,8 +7,8 @@ export class Personnel {
     public eblaghDakheliAsliId: string | undefined,
     public sayerSematha: string,
     public vahedKhedmat: string,
-    public isSetad: boolean,
-    public isMale: boolean,
+    public isSetad: string,
+    public isMale: string,
     public madrakTahsiliId: string | undefined,
     public reshteTahsiliId: string | undefined,
     public noeEstekhdamId: string | undefined,
@@ -16,7 +16,7 @@ export class Personnel {
     public reshteShoghliId: string | undefined,
     public mojtameGhazaiyId: string | undefined,
     public shahrMahalKhedmatId: string | undefined,
-    public tarikhAghazKhedmatId: string | undefined,
-    public noeMahalKhedmat: number
+    public tarikhAghazKhedmat: string,
+    public noeMahalKhedmat: string
   ) {}
 }

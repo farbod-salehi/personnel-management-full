@@ -11,6 +11,7 @@ import { NgModel } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { SharedModule } from '../../shared/shared.module';
 import { BaseComponent } from '../../shared/base.component';
@@ -21,7 +22,12 @@ import { Personnel } from '../../models/personnel.model';
 
 @Component({
   selector: 'app-personnel-item',
-  imports: [SharedModule, MatSelectModule, filterInitInfoByTypePipe],
+  imports: [
+    SharedModule,
+    MatSelectModule,
+    filterInitInfoByTypePipe,
+    MatButtonToggleModule,
+  ],
   templateUrl: './personnel-item.component.html',
   styleUrl: './personnel-item.component.css',
 })
@@ -29,6 +35,7 @@ export class PersonnelItemComponent extends BaseComponent implements OnInit {
   @ViewChildren(NgModel) controls!: QueryList<NgModel>;
   route_NamePath = routeNamePath;
   initInfoTypesList = InitInfoType.getList();
+  initInfoTypesItems = InitInfoType.Items;
   initInfoList: { id: string; title: string; type: number }[] = [];
   title: string = '';
   selectedTypeId: string = '';
@@ -47,8 +54,8 @@ export class PersonnelItemComponent extends BaseComponent implements OnInit {
     eblaghDakheliAsliId: undefined,
     sayerSematha: '',
     vahedKhedmat: '',
-    isSetad: true,
-    isMale: true,
+    isSetad: 'true',
+    isMale: 'true',
     madrakTahsiliId: undefined,
     reshteTahsiliId: undefined,
     noeEstekhdamId: undefined,
@@ -56,8 +63,8 @@ export class PersonnelItemComponent extends BaseComponent implements OnInit {
     reshteShoghliId: undefined,
     mojtameGhazaiyId: undefined,
     shahrMahalKhedmatId: undefined,
-    tarikhAghazKhedmatId: undefined,
-    noeMahalKhedmat: 1,
+    tarikhAghazKhedmat: '',
+    noeMahalKhedmat: '1',
   };
 
   ngOnInit(): void {
