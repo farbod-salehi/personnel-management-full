@@ -478,8 +478,7 @@ app.MapPost("/api/personnel/add", async ([FromServices] IHttpContextAccessor htt
         string.IsNullOrWhiteSpace(request.FirstName) ||
         string.IsNullOrWhiteSpace(request.LastName) ||
         request.EblaghDakheliAsliId == default ||
-        request.ShahrMahalKhedmatId == default ||
-        request.EblaghDakheliAsliId == default
+        request.ShahrMahalKhedmatId == default 
         )
     {
         return Results.BadRequest(new { Error = "همه اطلاعات مورد نیاز را وارد نمایید." });
@@ -544,8 +543,7 @@ app.MapPatch("/api/personnel/{id}/update", async ([FromServices] IHttpContextAcc
         string.IsNullOrWhiteSpace(request.FirstName) ||
         string.IsNullOrWhiteSpace(request.LastName) ||
         request.EblaghDakheliAsliId == default ||
-        request.ShahrMahalKhedmatId == default ||
-        request.EblaghDakheliAsliId == default
+        request.ShahrMahalKhedmatId == default 
         )
     {
         return Results.BadRequest(new { Error = "همه اطلاعات مورد نیاز را وارد نمایید." });

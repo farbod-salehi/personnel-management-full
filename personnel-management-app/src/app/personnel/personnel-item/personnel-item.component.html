@@ -13,7 +13,7 @@
     </app-button-loader>
     <app-error-message-box
       [text]="errorMessage()"
-      style="width: 70%; margin: 20px auto"
+      style="width: 100%; margin: 20px auto"
     ></app-error-message-box>
     <div class="container-horizontal input-row">
       <mat-form-field
@@ -67,7 +67,7 @@
         style="width: 100%"
       >
         <mat-label>ابلاغ داخلی اصلی</mat-label>
-        <mat-select [(ngModel)]="model.eblaghDakheliAsliId" required>
+        <mat-select [(ngModel)]="model.eblaghDakheliAsliId" [compareWith]="compareFn" required>
           @if (loadingCount() === 0) { @for (info of initInfoList |
           filterInitInfoByType:initInfoTypesItems.EblaghDakheliAsli:model:
           "eblaghDakheliAsliId"; track info.id) {
@@ -118,6 +118,8 @@
       >
         <mat-label>تاریخ آغاز خدمت </mat-label>
         <input matInput [(ngModel)]="model.tarikhAghazKhedmat" class="ltr" />
+        <mat-hint style="text-align: left; width: 100%;">YYYY/MM/DD</mat-hint>
+
       </mat-form-field>
     </div>
     <div class="input-row-simple">

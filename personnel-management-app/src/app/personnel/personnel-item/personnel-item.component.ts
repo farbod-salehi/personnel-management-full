@@ -12,6 +12,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { SharedModule } from '../../shared/shared.module';
 import { BaseComponent } from '../../shared/base.component';
@@ -20,6 +21,7 @@ import { InitInfoType } from '../../models/initInfoType.model';
 import { filterInitInfoByTypePipe } from '../../shared/filter-initinfo-by-type.pipe';
 import { Personnel } from '../../models/personnel.model';
 
+
 @Component({
   selector: 'app-personnel-item',
   imports: [
@@ -27,6 +29,7 @@ import { Personnel } from '../../models/personnel.model';
     MatSelectModule,
     filterInitInfoByTypePipe,
     MatButtonToggleModule,
+    MatDatepickerModule,
   ],
   templateUrl: './personnel-item.component.html',
   styleUrl: './personnel-item.component.css',
@@ -40,6 +43,7 @@ export class PersonnelItemComponent extends BaseComponent implements OnInit {
   title: string = '';
   selectedTypeId: string = '';
 
+
   modalLoader: any = null;
   loadingCount = signal(0);
   route = inject(ActivatedRoute);
@@ -51,18 +55,18 @@ export class PersonnelItemComponent extends BaseComponent implements OnInit {
     codeMeli: '',
     lastName: '',
     shomarePersonneli: '',
-    eblaghDakheliAsliId: undefined,
+    eblaghDakheliAsliId: null,
     sayerSematha: '',
     vahedKhedmat: '',
     isSetad: 'true',
     isMale: 'true',
-    madrakTahsiliId: undefined,
-    reshteTahsiliId: undefined,
-    noeEstekhdamId: undefined,
-    postId: undefined,
-    reshteShoghliId: undefined,
-    mojtameGhazaiyId: undefined,
-    shahrMahalKhedmatId: undefined,
+    madrakTahsiliId: null,
+    reshteTahsiliId: null,
+    noeEstekhdamId: null,
+    postId: null,
+    reshteShoghliId: null,
+    mojtameGhazaiyId: null,
+    shahrMahalKhedmatId: null,
     tarikhAghazKhedmat: '',
     noeMahalKhedmat: '1',
   };
@@ -131,5 +135,105 @@ export class PersonnelItemComponent extends BaseComponent implements OnInit {
     }*/
   }
 
-  onSave() {}
+  compareFn (a: string | null, b: string | null) : boolean {
+    console.log(a,b);
+     return a === null && b === null ? true : a === b;
+  }
+
+  onSave() {
+
+    this.markAllControlsTouched(this.controls.toArray());
+    const isFormValid = this.areAllControlsValid(this.controls.toArray());
+
+    if (isFormValid) {
+
+      const parameters = {
+        codeMeli: this.model.codeMeli,
+        eblaghDakheliAsliId: this.model.eblaghDakheliAsliId,//.length == 0 ? null : this.model.eblaghDakheliAsliId,
+        firstName: this.model.firstName,
+        lastName: this.model.lastName,
+        isMale: this.model.isMale === "true",
+        isSetad: this.model.isSetad === "true",
+        madrakTahsiliId: this.model.madrakTahsiliId,
+        shahrMahalKhedmatId: this.model.shahrMahalKhedmatId,
+        mojtameGhazaiyId: this.model.mojtameGhazaiyId,
+        noeEstekhdamId: this.model.noeEstekhdamId,
+        postId: this.model.postId,
+        reshteShoghliId: this.model.reshteTahsiliId,
+        reshteTahsiliId: this.model.reshteTahsiliId,
+        sayerSematha: this.model.sayerSematha,
+        shomarePersonneli: this.model.shomarePersonneli,
+        tarikhAghazKhedmat: this.model.tarikhAghazKhedmat,
+        vahedKhedmat: this.model.vahedKhedmat,
+        noeMahalKhedmat: this.model.noeMahalKhedmat,
+      }
+
+      if (this.id) {
+        this.update(parameters);
+      } else {
+        this.add(parameters);
+      }
+    }
+  }
+
+    add(parameters: any) {
+      console.log(parameters);
+      this.isLoading.set(true);
+
+      this.httpService
+        .request(
+          '/api/personnel/add',
+          'POST',
+          parameters,
+          this.storageService.getAuthInfo()?.token
+        )
+        .pipe(
+          takeUntilDestroyed(this.destroyRef), // auto-unsubscribe on destroy
+          finalize(() => {
+            this.isLoading.set(false);
+          })
+        )
+        .subscribe({
+          next: async (data: any) => {
+            this.openSnackBar('اطلاعات با موفقیت ثبت شد.', 'متوجه شدم');
+
+            this.router.navigate([routeNamePath.personnelListForm]);
+          },
+          error: (errorObj: any) => {
+            this.handleError(errorObj);
+          },
+        });
+    }
+
+    update(parameters: any) {
+
+      this.isLoading.set(true);
+
+      this.httpService
+        .request(
+          `/api/personnel/${this.id}/update`,
+          'PATCH',
+          parameters,
+          this.storageService.getAuthInfo()?.token
+        )
+        .pipe(
+          takeUntilDestroyed(this.destroyRef), // auto-unsubscribe on destroy
+          finalize(() => {
+            this.isLoading.set(false);
+          })
+        )
+        .subscribe({
+          next: async (data: any) => {
+            this.openSnackBar('اطلاعات با موفقیت بروز شد.', 'متوجه شدم');
+
+            this.router.navigate([
+              routeNamePath.personnelListForm,
+              this.selectedTypeId,
+            ]);
+          },
+          error: (errorObj: any) => {
+            this.handleError(errorObj);
+          },
+        });
+    }
 }

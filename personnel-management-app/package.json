@@ -19,6 +19,8 @@
     "@angular/platform-browser": "^19.2.0",
     "@angular/platform-browser-dynamic": "^19.2.0",
     "@angular/router": "^19.2.0",
+    "@majidh1/jalalidatepicker": "^0.9.12",
+    "moment-jalaali": "^0.10.4",
     "ngx-persian": "^2.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
