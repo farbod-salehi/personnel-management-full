@@ -215,7 +215,6 @@ export class PersonnelItemComponent extends BaseComponent implements OnInit {
   }
 
     add(parameters: any) {
-      console.log(parameters);
       this.isLoading.set(true);
 
       this.httpService
@@ -264,10 +263,7 @@ export class PersonnelItemComponent extends BaseComponent implements OnInit {
           next: async (data: any) => {
             this.openSnackBar('اطلاعات با موفقیت بروز شد.', 'متوجه شدم');
 
-            this.router.navigate([
-              routeNamePath.personnelListForm,
-              this.selectedTypeId,
-            ]);
+            this.router.navigate([routeNamePath.personnelListForm]);
           },
           error: (errorObj: any) => {
             this.handleError(errorObj);

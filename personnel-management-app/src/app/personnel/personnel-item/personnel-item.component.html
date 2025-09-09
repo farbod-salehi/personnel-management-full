@@ -70,8 +70,7 @@
         <mat-select [(ngModel)]="model.eblaghDakheliAsliId" required>
           <mat-option value="" disabled="true"> انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
-          filterInitInfoByType:initInfoTypesItems.EblaghDakheliAsli:model:
-          "eblaghDakheliAsliId"; track info.id) {
+          filterInitInfoByType:initInfoTypesItems.EblaghDakheliAsli; track info.id) {
           <mat-option [value]="info.id">{{ info.title }}</mat-option>
           } }
         </mat-select>
@@ -107,8 +106,7 @@
         <mat-select [(ngModel)]="model.noeEstekhdamId">
           <mat-option value=""> انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
-          filterInitInfoByType:initInfoTypesItems.NoeEstekhdam:model:
-          "noeEstekhdamId"; track info.id) {
+          filterInitInfoByType:initInfoTypesItems.NoeEstekhdam; track info.id) {
           <mat-option [value]="info.id">{{ info.title }}</mat-option>
           } }
         </mat-select>
@@ -145,8 +143,7 @@
         <mat-select [(ngModel)]="model.shahrMahalKhedmatId" required>
           <mat-option value="" disabled="true"> انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
-          filterInitInfoByType:initInfoTypesItems.ShahrMahalKhedmat:model:
-          "shahrMahalKhedmatId"; track info.id) {
+          filterInitInfoByType:initInfoTypesItems.ShahrMahalKhedmat; track info.id) {
           <mat-option [value]="info.id">{{ info.title }}</mat-option>
           } }
         </mat-select>
@@ -161,8 +158,7 @@
         <mat-select [(ngModel)]="model.mojtameGhazaiyId">
           <mat-option value="" > انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
-          filterInitInfoByType:initInfoTypesItems.MojtameGhazaiy:model:
-          "mojtameGhazaiyId"; track info.id) {
+          filterInitInfoByType:initInfoTypesItems.MojtameGhazaiy; track info.id) {
           <mat-option [value]="info.id">{{ info.title }}</mat-option>
           } }
         </mat-select>
@@ -178,8 +174,7 @@
         <mat-select [(ngModel)]="model.madrakTahsiliId">
           <mat-option value="" > انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
-          filterInitInfoByType:initInfoTypesItems.MadrakTahsili:model:
-          "madrakTahsiliId"; track info.id) {
+          filterInitInfoByType:initInfoTypesItems.MadrakTahsili; track info.id) {
           <mat-option [value]="info.id">{{ info.title }}</mat-option>
           } }
         </mat-select>
@@ -193,8 +188,7 @@
         <mat-select [(ngModel)]="model.reshteTahsiliId">
           <mat-option value="" > انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
-          filterInitInfoByType:initInfoTypesItems.ReshteTahsili:model:
-          "reshteTahsiliId"; track info.id) {
+          filterInitInfoByType:initInfoTypesItems.ReshteTahsili; track info.id) {
           <mat-option [value]="info.id">{{ info.title }}</mat-option>
           } }
         </mat-select>
@@ -210,7 +204,7 @@
         <mat-select [(ngModel)]="model.postId">
           <mat-option value="" > انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
-          filterInitInfoByType:initInfoTypesItems.Post:model: "postId"; track
+          filterInitInfoByType:initInfoTypesItems.Post; track
           info.id) {
           <mat-option [value]="info.id">{{ info.title }}</mat-option>
           } }
@@ -225,8 +219,7 @@
         <mat-select [(ngModel)]="model.reshteShoghliId">
           <mat-option value="" > انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
-          filterInitInfoByType:initInfoTypesItems.ReshteShoghli:model:
-          "reshteShoghliId"; track info.id) {
+          filterInitInfoByType:initInfoTypesItems.ReshteShoghli; track info.id) {
           <mat-option [value]="info.id">{{ info.title }}</mat-option>
           } }
         </mat-select>

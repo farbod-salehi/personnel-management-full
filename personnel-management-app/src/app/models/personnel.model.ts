@@ -19,4 +19,5 @@ export class Personnel {
     public tarikhAghazKhedmat: string,
     public noeMahalKhedmat: "0" | "1" | "2"
   ) {}
+
 }
