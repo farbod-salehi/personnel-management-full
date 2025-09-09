@@ -55,18 +55,18 @@ export class PersonnelItemComponent extends BaseComponent implements OnInit {
     codeMeli: '',
     lastName: '',
     shomarePersonneli: '',
-    eblaghDakheliAsliId: null,
+    eblaghDakheliAsliId: '',
     sayerSematha: '',
     vahedKhedmat: '',
     isSetad: 'true',
     isMale: 'true',
-    madrakTahsiliId: null,
-    reshteTahsiliId: null,
-    noeEstekhdamId: null,
-    postId: null,
-    reshteShoghliId: null,
-    mojtameGhazaiyId: null,
-    shahrMahalKhedmatId: null,
+    madrakTahsiliId: '',
+    reshteTahsiliId: '',
+    noeEstekhdamId: '',
+    postId: '',
+    reshteShoghliId: '',
+    mojtameGhazaiyId: '',
+    shahrMahalKhedmatId: '',
     tarikhAghazKhedmat: '',
     noeMahalKhedmat: '1',
   };
@@ -129,15 +129,53 @@ export class PersonnelItemComponent extends BaseComponent implements OnInit {
     }
     this.loadingCount.set(this.loadingCount() + 1);
 
-    /*this.loadingCount.set(this.loadingCount() - 1);
-    if (this.loadingCount() === 0) {
-      this.modalLoader?.close();
-    }*/
-  }
+     this.httpService
+      .request(
+        `/api/personnel/${id}`,
+        'GET',
+        null,
+        this.storageService.getAuthInfo()?.token
+      )
+      .pipe(
+        takeUntilDestroyed(this.destroyRef), // auto-unsubscribe on destroy
+        finalize(() => {
+          this.loadingCount.set(this.loadingCount() - 1);
+          if (this.loadingCount() === 0) {
+            this.modalLoader?.close();
+          }
+        })
+      )
+      .subscribe({
+        next: async (data: any) => {
+          if (data?.item) {
+            this.model = {
+              firstName: this.convertNullToEmptyString(data.item.firstName),
+              codeMeli: this.convertNullToEmptyString(data.item.codeMeli),
+              lastName: this.convertNullToEmptyString(data.item.lastName),
+              shomarePersonneli: this.convertNullToEmptyString(data.item.shomarePersonneli),
+              eblaghDakheliAsliId: this.convertNullToEmptyString(data.item.eblaghDakheliAsliId),
+              sayerSematha: this.convertNullToEmptyString(data.item.sayerSematha),
+              vahedKhedmat: this.convertNullToEmptyString(data.item.vahedKhedmat),
+              isSetad: Boolean(data.item.isSetad) ? 'true' : 'false',
+              isMale: Boolean(data.item.isMale) ? 'true' : 'false',
+              madrakTahsiliId: this.convertNullToEmptyString(data.item.madrakTahsiliId),
+              reshteTahsiliId: this.convertNullToEmptyString(data.item.reshteTahsiliId),
+              noeEstekhdamId: this.convertNullToEmptyString(data.item.noeEstekhdamId),
+              postId: this.convertNullToEmptyString(data.item.postId),
+              reshteShoghliId: this.convertNullToEmptyString(data.item.reshteShoghliId),
+              mojtameGhazaiyId: this.convertNullToEmptyString(data.item.mojtameGhazaiyId),
+              shahrMahalKhedmatId: this.convertNullToEmptyString(data.item.shahrMahalKhedmatId),
+              tarikhAghazKhedmat: this.convertNullToEmptyString(data.item.tarikhAghazKhedmat),
+              noeMahalKhedmat: Number(data.item.noeMahalKhedmat) === 1 ? "1" : (Number(data.item.noeMahalKhedmat) === 2 ? "2" : "0"),
+            };
+          }
+        },
+        error: (errorObj: any) => {
+          this.handleError(errorObj);
+        },
+      });
 
-  compareFn (a: string | null, b: string | null) : boolean {
-    console.log(a,b);
-     return a === null && b === null ? true : a === b;
+
   }
 
   onSave() {
@@ -148,23 +186,23 @@ export class PersonnelItemComponent extends BaseComponent implements OnInit {
     if (isFormValid) {
 
       const parameters = {
-        codeMeli: this.model.codeMeli,
-        eblaghDakheliAsliId: this.model.eblaghDakheliAsliId,//.length == 0 ? null : this.model.eblaghDakheliAsliId,
-        firstName: this.model.firstName,
-        lastName: this.model.lastName,
+        codeMeli: this.convertEmptyStringToNull(this.model.codeMeli),
+        eblaghDakheliAsliId: this.convertEmptyStringToNull(this.model.eblaghDakheliAsliId),
+        firstName: this.convertEmptyStringToNull(this.model.firstName),
+        lastName: this.convertEmptyStringToNull(this.model.lastName),
         isMale: this.model.isMale === "true",
         isSetad: this.model.isSetad === "true",
-        madrakTahsiliId: this.model.madrakTahsiliId,
-        shahrMahalKhedmatId: this.model.shahrMahalKhedmatId,
-        mojtameGhazaiyId: this.model.mojtameGhazaiyId,
-        noeEstekhdamId: this.model.noeEstekhdamId,
-        postId: this.model.postId,
-        reshteShoghliId: this.model.reshteTahsiliId,
-        reshteTahsiliId: this.model.reshteTahsiliId,
-        sayerSematha: this.model.sayerSematha,
+        madrakTahsiliId: this.convertEmptyStringToNull(this.model.madrakTahsiliId),
+        shahrMahalKhedmatId: this.convertEmptyStringToNull(this.model.shahrMahalKhedmatId),
+        mojtameGhazaiyId: this.convertEmptyStringToNull(this.model.mojtameGhazaiyId),
+        noeEstekhdamId: this.convertEmptyStringToNull(this.model.noeEstekhdamId),
+        postId: this.convertEmptyStringToNull(this.model.postId),
+        reshteShoghliId: this.convertEmptyStringToNull(this.model.reshteTahsiliId),
+        reshteTahsiliId: this.convertEmptyStringToNull(this.model.reshteTahsiliId),
+        sayerSematha: this.convertEmptyStringToNull(this.model.sayerSematha),
         shomarePersonneli: this.model.shomarePersonneli,
-        tarikhAghazKhedmat: this.model.tarikhAghazKhedmat,
-        vahedKhedmat: this.model.vahedKhedmat,
+        tarikhAghazKhedmat: this.convertEmptyStringToNull(this.model.tarikhAghazKhedmat),
+        vahedKhedmat: this.convertEmptyStringToNull(this.model.vahedKhedmat),
         noeMahalKhedmat: this.model.noeMahalKhedmat,
       }
 

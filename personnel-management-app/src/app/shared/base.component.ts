@@ -71,4 +71,12 @@ export abstract class BaseComponent {
       data: { title, message },
     });
   }
+
+  convertEmptyStringToNull(input: string) : string | null {
+    return input.trim().length === 0 ? null : input.trim();
+  }
+
+  convertNullToEmptyString(input: string | null) : string {
+    return input ?? '';
+  }
 }

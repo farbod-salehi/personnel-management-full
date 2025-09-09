@@ -67,7 +67,8 @@
         style="width: 100%"
       >
         <mat-label>ابلاغ داخلی اصلی</mat-label>
-        <mat-select [(ngModel)]="model.eblaghDakheliAsliId" [compareWith]="compareFn" required>
+        <mat-select [(ngModel)]="model.eblaghDakheliAsliId" required>
+          <mat-option value="" disabled="true"> انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
           filterInitInfoByType:initInfoTypesItems.EblaghDakheliAsli:model:
           "eblaghDakheliAsliId"; track info.id) {
@@ -104,6 +105,7 @@
       >
         <mat-label>نوع استخدام</mat-label>
         <mat-select [(ngModel)]="model.noeEstekhdamId">
+          <mat-option value=""> انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
           filterInitInfoByType:initInfoTypesItems.NoeEstekhdam:model:
           "noeEstekhdamId"; track info.id) {
@@ -141,6 +143,7 @@
       >
         <mat-label>شهر محل خدمت </mat-label>
         <mat-select [(ngModel)]="model.shahrMahalKhedmatId" required>
+          <mat-option value="" disabled="true"> انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
           filterInitInfoByType:initInfoTypesItems.ShahrMahalKhedmat:model:
           "shahrMahalKhedmatId"; track info.id) {
@@ -156,6 +159,7 @@
       >
         <mat-label>مجتمع قضایی</mat-label>
         <mat-select [(ngModel)]="model.mojtameGhazaiyId">
+          <mat-option value="" > انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
           filterInitInfoByType:initInfoTypesItems.MojtameGhazaiy:model:
           "mojtameGhazaiyId"; track info.id) {
@@ -172,6 +176,7 @@
       >
         <mat-label>مدرک تحصیلی</mat-label>
         <mat-select [(ngModel)]="model.madrakTahsiliId">
+          <mat-option value="" > انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
           filterInitInfoByType:initInfoTypesItems.MadrakTahsili:model:
           "madrakTahsiliId"; track info.id) {
@@ -186,6 +191,7 @@
       >
         <mat-label>رشته تحصیلی </mat-label>
         <mat-select [(ngModel)]="model.reshteTahsiliId">
+          <mat-option value="" > انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
           filterInitInfoByType:initInfoTypesItems.ReshteTahsili:model:
           "reshteTahsiliId"; track info.id) {
@@ -202,6 +208,7 @@
       >
         <mat-label>پُست</mat-label>
         <mat-select [(ngModel)]="model.postId">
+          <mat-option value="" > انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
           filterInitInfoByType:initInfoTypesItems.Post:model: "postId"; track
           info.id) {
@@ -216,6 +223,7 @@
       >
         <mat-label>رشته شغلی </mat-label>
         <mat-select [(ngModel)]="model.reshteShoghliId">
+          <mat-option value="" > انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
           filterInitInfoByType:initInfoTypesItems.ReshteShoghli:model:
           "reshteShoghliId"; track info.id) {
