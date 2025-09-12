@@ -378,7 +378,7 @@ app.MapDelete("/api/initinfo/{id}/delete", async ([FromServices] IHttpContextAcc
 
 #region Personnel Endpoints
 
-app.MapGet("/api/personnel", async ([FromServices] IHttpContextAccessor httpContextAccessor, [FromServices] RepositoryManager repositoryManager, string? searchQuery = null, int page = 1, int count = 10) =>
+app.MapGet("/api/personnel", async ([FromServices] IHttpContextAccessor httpContextAccessor, [FromServices] RepositoryManager repositoryManager, [FromQuery]string? searchQuery = null, [FromQuery]int page = 1, [FromQuery]int count = 10) =>
 {
     MyUtility utility = new();
 
@@ -389,7 +389,13 @@ app.MapGet("/api/personnel", async ([FromServices] IHttpContextAccessor httpCont
         return Results.Json(new { userRequestAccessResult.Error, userRequestAccessResult.Act }, statusCode: userRequestAccessResult.StatusCode);
     }
 
-    (List<Personnel> list, int pagesCount) = await repositoryManager.Personnel.GetList(false, utility.CorrectArabicChars(searchQuery), page, count);
+    if(string.IsNullOrWhiteSpace(searchQuery) == false)
+    {
+        searchQuery = utility.CorrectArabicChars(searchQuery);
+        searchQuery = utility.ConvertPersianNumbersToEnglish(searchQuery);
+    }
+
+    (List<Personnel> list, int pagesCount) = await repositoryManager.Personnel.GetList(false, searchQuery, page, count);
     
 
     return Results.Ok(new
@@ -484,12 +490,16 @@ app.MapPost("/api/personnel/add", async ([FromServices] IHttpContextAccessor htt
         return Results.BadRequest(new { Error = "همه اطلاعات مورد نیاز را وارد نمایید." });
     }
 
-    if(string.IsNullOrWhiteSpace(request.CodeMeli) == false && request.CodeMeli.Trim().Length != 10)
+    var codeMeli = utility.ConvertPersianNumbersToEnglish(request.CodeMeli?.Trim());
+
+    if (string.IsNullOrWhiteSpace(codeMeli) == false && codeMeli.Length != 10)
     {
         return Results.BadRequest(new { Error = "فرمت کد ملی صحیح نمی‌باشد." });
     }
 
-    if(await repositoryManager.Personnel.DataIsDuplicate(request.ShomarePersonneli, request.CodeMeli))
+    var shomarePersonneli = utility.ConvertPersianNumbersToEnglish(request.ShomarePersonneli)!;
+
+    if (await repositoryManager.Personnel.DataIsDuplicate(shomarePersonneli, codeMeli))
     {
         return Results.UnprocessableEntity(new { Error = "شماره پرسنلی و کد ملی پرسنل باید منحصر به فرد باشند." });
     }
@@ -497,7 +507,7 @@ app.MapPost("/api/personnel/add", async ([FromServices] IHttpContextAccessor htt
 
     Personnel newPersonnel = new()
     {
-        CodeMeli = request.CodeMeli?.Trim(),
+        CodeMeli = codeMeli,
         EblaghDakheliAsliId = request.EblaghDakheliAsliId,
         FirstName = utility.CorrectArabicChars(request.FirstName)!,
         LastName = utility.CorrectArabicChars(request.LastName)!,
@@ -511,7 +521,7 @@ app.MapPost("/api/personnel/add", async ([FromServices] IHttpContextAccessor htt
         ReshteShoghliId = request.ReshteShoghliId,
         ReshteTahsiliId = request.ReshteTahsiliId,
         SayerSematha = utility.CorrectArabicChars(request.SayerSematha),
-        ShomarePersonneli = request.ShomarePersonneli,
+        ShomarePersonneli = shomarePersonneli,
         TarikhAghazKhedmat = request.TarikhAghazKhedmat,
         VahedKhedmat = utility.CorrectArabicChars(request.VahedKhedmat)!,
         NoeMahalKhedmat = request.NoeMahalKhedmat,
@@ -556,17 +566,21 @@ app.MapPatch("/api/personnel/{id}/update", async ([FromServices] IHttpContextAcc
         return Results.NotFound(new { Error = "داده موردنظر یافت نشد." });
     }
 
-    if (string.IsNullOrWhiteSpace(request.CodeMeli) == false && request.CodeMeli.Trim().Length != 10)
+    var codeMeli = utility.ConvertPersianNumbersToEnglish(request.CodeMeli?.Trim());
+
+    if (string.IsNullOrWhiteSpace(codeMeli) == false && codeMeli.Length != 10)
     {
         return Results.BadRequest(new { Error = "فرمت کد ملی صحیح نمی‌باشد." });
     }
 
-    if (await repositoryManager.Personnel.DataIsDuplicate(request.ShomarePersonneli, request.CodeMeli, id))
+    var shomarePersonneli = utility.ConvertPersianNumbersToEnglish(request.ShomarePersonneli)!;
+
+    if (await repositoryManager.Personnel.DataIsDuplicate(shomarePersonneli, codeMeli, id))
     {
         return Results.UnprocessableEntity(new { Error = "شماره پرسنلی و کد ملی پرسنل باید منحصر به فرد باشند." });
     }
 
-    personnel.CodeMeli = request.CodeMeli?.Trim();
+    personnel.CodeMeli = codeMeli;
     personnel.EblaghDakheliAsliId = request.EblaghDakheliAsliId;
     personnel.FirstName = utility.CorrectArabicChars(request.FirstName)!;
     personnel.LastName = utility.CorrectArabicChars(request.LastName)!;
@@ -580,7 +594,7 @@ app.MapPatch("/api/personnel/{id}/update", async ([FromServices] IHttpContextAcc
     personnel.ReshteShoghliId = request.ReshteShoghliId;
     personnel.ReshteTahsiliId = request.ReshteTahsiliId;
     personnel.SayerSematha = utility.CorrectArabicChars(request.SayerSematha)!;
-    personnel.ShomarePersonneli = request.ShomarePersonneli;
+    personnel.ShomarePersonneli = shomarePersonneli;
     personnel.TarikhAghazKhedmat = request.TarikhAghazKhedmat;
     personnel.VahedKhedmat = utility.CorrectArabicChars(request.VahedKhedmat)!;
     personnel.NoeMahalKhedmat = request.NoeMahalKhedmat;
@@ -590,7 +604,31 @@ app.MapPatch("/api/personnel/{id}/update", async ([FromServices] IHttpContextAcc
     return Results.NoContent();
 });
 
-// Delete
+app.MapDelete("/api/personnel/{id}/delete", async ([FromServices] IHttpContextAccessor httpContextAccessor, [FromServices] RepositoryManager repositoryManager, [FromServices] TokenManager tokenManager, [FromRoute] Guid id) => {
+
+    MyUtility utility = new();
+
+    UserRequestAccessResult userRequestAccessResult = await utility.CheckUserAccess(httpContextAccessor.HttpContext!, repositoryManager, null);
+
+    if (userRequestAccessResult.HasAccess == false)
+    {
+        return Results.Json(new { userRequestAccessResult.Error, userRequestAccessResult.Act }, statusCode: userRequestAccessResult.StatusCode);
+    }
+
+    Personnel? personnel = await repositoryManager.Personnel.GetById(true, id);
+
+    if (personnel == null)
+    {
+        return Results.NotFound(new { Error = "داده موردنظر یافت نشد." });
+    }
+
+    personnel.DeletedAt = DateTime.UtcNow;
+    personnel.DeletedBy = tokenManager.GetUserIdFromTokenClaims(httpContextAccessor.HttpContext!)!;
+
+    await repositoryManager.SaveAsync();
+
+    return Results.NoContent();
+});
 
 #endregion Personnel Endpoints
 

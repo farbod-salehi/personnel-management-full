@@ -6,6 +6,7 @@ import { InitInfoItemComponent } from './init-info/init-info-item/init-info-item
 import { InitInfoListComponent } from './init-info/init-info-list/init-info-list.component';
 import { AuthGuard } from './shared/auth.guard';
 import { PersonnelItemComponent } from './personnel/personnel-item/personnel-item.component';
+import { ChangeMyPasswordComponent } from './change-my-password/change-my-password.component';
 
 export const routeNamePath = {
   personnelListForm: 'personnels',
@@ -13,6 +14,7 @@ export const routeNamePath = {
   initInfoItemForm: 'initinfo',
   initInfoListForm: 'initinfo-list',
   loginForm: 'login',
+  changePasswordForm: 'changepassword',
 };
 
 export const routes: Routes = [
@@ -46,6 +48,11 @@ export const routes: Routes = [
   {
     path: `${routeNamePath.initInfoItemForm}/:type`,
     component: InitInfoItemComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: `${routeNamePath.changePasswordForm}`,
+    component: ChangeMyPasswordComponent,
     canActivate: [AuthGuard],
   },
 ];

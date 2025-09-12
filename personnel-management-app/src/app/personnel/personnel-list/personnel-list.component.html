@@ -1,1 +1,136 @@
-<p>personnel-list works!</p>
+<mat-card class="mat-card" appearance="outlined" style="width: 850px">
+  <mat-card-header class="mat-card-header">
+    <mat-card-title class="mat-card-title"> فهرست کارکنان</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="mat-card-content container-vertical">
+    <app-button-loader
+      text="جدید"
+      iconName="add"
+      [routerLink]="['/', route_NamePath.personnelItemForm]"
+    ></app-button-loader>
+    <app-error-message-box
+      [text]="errorMessage()"
+      style="width: 80%; margin: 20px 0px"
+    ></app-error-message-box>
+
+    <div class="container-horizontal" style="width: 100%; margin: 30px 0px">
+      <mat-form-field
+        class="mat-form-field form-field"
+        appearance="outline"
+        floatLabel="always"
+        style="width: 50%"
+      >
+        <mat-label>جستجوی نام، شماره پرسنلی یا کد ملی </mat-label>
+        <input matInput [(ngModel)]="searchQuery" class="rtl" />
+      </mat-form-field>
+      <div style="margin-right: 30px; margin-top: 12px">
+        <app-button-loader text="جستجو" iconName="search" (click)="search(1)">
+        </app-button-loader>
+      </div>
+    </div>
+    @if(list() && list().length > 0) {
+
+    <table mat-table [dataSource]="list()" class="mat-elevation-z8">
+      <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+
+      <ng-container matColumnDef="No">
+        <th mat-header-cell *matHeaderCellDef class="mat-table-header">ردیف</th>
+        <td mat-cell *matCellDef="let element" class="mat-table-row">
+          {{ element.rowNumber | faNum }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef class="mat-table-header">نام</th>
+        <td mat-cell *matCellDef="let element" class="mat-table-row">
+          {{ element.name }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="shomarePersonneli">
+        <th mat-header-cell *matHeaderCellDef class="mat-table-header">
+          شماره پرسنلی
+        </th>
+        <td mat-cell *matCellDef="let element" class="mat-table-row">
+          {{ element.shomarePersonneli | faNum }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="codeMeli">
+        <th mat-header-cell *matHeaderCellDef class="mat-table-header">
+          کد ملی
+        </th>
+        <td mat-cell *matCellDef="let element" class="mat-table-row">
+          {{ element.codeMeli | faNum }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element" class="mat-table-row">
+          <div
+            class="container-horizontal"
+            style="justify-content: flex-end; gap: 20px"
+          >
+            <app-button-loader
+              text="ویرایش"
+              iconName="edit"
+              color="yellow"
+              [routerLink]="['/', route_NamePath.personnelItemForm, element.id]"
+            >
+            </app-button-loader>
+            <app-button-loader
+              text="حذف"
+              iconName="delete"
+              color="red"
+              (blClick)="confirmDelete(element.id)"
+            >
+            </app-button-loader>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    @if(pagesCount() > 1) {
+
+    <div
+      class="container-horizontal"
+      style="width: 100%; text-align: center; margin-top: 25px"
+    >
+      <button
+        (click)="search(pageNumber() - 1)"
+        mat-icon-button
+        style="margin-top: -8px"
+        [disabled]="pageNumber() === 1"
+      >
+        <mat-icon>navigate_next</mat-icon>
+      </button>
+      &nbsp;
+      <div>
+        صفحه &nbsp;
+        {{ pageNumber() | faNum }}
+        &nbsp; از &nbsp;
+        {{ pagesCount() | faNum }}
+        &nbsp;
+      </div>
+      &nbsp;
+      <button
+        (click)="search(pageNumber() + 1)"
+        mat-icon-button
+        style="margin-top: -8px"
+        [disabled]="pageNumber() === pagesCount()"
+      >
+        <mat-icon>navigate_before</mat-icon>
+      </button>
+    </div>
+
+    } } @else {
+    <app-error-message-box
+      style="width: 100%"
+      text="داده‌ای برای نمایش وجود ندارد."
+      color="yellow"
+    ></app-error-message-box>
+    }
+  </mat-card-content>
+</mat-card>

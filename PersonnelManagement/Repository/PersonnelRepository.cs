@@ -16,7 +16,7 @@ namespace Repository
         {
             var queryable = Find(trackChanges,
                 x => 
-                (string.IsNullOrWhiteSpace(searchQuery) || x.ShomarePersonneli.Contains(searchQuery) || x.FirstName.Contains(searchQuery) || x.LastName.Contains(searchQuery)) &&              
+                (string.IsNullOrWhiteSpace(searchQuery) || x.ShomarePersonneli.Contains(searchQuery) || (x.CodeMeli != null && x.CodeMeli.Contains(searchQuery)) || (x.FirstName + " " + x.LastName).Contains(searchQuery)) &&              
                 x.DeletedAt == null,
                 null,
                 x => x.OrderBy(y => (y.LastName + y.FirstName)));
@@ -30,7 +30,7 @@ namespace Repository
                 queryable = includes(queryable);
             }
 
-            return (await queryable.Skip((page - 1) * count).Take(count).ToListAsync(), pagesCount);
+            return (await (queryable.Skip((page - 1) * count).Take(count)).ToListAsync(), pagesCount);
 
         }
 

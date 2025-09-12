@@ -3,19 +3,10 @@
     <mat-card-title class="mat-card-title"> فهرست اطلاعات پایه</mat-card-title>
   </mat-card-header>
   <mat-card-content class="mat-card-content container-vertical">
-    <app-button-loader
-      text="جدید"
-      iconName="add"
-      [routerLink]="['/', route_NamePath.initInfoItemForm, selectedTypeId]"
-    ></app-button-loader>
-    <app-error-message-box
-      [text]="errorMessage()"
-      style="width: 80%; margin: 20px 0px"
-    ></app-error-message-box>
     <mat-form-field
       class="mat-form-field"
       appearance="outline"
-      style="margin-top: 15px; width: 50%"
+      style="margin: 15px 0px; width: 50%"
       floatLabel="always"
     >
       <mat-label> نوع اطلاعات پایه</mat-label>
@@ -30,6 +21,15 @@
         }
       </mat-select>
     </mat-form-field>
+    <app-button-loader
+      text="جدید"
+      iconName="add"
+      [routerLink]="['/', route_NamePath.initInfoItemForm, selectedTypeId]"
+    ></app-button-loader>
+    <app-error-message-box
+      [text]="errorMessage()"
+      style="width: 100%; margin: 20px 0px"
+    ></app-error-message-box>
 
     @if(list() && list().length > 0) {
 
