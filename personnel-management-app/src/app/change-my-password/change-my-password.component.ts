@@ -1,9 +1,6 @@
 import {
   Component,
-  DestroyRef,
-  model,
   QueryList,
-  signal,
   ViewChildren,
 } from '@angular/core';
 import { NgModel } from '@angular/forms';
@@ -22,20 +19,30 @@ import { SharedModule } from '../shared/shared.module';
 export class ChangeMyPasswordComponent extends BaseComponent {
   @ViewChildren(NgModel) controls!: QueryList<NgModel>;
 
-  currentPassword = model<string>('');
-  newPassword = model<string>('');
-  confirmNewPassword = model<string>('');
+  currentPassword = '';
+  newPassword = '';
+  confirmNewPassword = '';
+
 
   onSave() {
+
+    this.errorMessage.set('');
+
     this.markAllControlsTouched(this.controls.toArray());
 
     const isFormValid = this.areAllControlsValid(this.controls.toArray());
 
     if (isFormValid) {
+
+      if (this.confirmNewPassword !== this.newPassword) {
+        this.errorMessage.set('کلمه عبور جدید و تکرار آن باید یکشان باشند.');
+        return;
+      }
+
       const parameters = {
-        newPassword: this.newPassword(),
-        confirmPassword: this.confirmNewPassword(),
-        currentPassword: this.currentPassword(),
+        newPassword: this.newPassword,
+        confirmPassword: this.confirmNewPassword,
+        currentPassword: this.currentPassword,
       };
 
       this.isLoading.set(true);
@@ -59,9 +66,9 @@ export class ChangeMyPasswordComponent extends BaseComponent {
               'تغییر کلمه عبور با موفقیت انجام شد.',
               'متوجه شدم'
             );
-            this.newPassword.set('');
-            this.currentPassword.set('');
-            this.confirmNewPassword.set('');
+
+            this.router.navigate(['/']);
+
           },
           error: (errorObj: any) => {
             this.handleError(errorObj);

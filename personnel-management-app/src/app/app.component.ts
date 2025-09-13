@@ -10,6 +10,8 @@ import { AuthInfo } from './models/authInfo.model';
 import { UIService } from './shared/ui.service';
 import { BaseComponent } from './shared/base.component';
 import { InitInfoType } from './models/initInfoType.model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { finalize } from 'rxjs';
 
 
 @Component({
@@ -40,6 +42,45 @@ export class AppComponent extends BaseComponent {
     effect(() => {
       const info = this.uiService.userInfoSignal();
       this.authInfo.set(info);
+    });
+  }
+
+  signout() {
+    const dialogRef = this.openDialog(
+      'تایید',
+      'آیا می خواهید از برنامه خارج شوید؟'
+    );
+
+    dialogRef.afterClosed().subscribe((result: 'yes' | 'no') => {
+      if (result === 'yes') {
+        const modalLoader = this.openModalLoader();
+
+    this.httpService
+      .request(
+        '/api/signout/',
+        'POST',
+        null,
+        this.storageService.getAuthInfo()?.token
+      )
+      .pipe(
+        takeUntilDestroyed(this.destroyRef), // auto-unsubscribe on destroy
+        finalize(() => {
+          modalLoader.close();
+        })
+      )
+      .subscribe({
+        next: async (data: any) => {
+          this.storageService.clearAuthInfo();
+
+          this.uiService.UpdateUserInfo(undefined);
+
+          this.router.navigate([routeNamePath.loginForm]);
+        },
+        error: (errorObj: any) => {
+          this.handleError(errorObj);
+        },
+      });
+      }
     });
   }
 

@@ -2,7 +2,7 @@
   @if(authInfo()) {
   <mat-sidenav mode="side" opened>
     <mat-list class="menu">
-      <mat-list-item style="cursor: pointer">
+      <mat-list-item style="cursor: pointer" [routerLink]="route_NamePath.personnelListForm">
         <mat-icon
           aria-hidden="false"
           aria-label="Group icon"
@@ -39,7 +39,7 @@
         &nbsp; اطلاعات پایه
       </mat-list-item>
       <mat-divider></mat-divider>
-      <mat-list-item style="cursor: pointer">
+      <mat-list-item style="cursor: pointer" [routerLink]="route_NamePath.changePasswordForm">
         <mat-icon
           aria-hidden="false"
           aria-label="Password icon"

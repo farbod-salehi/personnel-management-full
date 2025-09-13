@@ -1,9 +1,9 @@
 mat-sidenav {
-  width: 250px;
+  width: 200px;
 }
 
 .menu {
-  margin: 10px 20px;
+  margin: 35px 10px;
   color: cadetblue;
   font-weight: bold;
 }
