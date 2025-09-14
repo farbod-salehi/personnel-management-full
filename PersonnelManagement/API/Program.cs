@@ -778,6 +778,18 @@ app.MapPatch("/api/users/{id}/update", async ([FromServices] UserManager<User> u
 
 #endregion User Endpoints
 
+#region Report Endpoints
+
+app.MapGet("/api/report/personnel", async ([FromServices] IHttpContextAccessor httpContextAccessor, [FromServices] RepositoryManager repositoryManager,
+                                                  [FromQuery] Guid? cityId, [FromQuery] Guid? mojtameId, [FromQuery] bool? isMale, [FromQuery] bool? isSetad,
+                                                  [FromQuery] int? noeMahalKhedmat) =>
+{
+
+    return Results.Ok();
+});
+
+#endregion Report Endpoints
+
 app.MapGet("/api/test", () => {return Results.Ok("Hello Farbod!");});
 
 app.Run();

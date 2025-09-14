@@ -34,6 +34,17 @@ namespace Repository
 
         }
 
+        public async Task<List<Personnel>> GetReport(Guid? cityId, Guid? mojtameId, bool? isMale, bool? isSetad, int? noeMahalKhedmat)
+        {
+            return await Find(false, x =>
+                    (cityId == null || x.ShahrMahalKhedmatId == cityId) && (mojtameId == null || x.MojtameGhazaiyId == mojtameId) &&
+                    (isMale == null || x.IsMale == isMale) && (isSetad == null || x.IsSetad == isSetad) &&
+                    (noeMahalKhedmat == null || x.NoeMahalKhedmat == noeMahalKhedmat) && x.DeletedAt == null,
+               x => x.Include(y => y.EblaghDakheli).Include(y => y.MadrakTahsili).Include(y => y.MojtameGhazaiy).Include(y => y.NoeEstekhdam).
+                      Include(y => y.Post).Include(y => y.ReshteShoghli).Include(y => y.ReshteTahsili).Include(y => y.ShahrMahalKhedmat),
+               x => x.OrderBy(y => (y.LastName + y.FirstName))).ToListAsync();
+        }
+
         public async Task<Personnel?> GetById(bool trackChanges, Guid id)
         {
             return await Find(trackChanges, x => x.Id.Equals(id) && x.DeletedAt == null).FirstOrDefaultAsync();

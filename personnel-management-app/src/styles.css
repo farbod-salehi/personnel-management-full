@@ -136,3 +136,19 @@ body {
   text-align: center;
   color: gold;
 }
+
+.input-row {
+  justify-content: flex-start;
+  width: 100%;
+  gap: 10%;
+  margin-top: 20px;
+}
+
+.form-field {
+  width: 45%;
+}
+
+.input-row-simple {
+  margin-top: 20px;
+  width: 100%;
+}
