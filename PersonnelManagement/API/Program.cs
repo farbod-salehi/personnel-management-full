@@ -784,8 +784,66 @@ app.MapGet("/api/report/personnel", async ([FromServices] IHttpContextAccessor h
                                                   [FromQuery] Guid? cityId, [FromQuery] Guid? mojtameId, [FromQuery] bool? isMale, [FromQuery] bool? isSetad,
                                                   [FromQuery] int? noeMahalKhedmat) =>
 {
+    MyUtility utility = new();
 
-    return Results.Ok();
+    UserRequestAccessResult userRequestAccessResult = await utility.CheckUserAccess(httpContextAccessor.HttpContext!, repositoryManager, [(int)Constances.UserRole.admin, (int)Constances.UserRole.manager]);
+
+    if (userRequestAccessResult.HasAccess == false)
+    {
+        return Results.Json(new { userRequestAccessResult.Error, userRequestAccessResult.Act }, statusCode: userRequestAccessResult.StatusCode);
+    }
+
+    List<Personnel> personnelList = await repositoryManager.Personnel.GetReport(cityId, mojtameId,isMale, isSetad, noeMahalKhedmat);
+
+    const int columnsCount = 19;
+
+    string[,] excelContent = new string[personnelList.Count + 1, columnsCount];
+
+    string[] headerRow = ["ردیف","نام خانوادگی","نام","شماره پرسنلی","کد ملی","ابلاغ داخلی اصلی","سایر سمت‌ها","واحد خدمت","صف/ستاد","جنسیت","مدرک تحصیلی",
+                          "رشته تحصیلی","نوع استخدام","پست","رشته شغلی","شهر محل خدمت","مجتمع قضائی","تاریخ آغاز خدمت","نوع محل خدمت"];
+
+    // generate header
+    for (int col = 0; col < columnsCount; col++)
+    {
+        excelContent[0, col] = headerRow[col];
+    }
+
+    for (int row = 1; row < personnelList.Count; row++)
+    {
+        excelContent[row, 0] = row.ToString();
+        excelContent[row, 1] = personnelList[row - 1].LastName;
+        excelContent[row, 2] = personnelList[row - 1].FirstName;
+        excelContent[row, 3] = personnelList[row - 1].ShomarePersonneli;
+        excelContent[row, 4] = personnelList[row - 1].CodeMeli ?? "";
+        excelContent[row, 5] = personnelList[row - 1].EblaghDakheli?.Title ?? "";
+        excelContent[row, 6] = personnelList[row - 1].SayerSematha ?? "";
+        excelContent[row, 7] = personnelList[row - 1].VahedKhedmat ?? "";
+        excelContent[row, 8] = personnelList[row - 1].IsSetad ? "ستاد" : "صف";
+        excelContent[row, 9] = personnelList[row - 1].IsMale ? "مرد" : "زن";
+        excelContent[row, 10] = personnelList[row - 1].MadrakTahsili?.Title ?? "";
+        excelContent[row, 11] = personnelList[row - 1].ReshteTahsili?.Title ?? "";
+        excelContent[row, 12] = personnelList[row - 1].NoeEstekhdam?.Title ?? "";
+        excelContent[row, 13] = personnelList[row - 1].Post?.Title ?? "";
+        excelContent[row, 14] = personnelList[row - 1].ReshteShoghli?.Title ?? "";
+        excelContent[row, 15] = personnelList[row - 1].ShahrMahalKhedmat?.Title ?? "";
+        excelContent[row, 16] = personnelList[row - 1].MojtameGhazaiy?.Title ?? "";
+        excelContent[row, 17] = personnelList[row - 1].TarikhAghazKhedmat ?? "";
+        excelContent[row, 18] = personnelList[row - 1].NoeMahalKhedmat == 1 ? "دادگاه" : (personnelList[row - 1].NoeMahalKhedmat == 2 ? "دادسرا" : "سایر");
+    }
+
+    return Results.Ok(new
+    {
+        list = personnelList.Select(x => new
+        {
+            x.Id,
+            x.FirstName,
+            x.LastName,
+            x.ShomarePersonneli,
+            x.CodeMeli,
+            CreatedAt = new PersianDateTime((DateTime)x.CreatedAt)
+        }),
+       
+    });
 });
 
 #endregion Report Endpoints
