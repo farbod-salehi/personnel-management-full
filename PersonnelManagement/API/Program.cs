@@ -781,8 +781,8 @@ app.MapPatch("/api/users/{id}/update", async ([FromServices] UserManager<User> u
 #region Report Endpoints
 
 app.MapGet("/api/report/personnel", async ([FromServices] IHttpContextAccessor httpContextAccessor, [FromServices] RepositoryManager repositoryManager,
-                                                  [FromQuery] Guid? cityId, [FromQuery] Guid? mojtameId, [FromQuery] bool? isMale, [FromQuery] bool? isSetad,
-                                                  [FromQuery] int? noeMahalKhedmat) =>
+                                                  [FromQuery] Guid? cityId = null, [FromQuery] Guid? mojtameId = null, [FromQuery] bool? isMale = null, [FromQuery] bool? isSetad = null,
+                                                  [FromQuery] int? noeMahalKhedmat = null) =>
 {
     MyUtility utility = new();
 
@@ -808,7 +808,7 @@ app.MapGet("/api/report/personnel", async ([FromServices] IHttpContextAccessor h
         excelContent[0, col] = headerRow[col];
     }
 
-    for (int row = 1; row < personnelList.Count; row++)
+    for (int row = 1; row <= personnelList.Count; row++)
     {
         excelContent[row, 0] = row.ToString();
         excelContent[row, 1] = personnelList[row - 1].LastName;
@@ -831,19 +831,9 @@ app.MapGet("/api/report/personnel", async ([FromServices] IHttpContextAccessor h
         excelContent[row, 18] = personnelList[row - 1].NoeMahalKhedmat == 1 ? "دادگاه" : (personnelList[row - 1].NoeMahalKhedmat == 2 ? "دادسرا" : "سایر");
     }
 
-    return Results.Ok(new
-    {
-        list = personnelList.Select(x => new
-        {
-            x.Id,
-            x.FirstName,
-            x.LastName,
-            x.ShomarePersonneli,
-            x.CodeMeli,
-            CreatedAt = new PersianDateTime((DateTime)x.CreatedAt)
-        }),
-       
-    });
+    return Results.File(new Excel().GenerateAndReturn(excelContent), 
+                        contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        fileDownloadName: $"report-personnel-{DateTime.Now.ToShortDateString()}-{DateTime.Now.ToShortTimeString()}.xlsx");
 });
 
 #endregion Report Endpoints
