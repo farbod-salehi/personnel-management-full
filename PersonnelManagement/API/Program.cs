@@ -833,7 +833,7 @@ app.MapGet("/api/report/personnel", async ([FromServices] IHttpContextAccessor h
 
     return Results.File(new Excel().GenerateAndReturn(excelContent), 
                         contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                        fileDownloadName: $"report-personnel-{DateTime.Now.ToShortDateString()}-{DateTime.Now.ToShortTimeString()}.xlsx");
+                        fileDownloadName: $"report.xlsx");
 });
 
 #endregion Report Endpoints

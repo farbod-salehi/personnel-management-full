@@ -1,0 +1,61 @@
+<mat-card class="mat-card" appearance="outlined" style="width: 850px">
+  <mat-card-header class="mat-card-header">
+    <mat-card-title class="mat-card-title">
+      گزارش فهرست پرسنل
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="mat-card-content container-vertical">
+
+    <app-error-message-box [text]="errorMessage()" style="width: 100%; margin: 20px auto"></app-error-message-box>
+
+
+    <div class="container-horizontal input-row">
+      <mat-form-field class="mat-form-field form-field" appearance="outline" floatLabel="always">
+        <mat-label>شهر محل خدمت </mat-label>
+        <mat-select [(ngModel)]="selectedCityId">
+          <mat-option value="" disabled="true"> همه موارد </mat-option>
+          @if (isInitLoading() === false) { @for (info of initInfoList |
+          filterInitInfoByType:initInfoTypesItems.ShahrMahalKhedmat; track info.id) {
+          <mat-option [value]="info.id">{{ info.title }}</mat-option>
+          } }
+        </mat-select>
+
+      </mat-form-field>
+      <mat-form-field class="mat-form-field form-field" appearance="outline" floatLabel="always">
+        <mat-label>مجتمع قضایی</mat-label>
+        <mat-select [(ngModel)]="selectedMogtameGhazaiyId">
+          <mat-option value=""> همه موارد </mat-option>
+          @if (isInitLoading() === false) { @for (info of initInfoList |
+          filterInitInfoByType:initInfoTypesItems.MojtameGhazaiy; track info.id) {
+          <mat-option [value]="info.id">{{ info.title }}</mat-option>
+          } }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="container-horizontal" style="margin-top:30px">
+      <mat-button-toggle-group [(ngModel)]="selectedGender">
+        <mat-button-toggle value="all">همه موارد</mat-button-toggle>
+        <mat-button-toggle value="man">مرد</mat-button-toggle>
+        <mat-button-toggle value="woman">زن</mat-button-toggle>
+      </mat-button-toggle-group>
+      &nbsp; &nbsp;
+      <mat-button-toggle-group [(ngModel)]="selectedWorkplaceType">
+        <mat-button-toggle value="all">همه موارد</mat-button-toggle>
+        <mat-button-toggle value="setad">ستاد</mat-button-toggle>
+        <mat-button-toggle value="saf">صف</mat-button-toggle>
+      </mat-button-toggle-group>
+      &nbsp; &nbsp;
+      <mat-button-toggle-group [(ngModel)]="selelectedWorkplace">
+        <mat-button-toggle value="all">همه موارد</mat-button-toggle>
+        <mat-button-toggle value="1">دادگاه</mat-button-toggle>
+        <mat-button-toggle value="2">دادسرا</mat-button-toggle>
+        <mat-button-toggle value="0">سایر</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <app-button-loader (click)="onGetReport()" text="دریافت فایل گزارش" [displayLoading]="isLoading()"
+      style="width: 100%; margin: 60px auto">
+    </app-button-loader>
+  </mat-card-content>
+</mat-card>
+

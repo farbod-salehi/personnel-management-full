@@ -11,7 +11,7 @@ export class HttpService {
 
   private http = inject(HttpClient);
 
-  request(apiUrl: string, method: 'GET' | 'PATCH' | 'DELETE' | 'POST', parameters: any | null = null, token: string | null = null) {
+  request(apiUrl: string, method: 'GET' | 'PATCH' | 'DELETE' | 'POST', parameters: any | null = null, token: string | null = null, responseIsArrayBuffer: boolean = false) {
 
     return this.http.request(method,`${environment.serverUrl}${apiUrl}`,{
       body: parameters,
@@ -19,6 +19,7 @@ export class HttpService {
         'Content-Type': 'application/json',
         Authorization: token ?? '',
       }),
+      responseType: responseIsArrayBuffer ? "arraybuffer" : undefined
     }).pipe(retry(2),catchError(this.handleError));
   }
 
