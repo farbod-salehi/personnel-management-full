@@ -7,12 +7,17 @@ import { NgModel } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
+import { NgxPersianModule } from 'ngx-persian';
+
 import { BaseComponent } from '../shared/base.component';
 import { SharedModule } from '../shared/shared.module';
 
 @Component({
   selector: 'app-change-my-password',
-  imports: [SharedModule],
+  imports: [
+    SharedModule,
+    NgxPersianModule
+  ],
   templateUrl: './change-my-password.component.html',
   styleUrl: './change-my-password.component.css',
 })
@@ -22,7 +27,6 @@ export class ChangeMyPasswordComponent extends BaseComponent {
   currentPassword = '';
   newPassword = '';
   confirmNewPassword = '';
-
 
   onSave() {
 
@@ -35,7 +39,7 @@ export class ChangeMyPasswordComponent extends BaseComponent {
     if (isFormValid) {
 
       if (this.confirmNewPassword !== this.newPassword) {
-        this.errorMessage.set('کلمه عبور جدید و تکرار آن باید یکشان باشند.');
+        this.errorMessage.set('کلمه عبور جدید و تکرار آن باید یکسان باشند.');
         return;
       }
 

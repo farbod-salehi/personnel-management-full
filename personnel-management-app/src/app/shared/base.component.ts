@@ -21,13 +21,18 @@ export abstract class BaseComponent {
   private dialog = inject(MatDialog);
   private _snackBar = inject(MatSnackBar);
 
+  protected passwordsMinLength = 6;
+
   handleError(errorObj: any) {
+    console.log(errorObj);
     if (errorObj.status === 401 && errorObj.error.act === 'login') {
       this.storageService.clearAuthInfo();
       this.router.navigate([routeNamePath.loginForm]);
     }
     if (errorObj.status === 403 && errorObj.error.act === 'message') {
       this.openSnackBar('شما مجوز دسترسی به این بخش را ندارید', 'متوجه شدم');
+    } if (errorObj.status === 404 && !errorObj.error) {
+      this.errorMessage.set('مقصد درخواست ارسالی یافت نشد.');
     } else if (errorObj.status === 0) {
       this.errorMessage.set(
         'خطای نامشخصی اتفاق افتاده است. ارتباط شبکه را بررسی نمایید.'

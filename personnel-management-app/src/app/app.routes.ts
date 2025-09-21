@@ -8,6 +8,8 @@ import { AuthGuard } from './shared/auth.guard';
 import { PersonnelItemComponent } from './personnel/personnel-item/personnel-item.component';
 import { ChangeMyPasswordComponent } from './change-my-password/change-my-password.component';
 import { PersonnelReportComponent } from './report/personnel-report/personnel-report.component';
+import { UserItemComponent } from './user/user-item/user-item.component';
+import { UserListComponent } from './user/user-list/user-list.component';
 
 export const routeNamePath = {
   personnelListForm: 'personnels',
@@ -16,7 +18,9 @@ export const routeNamePath = {
   initInfoListForm: 'initinfo-list',
   loginForm: 'login',
   changePasswordForm: 'changepassword',
-  personnelReportForm: 'report/personnel'
+  personnelReportForm: 'report/personnel',
+  userItem: 'user/add',
+  usersList: 'user/list'
 };
 
 export const routes: Routes = [
@@ -60,6 +64,21 @@ export const routes: Routes = [
   {
     path: `${routeNamePath.personnelReportForm}`,
     component: PersonnelReportComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: `${routeNamePath.userItem}/:id`,
+    component: UserItemComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: `${routeNamePath.userItem}`,
+    component: UserItemComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: `${routeNamePath.usersList}`,
+    component: UserListComponent,
     canActivate: [AuthGuard],
   },
 ];

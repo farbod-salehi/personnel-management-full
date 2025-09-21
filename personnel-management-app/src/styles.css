@@ -46,7 +46,12 @@ body {
 }
 
 .mat-error {
-  font-size: 0.85em;
+  font-size: 0.80em;
+}
+
+.mat-hint {
+  font-size: 0.75em;
+  color:gray;
 }
 
 .mat-table-header {

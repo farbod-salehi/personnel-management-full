@@ -38,6 +38,13 @@
         ></mat-icon>
         &nbsp; اطلاعات پایه
       </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item style="cursor: pointer" [routerLink]="[
+                  route_NamePath.usersList
+                ]">
+          <mat-icon aria-hidden="false" aria-label="Data icon" fontIcon="perm_identity" class="menu-item-icon"></mat-icon>
+          &nbsp; کاربران
+        </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item style="cursor: pointer" [routerLink]="route_NamePath.changePasswordForm">
         <mat-icon
