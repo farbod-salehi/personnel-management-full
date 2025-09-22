@@ -10,6 +10,7 @@ import { ChangeMyPasswordComponent } from './change-my-password/change-my-passwo
 import { PersonnelReportComponent } from './report/personnel-report/personnel-report.component';
 import { UserItemComponent } from './user/user-item/user-item.component';
 import { UserListComponent } from './user/user-list/user-list.component';
+import { UserEditComponent } from './user/user-edit/user-edit.component';
 
 export const routeNamePath = {
   personnelListForm: 'personnels',
@@ -19,8 +20,9 @@ export const routeNamePath = {
   loginForm: 'login',
   changePasswordForm: 'changepassword',
   personnelReportForm: 'report/personnel',
-  userItem: 'user/add',
-  usersList: 'user/list'
+  userAddForm: 'user-add',
+  userEditForm: 'user-edit',
+  usersListForm: 'user-list'
 };
 
 export const routes: Routes = [
@@ -67,17 +69,17 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: `${routeNamePath.userItem}/:id`,
+    path: `${routeNamePath.userEditForm}/:id`,
+    component: UserEditComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: `${routeNamePath.userAddForm}`,
     component: UserItemComponent,
     canActivate: [AuthGuard],
   },
   {
-    path: `${routeNamePath.userItem}`,
-    component: UserItemComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: `${routeNamePath.usersList}`,
+    path: `${routeNamePath.usersListForm}`,
     component: UserListComponent,
     canActivate: [AuthGuard],
   },

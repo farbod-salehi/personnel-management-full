@@ -684,7 +684,7 @@ app.MapPost("/api/users/add", async ([FromServices] UserManager<User> userManage
 
 });
 
-app.MapGet("/api/users", async ([FromServices] UserManager<User> userManager, [FromServices] IHttpContextAccessor httpContextAccessor, [FromServices] RepositoryManager repositoryManager, string? query = null, int? page = 1, int? count = 10) =>
+app.MapGet("/api/users", async ([FromServices] UserManager<User> userManager, [FromServices] IHttpContextAccessor httpContextAccessor, [FromServices] RepositoryManager repositoryManager, [FromQuery]string? searchQuery = null, [FromQuery] int page = 1, [FromQuery] int count = 10) =>
 {
     MyUtility utility = new();
 
@@ -695,7 +695,7 @@ app.MapGet("/api/users", async ([FromServices] UserManager<User> userManager, [F
         return Results.Json(new { userRequestAccessResult.Error, userRequestAccessResult.Act }, statusCode: userRequestAccessResult.StatusCode);
     }
 
-    (List<User> list, int pagesCount) = await repositoryManager.User.GetList(false, (int)Constances.UserRole.admin, query, page ?? 1, count ?? 10);
+    (List<User> list, int pagesCount) = await repositoryManager.User.GetList(false, (int)Constances.UserRole.admin, searchQuery, page, count);
 
     return Results.Ok(new
     {
@@ -704,8 +704,7 @@ app.MapGet("/api/users", async ([FromServices] UserManager<User> userManager, [F
             x.Id,
             x.UserName,
             x.Title,
-            x.Active,
-            Role = Enum.GetName(typeof(Constances.UserRole), x.Role)
+            Role = (int)Constances.UserRole.user == x.Role ? "کاربر" : "مدیر"
         }).ToList(),
         pagesCount
     });

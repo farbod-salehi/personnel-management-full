@@ -75,7 +75,7 @@ export class UserItemComponent extends BaseComponent{
           this.openSnackBar('اطلاعات با موفقیت ثبت شد.', 'متوجه شدم');
 
           this.router.navigate([
-            routeNamePath.usersList
+            routeNamePath.usersListForm
           ]);
         },
         error: (errorObj: any) => {

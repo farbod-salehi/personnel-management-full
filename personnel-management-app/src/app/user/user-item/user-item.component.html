@@ -6,14 +6,14 @@
   </mat-card-header>
   <mat-card-content class="mat-card-content container-vertical">
     <app-button-loader text="فهرست" iconName="format_list_numbered_rtl"
-      [routerLink]="['/', route_NamePath.userItem]">
+      [routerLink]="['/', route_NamePath.usersListForm]">
     </app-button-loader>
     <app-error-message-box [text]="errorMessage()" style="width: 70%; margin: 20px auto"></app-error-message-box>
 
     <mat-form-field class="mat-form-field" appearance="outline"
       style="margin-inline: auto; margin-top: 15px; width: 70%" floatLabel="always">
       <mat-label> نوع حساب کاربری </mat-label>
-      <mat-select [value]="model.roleId" name="type" required>
+      <mat-select [(ngModel)]="model.roleId" name="type" required>
         @for (role of model.roles; track role.id) {
         <mat-option [value]="role.id">{{ role.title }}</mat-option>
         }
