@@ -13,7 +13,7 @@
       </mat-list-item>
 
       <mat-divider></mat-divider>
-      <mat-list-item style="cursor: pointer" [routerLink]="route_NamePath.personnelReportForm">
+      <mat-list-item style="cursor: pointer" [routerLink]="authInfo()!.role === 3 ? [] : route_NamePath.personnelReportForm" [disabled]="authInfo()!.role === 3">
         <mat-icon
           aria-hidden="false"
           aria-label="Report icon"
@@ -25,10 +25,11 @@
       <mat-divider></mat-divider>
       <mat-list-item
         style="cursor: pointer"
-        [routerLink]="[
-          route_NamePath.initInfoListForm,
+        [routerLink]="authInfo()!.role === 3 ? [] : [
+           route_NamePath.initInfoListForm,
           defaultInitInfoTypeId()
         ]"
+        [disabled]="authInfo()!.role === 3"
       >
         <mat-icon
           aria-hidden="false"
@@ -39,9 +40,9 @@
         &nbsp; اطلاعات پایه
       </mat-list-item>
         <mat-divider></mat-divider>
-        <mat-list-item style="cursor: pointer" [routerLink]="[
+        <mat-list-item style="cursor: pointer" [routerLink]="authInfo()!.role !== 1 ? [] :[
                   route_NamePath.usersListForm
-                ]">
+                ]" [disabled]="authInfo()!.role !== 1">
           <mat-icon aria-hidden="false" aria-label="Data icon" fontIcon="perm_identity" class="menu-item-icon"></mat-icon>
           &nbsp; کاربران
         </mat-list-item>

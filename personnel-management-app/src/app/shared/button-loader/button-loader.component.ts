@@ -16,6 +16,7 @@ export class ButtonLoaderComponent {
   iconName = input<string | undefined>(undefined);
   color = input<'blue' | 'yellow' | 'red'>('blue');
   displayLoading = input<boolean>(false);
+  disabled = input<boolean>(false);
 
   onClick() {
     this.blClick.emit();

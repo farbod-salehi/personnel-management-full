@@ -14,7 +14,7 @@ namespace Repository
         public async Task<(List<User> list, int count)> GetList(bool trackChanges, int? excludeRole = null, string? query = null, int page = 1, int count = 10)
         {
             var queryable = Find(trackChanges,
-                x => (query == null || x.Title.Contains(query) || x.UserName!.Contains(query)) && (excludeRole == null || x.Role != excludeRole),
+                x => (query == null || x.Title.Contains(query) || x.UserName!.Contains(query)) && (excludeRole == null || x.Role != excludeRole) && x.DeletedAt == null,
                 null,
                 x => x.OrderByDescending(y => y.CreatedAt));
 
@@ -28,7 +28,7 @@ namespace Repository
 
         public async Task<User?> GetById(bool trackChanges, string id, int? excludeRole = null)
         {
-            return await Find(trackChanges, x => x.Id.Equals(id) && (excludeRole == null || x.Role != excludeRole)).FirstOrDefaultAsync();
+            return await Find(trackChanges, x => x.Id.Equals(id) && (excludeRole == null || x.Role != excludeRole) && x.DeletedAt == null).FirstOrDefaultAsync();
         }
     }
 }

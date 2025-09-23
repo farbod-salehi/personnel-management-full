@@ -22,7 +22,7 @@
         floatLabel="always"
       >
         <mat-label>نام</mat-label>
-        <input matInput [(ngModel)]="model.firstName" required class="rtl" />
+        <input matInput [(ngModel)]="model.firstName" required class="rtl" [disabled]="authInfo!.role === 3"/>
         <mat-error class="mat-error"> نام را وارد نمایید. </mat-error>
       </mat-form-field>
       <mat-form-field
@@ -31,7 +31,7 @@
         floatLabel="always"
       >
         <mat-label>نام خانوادگی</mat-label>
-        <input matInput [(ngModel)]="model.lastName" required class="rtl" />
+        <input matInput [(ngModel)]="model.lastName" required class="rtl" [disabled]="authInfo!.role === 3" />
         <mat-error class="mat-error"> نام خانوادگی را وارد نمایید. </mat-error>
       </mat-form-field>
     </div>
@@ -42,7 +42,7 @@
         floatLabel="always"
       >
         <mat-label>کد ملی</mat-label>
-        <input matInput [(ngModel)]="model.codeMeli" class="ltr" />
+        <input matInput [(ngModel)]="model.codeMeli" class="ltr" [disabled]="authInfo!.role === 3" />
       </mat-form-field>
       <mat-form-field
         class="mat-form-field form-field"
@@ -55,6 +55,7 @@
           [(ngModel)]="model.shomarePersonneli"
           required
           class="ltr"
+          [disabled]="authInfo!.role === 3"
         />
         <mat-error class="mat-error"> شماره پرسنلی را وارد نمایید. </mat-error>
       </mat-form-field>
@@ -103,7 +104,7 @@
         floatLabel="always"
       >
         <mat-label>نوع استخدام</mat-label>
-        <mat-select [(ngModel)]="model.noeEstekhdamId">
+        <mat-select [(ngModel)]="model.noeEstekhdamId" [disabled]="authInfo!.role === 3">
           <mat-option value=""> انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
           filterInitInfoByType:initInfoTypesItems.NoeEstekhdam; track info.id) {
@@ -117,7 +118,7 @@
         floatLabel="always"
       >
         <mat-label>تاریخ آغاز خدمت </mat-label>
-        <input matInput [(ngModel)]="model.tarikhAghazKhedmat" class="ltr" />
+        <input matInput [(ngModel)]="model.tarikhAghazKhedmat" class="ltr" [disabled]="authInfo!.role === 3"/>
         <mat-hint style="text-align: left; width: 100%;">YYYY/MM/DD</mat-hint>
 
       </mat-form-field>
@@ -140,7 +141,7 @@
         floatLabel="always"
       >
         <mat-label>شهر محل خدمت </mat-label>
-        <mat-select [(ngModel)]="model.shahrMahalKhedmatId" required>
+        <mat-select [(ngModel)]="model.shahrMahalKhedmatId" required [disabled]="authInfo!.role === 3">
           <mat-option value="" disabled="true"> انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
           filterInitInfoByType:initInfoTypesItems.ShahrMahalKhedmat; track info.id) {
@@ -171,7 +172,7 @@
         floatLabel="always"
       >
         <mat-label>مدرک تحصیلی</mat-label>
-        <mat-select [(ngModel)]="model.madrakTahsiliId">
+        <mat-select [(ngModel)]="model.madrakTahsiliId" [disabled]="authInfo!.role === 3">
           <mat-option value="" > انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
           filterInitInfoByType:initInfoTypesItems.MadrakTahsili; track info.id) {
@@ -185,7 +186,7 @@
         floatLabel="always"
       >
         <mat-label>رشته تحصیلی </mat-label>
-        <mat-select [(ngModel)]="model.reshteTahsiliId">
+        <mat-select [(ngModel)]="model.reshteTahsiliId" [disabled]="authInfo!.role === 3">
           <mat-option value="" > انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
           filterInitInfoByType:initInfoTypesItems.ReshteTahsili; track info.id) {
@@ -201,7 +202,7 @@
         floatLabel="always"
       >
         <mat-label>پُست</mat-label>
-        <mat-select [(ngModel)]="model.postId">
+        <mat-select [(ngModel)]="model.postId" [disabled]="authInfo!.role === 3">
           <mat-option value="" > انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
           filterInitInfoByType:initInfoTypesItems.Post; track
@@ -216,7 +217,7 @@
         floatLabel="always"
       >
         <mat-label>رشته شغلی </mat-label>
-        <mat-select [(ngModel)]="model.reshteShoghliId">
+        <mat-select [(ngModel)]="model.reshteShoghliId" [disabled]="authInfo!.role === 3">
           <mat-option value="" > انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
           filterInitInfoByType:initInfoTypesItems.ReshteShoghli; track info.id) {
@@ -226,7 +227,7 @@
       </mat-form-field>
     </div>
     <div class="container-horizontal input-row">
-      <mat-button-toggle-group [(ngModel)]="model.isMale">
+      <mat-button-toggle-group [(ngModel)]="model.isMale" [disabled]="authInfo!.role === 3">
         <mat-button-toggle value="true">مرد</mat-button-toggle>
         <mat-button-toggle value="false">زن</mat-button-toggle>
       </mat-button-toggle-group>

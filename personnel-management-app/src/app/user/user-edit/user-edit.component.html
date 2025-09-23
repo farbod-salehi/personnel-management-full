@@ -1,1 +1,60 @@
-<p>user-edit works!</p>
+<mat-card class="mat-card" appearance="outlined" style="width: 600px">
+  <mat-card-header class="mat-card-header">
+    <mat-card-title class="mat-card-title">
+      ویرایش حساب کاربری جدید
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="mat-card-content container-vertical">
+    <app-button-loader text="فهرست" iconName="format_list_numbered_rtl"
+      [routerLink]="['/', route_NamePath.usersListForm]">
+    </app-button-loader>
+    <app-error-message-box [text]="errorMessage()" style="width: 70%; margin: 20px auto"></app-error-message-box>
+    <mat-form-field class="mat-form-field" appearance="outline" style="margin-inline: auto; margin-top: 15px; width: 70%"
+      floatLabel="always">
+      <mat-label>نام کاربری</mat-label>
+      <input matInput [value]="model.username" required class="ltr" disabled="true" />
+      <mat-error class="mat-error"> نام کاربری را وارد نمایید. </mat-error>
+    </mat-form-field>
+    <mat-form-field class="mat-form-field" appearance="outline"
+      style="margin-inline: auto; margin-top: 15px; width: 70%" floatLabel="always">
+      <mat-label> نوع حساب کاربری </mat-label>
+      <mat-select [(ngModel)]="model.roleId" name="type" required>
+        @for (role of model.roles; track role.id) {
+        <mat-option [value]="role.id">{{ role.title }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="mat-form-field" appearance="outline"
+      style="margin-inline: auto; margin-top: 15px; width: 70%" floatLabel="always">
+      <mat-label>نام و نام خانوادگی</mat-label>
+      <input matInput [(ngModel)]="model.title" required class="rtl" />
+      <mat-error class="mat-error"> نام و نام خانوادگی را وارد نمایید. </mat-error>
+    </mat-form-field>
+    <div style="margin-inline: auto;width: 70%">
+      <mat-checkbox class="example-margin" [(ngModel)]="model.passwordShouldChange">
+        <span style="color: #005cbb;">نیاز به کلمه عبور جدید</span>
+
+      </mat-checkbox>
+    </div>
+    @if(model.passwordShouldChange) {
+      <mat-form-field class="mat-form-field" appearance="outline" style="margin-inline: auto; margin-top: 15px; width: 70%"
+        floatLabel="always">
+        <mat-label>
+          کلمه عبور جدید
+          (حداقل
+          {{passwordsMinLength | faNum}}
+          کاراکتر)
+        </mat-label>
+        <input matInput [(ngModel)]="model.password" minlength="passwordsMinLength" class="ltr" type="password" />
+
+        <mat-error class="mat-error"> کلمه عبور جدید را وارد نمایید. </mat-error>
+      </mat-form-field>
+    }
+
+    <app-button-loader (click)="onSave()" text="ثبت" [displayLoading]="isLoading()"
+      style="width: 70%; margin: 20px auto">
+    </app-button-loader>
+  </mat-card-content>
+</mat-card>
+

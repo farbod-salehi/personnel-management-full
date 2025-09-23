@@ -6,7 +6,8 @@
     <app-button-loader
       text="جدید"
       iconName="add"
-      [routerLink]="['/', route_NamePath.personnelItemForm]"
+       [disabled]="authInfo?.role === 3"
+      [routerLink]="authInfo?.role === 3 ? [] : ['/', route_NamePath.personnelItemForm]"
     ></app-button-loader>
     <app-error-message-box
       [text]="errorMessage()"
@@ -82,6 +83,7 @@
               text="حذف"
               iconName="delete"
               color="red"
+              [disabled]="authInfo?.role === 3"
               (blClick)="confirmDelete(element.id)"
             >
             </app-button-loader>

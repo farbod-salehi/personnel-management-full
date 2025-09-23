@@ -36,7 +36,7 @@ export class UserListComponent extends BaseComponent {
   route = inject(ActivatedRoute);
 
   searchQuery = signal<string>('');
-  pageLength = signal<number>(2);
+  pageLength = signal<number>(20);
   pageNumber = signal<number>(1);
   pagesCount = signal<number>(1);
 

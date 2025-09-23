@@ -473,7 +473,7 @@ app.MapPost("/api/personnel/add", async ([FromServices] IHttpContextAccessor htt
 {
     MyUtility utility = new();
 
-    UserRequestAccessResult userRequestAccessResult = await utility.CheckUserAccess(httpContextAccessor.HttpContext!, repositoryManager, null);
+    UserRequestAccessResult userRequestAccessResult = await utility.CheckUserAccess(httpContextAccessor.HttpContext!, repositoryManager, [(int)Constances.UserRole.admin, (int)Constances.UserRole.manager]);
 
     if (userRequestAccessResult.HasAccess == false)
     {
@@ -580,22 +580,29 @@ app.MapPatch("/api/personnel/{id}/update", async ([FromServices] IHttpContextAcc
         return Results.UnprocessableEntity(new { Error = "شماره پرسنلی و کد ملی پرسنل باید منحصر به فرد باشند." });
     }
 
-    personnel.CodeMeli = codeMeli;
+    var userRoles = utility.GetUserRoles(httpContextAccessor.HttpContext!);
+
+    if (Convert.ToInt32(userRoles![0]) != (int)Constances.UserRole.user)
+    {
+        personnel.CodeMeli = codeMeli;
+        personnel.FirstName = utility.CorrectArabicChars(request.FirstName)!;
+        personnel.LastName = utility.CorrectArabicChars(request.LastName)!;
+        personnel.IsMale = request.IsMale;
+        personnel.MadrakTahsiliId = request.MadrakTahsiliId;
+        personnel.ShahrMahalKhedmatId = request.ShahrMahalKhedmatId;
+        personnel.NoeEstekhdamId = request.NoeEstekhdamId;
+        personnel.PostId = request.PostId;
+        personnel.ReshteShoghliId = request.ReshteShoghliId;
+        personnel.ReshteTahsiliId = request.ReshteTahsiliId;
+        personnel.ShomarePersonneli = shomarePersonneli;
+        personnel.TarikhAghazKhedmat = request.TarikhAghazKhedmat;
+    }
+
+  
     personnel.EblaghDakheliAsliId = request.EblaghDakheliAsliId;
-    personnel.FirstName = utility.CorrectArabicChars(request.FirstName)!;
-    personnel.LastName = utility.CorrectArabicChars(request.LastName)!;
-    personnel.IsMale = request.IsMale;
     personnel.IsSetad = request.IsSetad;
-    personnel.MadrakTahsiliId = request.MadrakTahsiliId;
-    personnel.ShahrMahalKhedmatId = request.ShahrMahalKhedmatId;
     personnel.MojtameGhazaiyId = request.MojtameGhazaiyId;
-    personnel.NoeEstekhdamId = request.NoeEstekhdamId;
-    personnel.PostId = request.PostId;
-    personnel.ReshteShoghliId = request.ReshteShoghliId;
-    personnel.ReshteTahsiliId = request.ReshteTahsiliId;
     personnel.SayerSematha = utility.CorrectArabicChars(request.SayerSematha)!;
-    personnel.ShomarePersonneli = shomarePersonneli;
-    personnel.TarikhAghazKhedmat = request.TarikhAghazKhedmat;
     personnel.VahedKhedmat = utility.CorrectArabicChars(request.VahedKhedmat)!;
     personnel.NoeMahalKhedmat = request.NoeMahalKhedmat;
 
@@ -608,7 +615,7 @@ app.MapDelete("/api/personnel/{id}/delete", async ([FromServices] IHttpContextAc
 
     MyUtility utility = new();
 
-    UserRequestAccessResult userRequestAccessResult = await utility.CheckUserAccess(httpContextAccessor.HttpContext!, repositoryManager, null);
+    UserRequestAccessResult userRequestAccessResult = await utility.CheckUserAccess(httpContextAccessor.HttpContext!, repositoryManager, [(int)Constances.UserRole.admin, (int)Constances.UserRole.manager]);
 
     if (userRequestAccessResult.HasAccess == false)
     {
@@ -662,7 +669,7 @@ app.MapPost("/api/users/add", async ([FromServices] UserManager<User> userManage
 
     var user = await userManager.FindByNameAsync(username);
 
-    if (user != null)
+    if (user != null && user.DeletedAt == null)
         return Results.UnprocessableEntity(new { Error = "این نام کاربری قبلا ثبت شده است" });
 
 
@@ -773,6 +780,32 @@ app.MapPatch("/api/users/{id}/update", async ([FromServices] UserManager<User> u
 
     return Results.NoContent();
 
+});
+
+app.MapDelete("/api/users/{id}/delete", async ([FromServices] IHttpContextAccessor httpContextAccessor, [FromServices] RepositoryManager repositoryManager, [FromServices] TokenManager tokenManager, [FromRoute] string id) => {
+
+    MyUtility utility = new();
+
+    UserRequestAccessResult userRequestAccessResult = await utility.CheckUserAccess(httpContextAccessor.HttpContext!, repositoryManager, [(int)Constances.UserRole.admin]);
+
+    if (userRequestAccessResult.HasAccess == false)
+    {
+        return Results.Json(new { userRequestAccessResult.Error, userRequestAccessResult.Act }, statusCode: userRequestAccessResult.StatusCode);
+    }
+
+    User? user = await repositoryManager.User.GetById(true, id, (int)Constances.UserRole.admin);
+
+    if (user == null)
+    {
+        return Results.NotFound(new { Error = "داده موردنظر یافت نشد." });
+    }
+
+    user.DeletedAt = DateTime.UtcNow;
+    user.DeletedBy = tokenManager.GetUserIdFromTokenClaims(httpContextAccessor.HttpContext!)!;
+
+    await repositoryManager.SaveAsync();
+
+    return Results.NoContent();
 });
 
 #endregion User Endpoints

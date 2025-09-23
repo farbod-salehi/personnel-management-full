@@ -44,6 +44,7 @@ export class PersonnelItemComponent extends BaseComponent implements OnInit {
   selectedTypeId: string = '';
 
 
+  authInfo = this.storageService.getAuthInfo();
   modalLoader: any = null;
   loadingCount = signal(0);
   route = inject(ActivatedRoute);
@@ -182,7 +183,7 @@ export class PersonnelItemComponent extends BaseComponent implements OnInit {
 
     this.markAllControlsTouched(this.controls.toArray());
     const isFormValid = this.areAllControlsValid(this.controls.toArray());
-
+     console.log(isFormValid);
     if (isFormValid) {
 
       const parameters = {

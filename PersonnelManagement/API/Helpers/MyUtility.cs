@@ -36,9 +36,7 @@ namespace API.Helpers
 
             if (validRoles != null && validRoles.Length > 0)
             {
-                ClaimsPrincipal? claimsPrincipal = context.Items["tokenClaims"] as ClaimsPrincipal;  // tokenClaims has been added to httpContext in JWTTokenIsValid() method
-
-                var roles = claimsPrincipal?.Claims?.Where(x => x.Type == ClaimTypes.Role).Select(x => x.Value).ToList();
+                var roles = GetUserRoles(context);
 
                 if (roles != null)
                 {
@@ -46,14 +44,22 @@ namespace API.Helpers
 
                     if (roleIsValid == false)
                     {
-                        return new(false, "شما مجوز دسترسی به این بخش را ندارید.", "message", 403);                       
+                        return new(false, "شما مجوز دسترسی به این بخش را ندارید.", "message", 403);
                     }
-                   
+
                 }
 
             }
 
             return new(true);
+        }
+
+        public List<string>? GetUserRoles(HttpContext context)
+        {
+            ClaimsPrincipal? claimsPrincipal = context.Items["tokenClaims"] as ClaimsPrincipal;  // tokenClaims has been added to httpContext in JWTTokenIsValid() method
+
+            return claimsPrincipal?.Claims?.Where(x => x.Type == ClaimTypes.Role).Select(x => x.Value).ToList();
+           
         }
 
         public string? CorrectArabicChars(string? data)

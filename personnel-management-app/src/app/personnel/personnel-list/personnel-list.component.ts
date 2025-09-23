@@ -35,6 +35,7 @@ export class PersonnelListComponent extends BaseComponent implements OnInit {
   route_NamePath = routeNamePath;
 
   route = inject(ActivatedRoute);
+  authInfo = this.storageService.getAuthInfo();
 
   searchQuery = signal<string>('');
   pageLength = signal<number>(20);

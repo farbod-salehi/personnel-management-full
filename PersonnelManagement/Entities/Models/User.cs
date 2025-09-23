@@ -22,6 +22,11 @@ namespace Entities.Models
         [MaxLength(450)]
         public string? CreatedBy { get; set; }
 
+        public DateTime? DeletedAt { get; set; }
+
+        [MaxLength(450)]
+        public string? DeletedBy { get; set; }
+
         public DateTime? PasswordChangedAt { get; set; }
 
         public required int Role { get; set; }

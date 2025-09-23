@@ -2,7 +2,7 @@
   mat-flat-button
   [class]="['less-radius', `loader-button-${color()}`]"
   style="width: 100%"
-  [disabled]="displayLoading()"
+  [disabled]="displayLoading() || disabled() === true"
   (click)="onClick()"
 >
   @if(displayLoading()) {

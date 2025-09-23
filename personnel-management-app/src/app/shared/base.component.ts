@@ -47,7 +47,7 @@ export abstract class BaseComponent {
   }
 
   areAllControlsValid(controls: NgModel[]) {
-    return controls.every((control) => control.valid);
+    return controls.filter(control => !control.disabled).every((control) => control.valid);
   }
 
   openModalLoader() {
