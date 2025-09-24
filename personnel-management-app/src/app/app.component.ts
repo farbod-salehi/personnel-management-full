@@ -2,6 +2,10 @@ import { Component, DestroyRef, effect, inject, OnInit, signal } from '@angular/
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { finalize } from 'rxjs';
+
+import { NgxPersianModule } from 'ngx-persian';
 
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { environment } from '../environments/environment';
@@ -10,8 +14,6 @@ import { AuthInfo } from './models/authInfo.model';
 import { UIService } from './shared/ui.service';
 import { BaseComponent } from './shared/base.component';
 import { InitInfoType } from './models/initInfoType.model';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { finalize } from 'rxjs';
 
 
 @Component({
@@ -20,7 +22,8 @@ import { finalize } from 'rxjs';
     SideNavComponent,
     MatToolbarModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    NgxPersianModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',

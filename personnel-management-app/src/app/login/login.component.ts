@@ -1,4 +1,4 @@
-import { Component, inject, QueryList, ViewChildren } from '@angular/core';
+import { Component, HostListener, inject, QueryList, ViewChildren } from '@angular/core';
 import { NgModel } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
@@ -68,5 +68,10 @@ export class LoginComponent extends BaseComponent {
 
     }
 
+  }
+
+  @HostListener('document:keydown.enter', ['$event'])
+  handleEnter(event: KeyboardEvent) {
+    this.onLogin();
   }
 }

@@ -1,5 +1,6 @@
 import {
   Component,
+  HostListener,
   inject,
   OnInit,
   QueryList,
@@ -183,7 +184,7 @@ export class PersonnelItemComponent extends BaseComponent implements OnInit {
 
     this.markAllControlsTouched(this.controls.toArray());
     const isFormValid = this.areAllControlsValid(this.controls.toArray());
-     console.log(isFormValid);
+
     if (isFormValid) {
 
       const parameters = {
@@ -270,5 +271,10 @@ export class PersonnelItemComponent extends BaseComponent implements OnInit {
             this.handleError(errorObj);
           },
         });
+    }
+
+    @HostListener('document:keydown.enter', ['$event'])
+    handleEnter(event: KeyboardEvent) {
+      this.onSave();
     }
 }

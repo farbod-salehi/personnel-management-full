@@ -1,5 +1,6 @@
 import {
   Component,
+  HostListener,
   QueryList,
   ViewChildren,
 } from '@angular/core';
@@ -79,5 +80,10 @@ export class ChangeMyPasswordComponent extends BaseComponent {
           },
         });
     }
+  }
+
+  @HostListener('document:keydown.enter', ['$event'])
+  handleEnter(event: KeyboardEvent) {
+    this.onSave();
   }
 }

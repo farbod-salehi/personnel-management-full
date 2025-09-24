@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, HostListener, inject, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { NgModel } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -83,5 +83,10 @@ export class UserItemComponent extends BaseComponent{
         },
       });
     }
+  }
+
+  @HostListener('document:keydown.enter', ['$event'])
+  handleEnter(event: KeyboardEvent) {
+    this.onSave();
   }
 }

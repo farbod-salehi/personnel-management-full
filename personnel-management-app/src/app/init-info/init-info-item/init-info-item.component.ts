@@ -1,5 +1,6 @@
 import {
   Component,
+  HostListener,
   inject,
   OnInit,
   QueryList,
@@ -158,5 +159,10 @@ export class InitInfoItemComponent extends BaseComponent implements OnInit {
           this.handleError(errorObj);
         },
       });
+  }
+
+  @HostListener('document:keydown.enter', ['$event'])
+  handleEnter(event: KeyboardEvent) {
+    this.onSave();
   }
 }

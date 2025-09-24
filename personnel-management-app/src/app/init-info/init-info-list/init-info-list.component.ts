@@ -130,4 +130,6 @@ export class InitInfoListComponent extends BaseComponent implements OnInit {
         },
       });
   }
+
+
 }

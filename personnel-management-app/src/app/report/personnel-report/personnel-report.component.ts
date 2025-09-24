@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, HostListener, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
 import { MatSelectModule } from '@angular/material/select';
@@ -149,4 +149,10 @@ export class PersonnelReportComponent extends BaseComponent implements OnInit  {
 
     return query;
   }
+
+  @HostListener('document:keydown.enter', ['$event'])
+  handleEnter(event: KeyboardEvent) {
+    this.onGetReport();
+  }
+
 }
