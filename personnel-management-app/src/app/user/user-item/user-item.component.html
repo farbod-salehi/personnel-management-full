@@ -11,7 +11,7 @@
     <app-error-message-box [text]="errorMessage()" style="width: 70%; margin: 20px auto"></app-error-message-box>
 
     <mat-form-field class="mat-form-field" appearance="outline"
-      style="margin-inline: auto; margin-top: 15px; width: 70%" floatLabel="always">
+      style="margin-right: auto; margin-left:auto; margin-top: 15px; width: 70%" floatLabel="always">
       <mat-label> نوع حساب کاربری </mat-label>
       <mat-select [(ngModel)]="model.roleId" name="type" required>
         @for (role of model.roles; track role.id) {
@@ -21,18 +21,18 @@
     </mat-form-field>
 
     <mat-form-field class="mat-form-field" appearance="outline"
-      style="margin-inline: auto; margin-top: 15px; width: 70%" floatLabel="always">
+      style="margin-right: auto; margin-left:auto; margin-top: 15px; width: 70%" floatLabel="always">
       <mat-label>نام و نام خانوادگی</mat-label>
       <input matInput [(ngModel)]="model.title" required class="rtl" />
       <mat-error class="mat-error"> نام و نام خانوادگی را وارد نمایید. </mat-error>
     </mat-form-field>
-    <mat-form-field class="mat-form-field" appearance="outline" style="margin-inline: auto; margin-top: 15px; width: 70%"
+    <mat-form-field class="mat-form-field" appearance="outline" style="margin-right: auto; margin-left:auto; margin-top: 15px; width: 70%"
       floatLabel="always">
       <mat-label>نام کاربری</mat-label>
       <input matInput [(ngModel)]="model.username" required class="ltr" />
       <mat-error class="mat-error">  نام کاربری را وارد نمایید. </mat-error>
     </mat-form-field>
-    <mat-form-field class="mat-form-field" appearance="outline" style="margin-inline: auto; margin-top: 15px; width: 70%"
+    <mat-form-field class="mat-form-field" appearance="outline" style="margin-right: auto; margin-left:auto; margin-top: 15px; width: 70%"
       floatLabel="always">
       <mat-label>
         کلمه عبور

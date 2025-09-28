@@ -199,7 +199,7 @@ export class PersonnelItemComponent extends BaseComponent implements OnInit {
         mojtameGhazaiyId: this.convertEmptyStringToNull(this.model.mojtameGhazaiyId),
         noeEstekhdamId: this.convertEmptyStringToNull(this.model.noeEstekhdamId),
         postId: this.convertEmptyStringToNull(this.model.postId),
-        reshteShoghliId: this.convertEmptyStringToNull(this.model.reshteTahsiliId),
+        reshteShoghliId: this.convertEmptyStringToNull(this.model.reshteShoghliId),
         reshteTahsiliId: this.convertEmptyStringToNull(this.model.reshteTahsiliId),
         sayerSematha: this.convertEmptyStringToNull(this.model.sayerSematha),
         shomarePersonneli: this.model.shomarePersonneli,
