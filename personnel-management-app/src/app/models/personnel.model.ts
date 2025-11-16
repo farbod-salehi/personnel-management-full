@@ -6,7 +6,7 @@ export class Personnel {
     public shomarePersonneli: string,
     public eblaghDakheliAsliId: string,
     public sayerSematha: string,
-    public vahedKhedmat: string,
+    public vahedKhedmatId: string,
     public isSetad: "true" | "false",
     public isMale: "true" | "false",
     public madrakTahsiliId: string,

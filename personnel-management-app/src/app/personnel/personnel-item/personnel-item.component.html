@@ -131,7 +131,14 @@
         style="width: 100%"
       >
         <mat-label>واحد خدمت</mat-label>
-        <input matInput [(ngModel)]="model.vahedKhedmat" class="rtl" />
+        <mat-select [(ngModel)]="model.vahedKhedmatId" required>
+          <mat-option value="" disabled="true"> انتخاب کنید ... </mat-option>
+          @if (loadingCount() === 0) { @for (info of initInfoList |
+          filterInitInfoByType:initInfoTypesItems.VahedKhedmat; track info.id) {
+          <mat-option [value]="info.id">{{ info.title }}</mat-option>
+          } }
+        </mat-select>
+        <mat-error class="mat-error"> واحد خدمت را مشخص نمایید. </mat-error>
       </mat-form-field>
     </div>
     <div class="container-horizontal input-row">

@@ -11,6 +11,7 @@ export class InitInfoType {
       { id: InitInfoType.Items.NoeEstekhdam, title: 'نوع استخدام' },
       { id: InitInfoType.Items.Post, title: 'پست' },
       { id: InitInfoType.Items.ReshteShoghli, title: 'رشته شغلی' },
+      { id: InitInfoType.Items.VahedKhedmat, title: 'واحد خدمت' },
     ];
   }
 }
@@ -32,5 +33,6 @@ export namespace InitInfoType {
     NoeEstekhdam = 6,
     Post = 7,
     ReshteShoghli = 8,
+    VahedKhedmat = 9
   }
 }

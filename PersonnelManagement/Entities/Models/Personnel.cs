@@ -30,12 +30,11 @@ namespace Entities.Models
         [MaxLength(50)]
         public string? CodeMeli { get; set; }
 
-        [MaxLength(255)]
-        public string? VahedKhedmat { get; set; }
-
         public required bool IsSetad { get; set; } 
 
         public required bool IsMale { get; set; }
+
+        public Guid? VahedKhedmatId { get; set; }
 
         public Guid? MadrakTahsiliId { get; set; }
 
@@ -93,6 +92,9 @@ namespace Entities.Models
 
         [ForeignKey(nameof(MojtameGhazaiyId))]
         public virtual InitInfo? MojtameGhazaiy { get; set; }
+
+        [ForeignKey(nameof(VahedKhedmatId))]
+        public virtual InitInfo? VahedKhedmat { get; set; }
 
         #endregion Navigations
 

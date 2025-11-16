@@ -465,6 +465,7 @@ app.MapGet("/api/personnel/{id}", async ([FromServices] IHttpContextAccessor htt
         ReshteShoghliList = initInfoList.Where(x => x.Type == (int)Constances.InitInfoType.ReshteShoghli && x.Active).Select(x => new { x.Id, x.Title, x.ParentId }).ToList(),
         MojtameGhazaiyList = initInfoList.Where(x => x.Type == (int)Constances.InitInfoType.MojtameGhazaiy && x.Active).Select(x => new { x.Id, x.Title, x.ParentId }).ToList(),
         NoeEstekhdamList = initInfoList.Where(x => x.Type == (int)Constances.InitInfoType.NoeEstekhdam && x.Active).Select(x => new { x.Id, x.Title, x.ParentId }).ToList(),
+        VahedKhedmatList = initInfoList.Where(x => x.Type == (int)Constances.InitInfoType.VahedKhedmat && x.Active).Select(x => new { x.Id, x.Title, x.ParentId }).ToList(),
         NoeMahalKhedmatList = Constances.NoeMahalKhematList
     });
 });
@@ -523,7 +524,7 @@ app.MapPost("/api/personnel/add", async ([FromServices] IHttpContextAccessor htt
         SayerSematha = utility.CorrectArabicChars(request.SayerSematha),
         ShomarePersonneli = shomarePersonneli,
         TarikhAghazKhedmat = request.TarikhAghazKhedmat,
-        VahedKhedmat = utility.CorrectArabicChars(request.VahedKhedmat)!,
+        VahedKhedmatId = request.VahedKhedmatId,
         NoeMahalKhedmat = request.NoeMahalKhedmat,
         CreatedAt = DateTime.UtcNow,
         CreatedBy = tokenManager.GetUserIdFromTokenClaims(httpContextAccessor.HttpContext!)!
@@ -602,8 +603,8 @@ app.MapPatch("/api/personnel/{id}/update", async ([FromServices] IHttpContextAcc
     personnel.EblaghDakheliAsliId = request.EblaghDakheliAsliId;
     personnel.IsSetad = request.IsSetad;
     personnel.MojtameGhazaiyId = request.MojtameGhazaiyId;
+    personnel.VahedKhedmatId = request.VahedKhedmatId;
     personnel.SayerSematha = utility.CorrectArabicChars(request.SayerSematha)!;
-    personnel.VahedKhedmat = utility.CorrectArabicChars(request.VahedKhedmat)!;
     personnel.NoeMahalKhedmat = request.NoeMahalKhedmat;
 
     await repositoryManager.SaveAsync();
@@ -849,7 +850,7 @@ app.MapGet("/api/report/personnel", async ([FromServices] IHttpContextAccessor h
         excelContent[row, 4] = personnelList[row - 1].CodeMeli ?? "";
         excelContent[row, 5] = personnelList[row - 1].EblaghDakheli?.Title ?? "";
         excelContent[row, 6] = personnelList[row - 1].SayerSematha ?? "";
-        excelContent[row, 7] = personnelList[row - 1].VahedKhedmat ?? "";
+        excelContent[row, 7] = personnelList[row - 1].VahedKhedmat?.Title ?? "";
         excelContent[row, 8] = personnelList[row - 1].IsSetad ? "ستاد" : "صف";
         excelContent[row, 9] = personnelList[row - 1].IsMale ? "مرد" : "زن";
         excelContent[row, 10] = personnelList[row - 1].MadrakTahsili?.Title ?? "";
@@ -886,12 +887,12 @@ file record PersonnelItemRequest(
             string LastName,
             string ShomarePersonneli,
             string? TarikhAghazKhedmat,
-            string? VahedKhedmat,
             bool IsMale,
             bool IsSetad,
             string? SayerSematha,
             Guid EblaghDakheliAsliId,
             Guid ShahrMahalKhedmatId,
+            Guid VahedKhedmatId,
             Guid? MadrakTahsiliId,
             Guid? ReshteTahsiliId,
             Guid? PostId,

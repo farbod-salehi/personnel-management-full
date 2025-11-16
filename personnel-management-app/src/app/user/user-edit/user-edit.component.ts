@@ -2,15 +2,15 @@ import { Component, HostListener, inject, OnInit, QueryList, ViewChildren } from
 import { MatOption, MatSelect } from '@angular/material/select';
 import { NgModel } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { finalize } from 'rxjs';
 
 import { NgxPersianModule } from 'ngx-persian';
 
 import { SharedModule } from '../../shared/shared.module';
 import { BaseComponent } from '../../shared/base.component';
 import { routeNamePath } from '../../app.routes';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-user-edit',

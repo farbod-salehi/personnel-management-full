@@ -46,7 +46,8 @@
             MojtameGhazaiy,
             NoeEstekhdam,
             Post,
-            ReshteShoghli
+            ReshteShoghli,
+            VahedKhedmat
         }
 
         public static List<(int Id, string Title)> GetInitInfoTypes()
@@ -60,6 +61,7 @@
                 ((int)InitInfoType.NoeEstekhdam, "نوع استخدام"),
                 ((int)InitInfoType.Post, "پست"),
                 ((int)InitInfoType.ReshteShoghli, "رشته شغلی"),
+                ((int)InitInfoType.ReshteShoghli, "واحد خدمت"),
             ];
         }
 

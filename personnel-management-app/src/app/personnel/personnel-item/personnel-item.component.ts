@@ -59,7 +59,7 @@ export class PersonnelItemComponent extends BaseComponent implements OnInit {
     shomarePersonneli: '',
     eblaghDakheliAsliId: '',
     sayerSematha: '',
-    vahedKhedmat: '',
+    vahedKhedmatId: '',
     isSetad: 'true',
     isMale: 'true',
     madrakTahsiliId: '',
@@ -157,7 +157,7 @@ export class PersonnelItemComponent extends BaseComponent implements OnInit {
               shomarePersonneli: this.convertNullToEmptyString(data.item.shomarePersonneli),
               eblaghDakheliAsliId: this.convertNullToEmptyString(data.item.eblaghDakheliAsliId),
               sayerSematha: this.convertNullToEmptyString(data.item.sayerSematha),
-              vahedKhedmat: this.convertNullToEmptyString(data.item.vahedKhedmat),
+              vahedKhedmatId: this.convertNullToEmptyString(data.item.vahedKhedmatId),
               isSetad: Boolean(data.item.isSetad) ? 'true' : 'false',
               isMale: Boolean(data.item.isMale) ? 'true' : 'false',
               madrakTahsiliId: this.convertNullToEmptyString(data.item.madrakTahsiliId),
@@ -204,7 +204,7 @@ export class PersonnelItemComponent extends BaseComponent implements OnInit {
         sayerSematha: this.convertEmptyStringToNull(this.model.sayerSematha),
         shomarePersonneli: this.model.shomarePersonneli,
         tarikhAghazKhedmat: this.convertEmptyStringToNull(this.model.tarikhAghazKhedmat),
-        vahedKhedmat: this.convertEmptyStringToNull(this.model.vahedKhedmat),
+        vahedKhedmatId: this.convertEmptyStringToNull(this.model.vahedKhedmatId),
         noeMahalKhedmat: this.model.noeMahalKhedmat,
       }
 
@@ -274,7 +274,7 @@ export class PersonnelItemComponent extends BaseComponent implements OnInit {
     }
 
     @HostListener('document:keydown.enter', ['$event'])
-    handleEnter(event: KeyboardEvent) {
+    handleEnter(event: Event) {
       this.onSave();
     }
 }
