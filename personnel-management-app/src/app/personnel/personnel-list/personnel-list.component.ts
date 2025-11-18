@@ -14,6 +14,7 @@ import { NgxPersianModule } from 'ngx-persian';
 import { SharedModule } from '../../shared/shared.module';
 import { routeNamePath } from '../../app.routes';
 import { BaseComponent } from '../../shared/base.component';
+import { GridPagerComponent } from '../../shared/grid-pager/grid-pager.component';
 
 @Component({
   selector: 'app-personnel-list',
@@ -26,6 +27,7 @@ import { BaseComponent } from '../../shared/base.component';
     MatListModule,
     MatIconModule,
     MatButtonModule,
+    GridPagerComponent
   ],
   templateUrl: './personnel-list.component.html',
   styleUrl: './personnel-list.component.css',
@@ -154,7 +156,7 @@ export class PersonnelListComponent extends BaseComponent implements OnInit {
   }
 
   @HostListener('document:keydown.enter', ['$event'])
-  handleEnter(event: KeyboardEvent) {
+  handleEnter(event: Event) {
     this.search(1);
   }
 }

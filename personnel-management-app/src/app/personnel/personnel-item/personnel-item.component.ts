@@ -15,6 +15,8 @@ import { ActivatedRoute } from '@angular/router';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
+import { NgxPersianModule } from 'ngx-persian';
+
 import { SharedModule } from '../../shared/shared.module';
 import { BaseComponent } from '../../shared/base.component';
 import { routeNamePath } from '../../app.routes';
@@ -31,6 +33,7 @@ import { Personnel } from '../../models/personnel.model';
     filterInitInfoByTypePipe,
     MatButtonToggleModule,
     MatDatepickerModule,
+    NgxPersianModule
   ],
   templateUrl: './personnel-item.component.html',
   styleUrl: './personnel-item.component.css',

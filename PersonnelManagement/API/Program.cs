@@ -1,4 +1,5 @@
 ﻿using API.Helpers;
+using Azure.Core;
 using Entities;
 using Entities.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -228,7 +229,7 @@ app.MapPatch("/api/changepassword", async ([FromServices] UserManager<User> user
 
 #region InitInfo Endpoints
 
-app.MapGet("/api/initinfo/{type:int?}", async ([FromServices] IHttpContextAccessor httpContextAccessor, [FromServices] RepositoryManager repositoryManager, [FromRoute]int? type = null) =>
+app.MapGet("/api/initinfo/{type:int?}", async ([FromServices] IHttpContextAccessor httpContextAccessor, [FromServices] RepositoryManager repositoryManager, [FromRoute]int? type = null, [FromQuery] string? searchQuery = null, [FromQuery] int page = 1, [FromQuery] int count = 10) =>
 {
     MyUtility utility = new();
 
@@ -238,8 +239,14 @@ app.MapGet("/api/initinfo/{type:int?}", async ([FromServices] IHttpContextAccess
     {
         return Results.Json(new { userRequestAccessResult.Error, userRequestAccessResult.Act }, statusCode: userRequestAccessResult.StatusCode);
     }
-    
-    List<InitInfo> list = await repositoryManager.InitInfo.GetAll(false, type);
+
+    if (string.IsNullOrWhiteSpace(searchQuery) == false)
+    {
+        searchQuery = utility.CorrectArabicChars(searchQuery);
+        searchQuery = utility.ConvertPersianNumbersToEnglish(searchQuery);
+    }
+
+    (List<InitInfo> list, int pagesCount) = await repositoryManager.InitInfo.GetList(false, type, page, count, searchQuery, null);
 
     return Results.Ok(new
     {
@@ -250,9 +257,10 @@ app.MapGet("/api/initinfo/{type:int?}", async ([FromServices] IHttpContextAccess
             x.Type,
             x.ParentId,
             x.Active,
-            CreatedAt = new PersianDateTime((DateTime)x.CreatedAt)
+            CreatedAt = new PersianDateTime((DateTime)x.CreatedAt),
         }),
-       
+        pagesCount
+
     });
 });
 
@@ -303,7 +311,8 @@ app.MapPost("/api/initinfo/add", async([FromServices] IHttpContextAccessor httpC
     InitInfo newInitInfo = new() { 
         Type = request.Type,
         ParentId = request.ParentId,
-        Title = utility.CorrectArabicChars(request.Title)!,
+        Title = utility.CorrectArabicChars(utility.ConvertPersianNumbersToEnglish(request.Title))!,
+        Active = request.Active,
         CreatedAt = DateTime.UtcNow,
         CreatedBy = tokenManager.GetUserIdFromTokenClaims(httpContextAccessor.HttpContext!)!
     };
@@ -339,7 +348,7 @@ app.MapPatch("/api/initinfo/{type}/{id}/update", async ([FromServices] IHttpCont
         return Results.NotFound(new { Error = "داده موردنظر یافت نشد." });
     }
 
-    initInfo.Title = utility.CorrectArabicChars(request.Title)!;
+    initInfo.Title = utility.CorrectArabicChars(utility.ConvertPersianNumbersToEnglish(request.Title))!;
     initInfo.ParentId = request.ParentId;
     initInfo.Active = request.Active;
 
@@ -432,7 +441,7 @@ app.MapGet("/api/personnel/{id}", async ([FromServices] IHttpContextAccessor htt
     }
 
     List<InitInfo> initInfoList = await repositoryManager.InitInfo.GetAll(false);
-
+    
     return Results.Ok(new
     {
         Item = new

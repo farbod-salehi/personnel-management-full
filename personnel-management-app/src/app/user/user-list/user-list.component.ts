@@ -13,6 +13,7 @@ import { NgxPersianModule } from 'ngx-persian';
 import { SharedModule } from '../../shared/shared.module';
 import { BaseComponent } from '../../shared/base.component';
 import { routeNamePath } from '../../app.routes';
+import { GridPagerComponent } from '../../shared/grid-pager/grid-pager.component';
 
 @Component({
   selector: 'app-user-list',
@@ -24,6 +25,7 @@ import { routeNamePath } from '../../app.routes';
     MatListModule,
     MatIconModule,
     MatButtonModule,
+    GridPagerComponent
   ],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.css'
@@ -151,7 +153,7 @@ export class UserListComponent extends BaseComponent {
   }
 
   @HostListener('document:keydown.enter', ['$event'])
-  handleEnter(event: KeyboardEvent) {
+  handleEnter(event: Event) {
     this.search(1);
   }
 

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
@@ -12,6 +12,7 @@ import { BaseComponent } from '../../shared/base.component';
 import { SharedModule } from '../../shared/shared.module';
 import { InitInfoType } from '../../models/initInfoType.model';
 import { routeNamePath } from '../../app.routes';
+import { GridPagerComponent } from '../../shared/grid-pager/grid-pager.component';
 
 @Component({
   selector: 'app-init-info-list',
@@ -21,6 +22,7 @@ import { routeNamePath } from '../../app.routes';
     MatTableModule,
     MatGridListModule,
     NgxPersianModule,
+    GridPagerComponent
   ],
   templateUrl: './init-info-list.component.html',
   styleUrl: './init-info-list.component.css',
@@ -32,6 +34,11 @@ export class InitInfoListComponent extends BaseComponent implements OnInit {
   route_NamePath = routeNamePath;
 
   route = inject(ActivatedRoute);
+
+  searchQuery = signal<string>('');
+  pageLength = signal<number>(20);
+  pageNumber = signal<number>(1);
+  pagesCount = signal<number>(1);
 
   list = signal<{ rowNumber: number; id: string; title: string }[]>([]);
 
@@ -55,7 +62,7 @@ export class InitInfoListComponent extends BaseComponent implements OnInit {
 
     this.httpService
       .request(
-        `/api/initinfo/${this.selectedTypeId}`,
+        `/api/initinfo/${this.selectedTypeId}?searchQuery=${this.searchQuery()}&page=${this.pageNumber()}&count=${this.pageLength()}`,
         'GET',
         null,
         this.storageService.getAuthInfo()?.token
@@ -70,7 +77,7 @@ export class InitInfoListComponent extends BaseComponent implements OnInit {
         next: async (data: any) => {
           if (data) {
             this.list.set([]);
-
+            this.pagesCount.set(data.pagesCount);
             data.list.forEach(
               (element: { title: string; id: string }, index: number) => {
                 this.list().push({
@@ -86,6 +93,11 @@ export class InitInfoListComponent extends BaseComponent implements OnInit {
           this.handleError(errorObj);
         },
       });
+  }
+
+  search(page: number) {
+    this.pageNumber.set(page);
+    this.getList();
   }
 
   confirmDelete(id: string) {
@@ -129,6 +141,11 @@ export class InitInfoListComponent extends BaseComponent implements OnInit {
           this.handleError(errorObj);
         },
       });
+  }
+
+  @HostListener('document:keydown.enter', ['$event'])
+  handleEnter(event: Event) {
+    this.search(1);
   }
 
 

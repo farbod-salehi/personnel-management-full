@@ -95,38 +95,7 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
     @if(pagesCount() > 1) {
-
-    <div
-      class="container-horizontal"
-      style="width: 100%; text-align: center; margin-top: 25px"
-    >
-      <button
-        (click)="search(pageNumber() - 1)"
-        mat-icon-button
-        style="margin-top: -8px"
-        [disabled]="pageNumber() === 1"
-      >
-        <mat-icon>navigate_next</mat-icon>
-      </button>
-      &nbsp;
-      <div>
-        صفحه &nbsp;
-        {{ pageNumber() | faNum }}
-        &nbsp; از &nbsp;
-        {{ pagesCount() | faNum }}
-        &nbsp;
-      </div>
-      &nbsp;
-      <button
-        (click)="search(pageNumber() + 1)"
-        mat-icon-button
-        style="margin-top: -8px"
-        [disabled]="pageNumber() === pagesCount()"
-      >
-        <mat-icon>navigate_before</mat-icon>
-      </button>
-    </div>
-
+      <app-grid-pager [pagesCount]="pagesCount()" [pageNumber]="pageNumber()" (changePage)="search($event)" > </app-grid-pager>
     } } @else {
     <app-error-message-box
       style="width: 100%"

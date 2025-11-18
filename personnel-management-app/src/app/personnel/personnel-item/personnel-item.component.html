@@ -72,7 +72,7 @@
           <mat-option value="" disabled="true"> انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
           filterInitInfoByType:initInfoTypesItems.EblaghDakheliAsli; track info.id) {
-          <mat-option [value]="info.id">{{ info.title }}</mat-option>
+          <mat-option [value]="info.id">{{ info.title | faNum }}</mat-option>
           } }
         </mat-select>
         <mat-error class="mat-error">
@@ -108,7 +108,7 @@
           <mat-option value=""> انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
           filterInitInfoByType:initInfoTypesItems.NoeEstekhdam; track info.id) {
-          <mat-option [value]="info.id">{{ info.title }}</mat-option>
+          <mat-option [value]="info.id">{{ info.title | faNum }}</mat-option>
           } }
         </mat-select>
       </mat-form-field>
@@ -135,7 +135,7 @@
           <mat-option value="" disabled="true"> انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
           filterInitInfoByType:initInfoTypesItems.VahedKhedmat; track info.id) {
-          <mat-option [value]="info.id">{{ info.title }}</mat-option>
+          <mat-option [value]="info.id">{{ info.title | faNum }}</mat-option>
           } }
         </mat-select>
         <mat-error class="mat-error"> واحد خدمت را مشخص نمایید. </mat-error>
@@ -167,7 +167,7 @@
           <mat-option value="" > انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
           filterInitInfoByType:initInfoTypesItems.MojtameGhazaiy; track info.id) {
-          <mat-option [value]="info.id">{{ info.title }}</mat-option>
+          <mat-option [value]="info.id">{{ info.title | faNum }}</mat-option>
           } }
         </mat-select>
       </mat-form-field>
@@ -183,7 +183,7 @@
           <mat-option value="" > انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
           filterInitInfoByType:initInfoTypesItems.MadrakTahsili; track info.id) {
-          <mat-option [value]="info.id">{{ info.title }}</mat-option>
+          <mat-option [value]="info.id">{{ info.title | faNum }}</mat-option>
           } }
         </mat-select>
       </mat-form-field>
@@ -197,7 +197,7 @@
           <mat-option value="" > انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
           filterInitInfoByType:initInfoTypesItems.ReshteTahsili; track info.id) {
-          <mat-option [value]="info.id">{{ info.title }}</mat-option>
+          <mat-option [value]="info.id">{{ info.title | faNum }}</mat-option>
           } }
         </mat-select>
       </mat-form-field>
@@ -214,7 +214,7 @@
           @if (loadingCount() === 0) { @for (info of initInfoList |
           filterInitInfoByType:initInfoTypesItems.Post; track
           info.id) {
-          <mat-option [value]="info.id">{{ info.title }}</mat-option>
+          <mat-option [value]="info.id">{{ info.title | faNum }}</mat-option>
           } }
         </mat-select>
       </mat-form-field>
@@ -228,7 +228,7 @@
           <mat-option value="" > انتخاب کنید ... </mat-option>
           @if (loadingCount() === 0) { @for (info of initInfoList |
           filterInitInfoByType:initInfoTypesItems.ReshteShoghli; track info.id) {
-          <mat-option [value]="info.id">{{ info.title }}</mat-option>
+          <mat-option [value]="info.id">{{ info.title | faNum }}</mat-option>
           } }
         </mat-select>
       </mat-form-field>

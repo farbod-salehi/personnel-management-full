@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using Azure;
+using Entities;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
@@ -12,10 +13,10 @@ namespace Repository
 {
     public class InitInfoRepository(RepositoryContext repositoryContext) : RepositoryBase<InitInfo>(repositoryContext)
     {
-        public async Task<(List<InitInfo> list, int count)> GetList(bool trackChanges, int type, int page, int count, string? searchQuery = null, Guid? parentId = null)
+        public async Task<(List<InitInfo> list, int count)> GetList(bool trackChanges, int? type, int page, int count, string? searchQuery = null, Guid? parentId = null)
         {
             var queryable = Find(trackChanges,
-                x => x.Type == type && ((parentId == null && x.ParentId == null) || (parentId != null && x.ParentId == parentId)) &&
+                x => (type != null && x.Type == type) && ((parentId == null && x.ParentId == null) || (parentId != null && x.ParentId == parentId)) &&
                 (string.IsNullOrWhiteSpace(searchQuery) || x.Title.Contains(searchQuery)) &&
                 x.DeletedAt == null,
                 null,

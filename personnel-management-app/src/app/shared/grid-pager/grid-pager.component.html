@@ -1,0 +1,18 @@
+<div class="container-horizontal" style="width: 100%; text-align: center; margin-top: 25px">
+  <button (click)="prevButtonClick()" mat-icon-button style="margin-top: -8px" [disabled]="pageNumber() === 1">
+    <mat-icon>navigate_next</mat-icon>
+  </button>
+  &nbsp;
+  <div>
+    صفحه &nbsp;
+    {{ pageNumber() | faNum }}
+    &nbsp; از &nbsp;
+    {{ pagesCount() | faNum }}
+    &nbsp;
+  </div>
+  &nbsp;
+  <button (click)="nextButtonClick()" mat-icon-button style="margin-top: -8px"
+    [disabled]="pageNumber() === pagesCount()">
+    <mat-icon>navigate_before</mat-icon>
+  </button>
+</div>

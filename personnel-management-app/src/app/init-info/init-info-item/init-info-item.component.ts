@@ -162,7 +162,7 @@ export class InitInfoItemComponent extends BaseComponent implements OnInit {
   }
 
   @HostListener('document:keydown.enter', ['$event'])
-  handleEnter(event: KeyboardEvent) {
+  handleEnter(event: Event) {
     this.onSave();
   }
 }
